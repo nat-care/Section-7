@@ -1,6 +1,6 @@
 # docker compose -f docker-compose-mysql-phpmyadmin.yaml up -d
 # docker compose -f docker-compose-mysql-phpmyadmin.yaml down
-###
+# http://172.23.224.1:8080/index.php?route=/
 
 networks:
   mysql-network:
@@ -17,6 +17,7 @@ services:
        - ./mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%" # เพิ่มตรงนี้ให้เพื่อนสามารถใช้ได้
 #      MYSQL_USER: user
 #      MYSQL_PASSWORD: user
 #      MYSQL_DATABASE: data
