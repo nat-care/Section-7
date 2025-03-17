@@ -1,0 +1,47 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "1234",
+      "role": "IT Administrator"
+    },
+    {
+      "id": 2,
+      "username": "john",
+      "password": "password",
+      "role": "Procurement Officer"
+    },
+    {
+      "id": 3,
+      "username": "mary",
+      "password": "marypass",
+      "role": "Finance & Accounting"
+    },
+    {
+      "id": 4,
+      "username": "boss",
+      "password": "bosspass",
+      "role": "Management & Approvers"
+    },
+    {
+      "id": 5,
+      "username": "jin",
+      "password": "12345",
+      "role": "Procurement Officer"
+    },
+    {
+      "id": 6,
+      "username": "dd",
+      "password": "12345",
+      "role": "Procurement Officer"
+    }
+  ],
+  "purchase_requests": [],
+  "vendors": [],
+  "quotations": [],
+  "purchase_orders": [],
+  "po_receipts": [],
+  "payments": [],
+  "assets": []
+}
