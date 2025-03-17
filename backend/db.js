@@ -24,16 +24,26 @@ function addUser(name, role) {
     return newUser;
 }
 
-// purchase_requests
-function addPurchaseRequest(user_id, description, total_amount) {
+// purchase_requests ใบขอซื้อ
+function addPurchaseRequest(user_id, description, total_amount, desired_date, list, quantity, counting_unit, unit_price, discount, paymentMethod, date_want, dept, position, subject, annotation, Procurement_approver, Purchasing_Officer) {
+
     const db = loadDatabase();
     const newRequest = {
         id: Date.now(),
         user_id,
         request_date: new Date().toISOString(),
-        description,
-        total_amount,
-        status: "Pending"
+        date_want,              //วันที่ต้องการใช้
+        dept,                   //แผนก
+        position,               // ตำแหน่ง
+        subject,                // เรื่อง
+        quantity,               // จำนวน
+        counting_unit,          // หน่วยนับ
+        unit_price,             // ราคาต่อหน่วย
+        total_amount,           // จำนวนเงินรวมที่ผู้ใช้กรอก
+        annotation,             // หมายเหตุ
+        Procurement_approver,   // ผู้อนุมัติฝ่ายจัดซื้อ
+        Purchasing_Officer,     // เจ้าหน้าที่ฝ่ายจัดซื้อ
+        status: "Pending"       // สถานะเริ่มต้น
     };
     db.purchase_requests.push(newRequest);
     saveDatabase(db);
@@ -71,29 +81,50 @@ function addQuotation(pr_id, vendor_id, total_price) {
     return newQuotation;
 }
 
-// purchase_orders
-function addPurchaseOrder(pr_id, vendor_id, total_amount) {
+// purchase_orders ใบสั่งซื้อ
+function addPurchaseOrder( user_id, description, total_amount, desired_date, list, quantity, counting_unit, unit_price, discount, paymentMethod, authorizedPerson, purchaser, approver ) {
+    const totalBeforeDiscount = unit_price * quantity;  // คำนวณรวมเงิน
+    const discountAmount = totalBeforeDiscount * (discount / 100);  // คำนวณส่วนลด
+    const totalAfterDiscount = totalBeforeDiscount - discountAmount;  // คำนวณเงินหลังหักส่วนลด
+    const vatAmount = totalAfterDiscount * 0.07;  // คำนวณภาษีมูลค่าเพิ่ม (สมมติภาษี 7%)
+    const totalWithVAT = totalAfterDiscount + vatAmount;  // คำนวณเงินรวมทั้งสิ้น
+
     const db = loadDatabase();
     const newOrder = {
         id: Date.now(),
-        pr_id,
-        vendor_id,
-        order_date: new Date().toISOString(),
-        total_amount,
-        status: "Pending"
+        user_id,
+        request_date: new Date().toISOString(),
+        distributor: user_id,  // ผู้ใช้งานที่เป็น distributor
+        desired_date,          // วันที่ที่ผู้ใช้กรอก
+        list,                  // รายการที่ต้องการ
+        quantity,              // จำนวน
+        counting_unit,         // หน่วยนับ
+        unit_price,            // ราคาต่อหน่วย
+        discount,              // ส่วนลด
+        total_amount,          // จำนวนเงินรวมที่ผู้ใช้กรอก
+        totalBeforeDiscount,   // รวมเงินก่อนหักส่วนลด
+        discountAmount,        // ส่วนลด
+        totalAfterDiscount,    // เงินหลังหักส่วนลด
+        vatAmount,             // จำนวนภาษีมูลค่าเพิ่ม
+        totalWithVAT,          // เงินรวมทั้งสิ้น
+        paymentMethod,         // บันทึกวิธีการชำระเงิน
+        authorizedPerson,      // เก็บข้อมูลผู้มีอำนาจ
+        purchaser,             // เก็บข้อมูลผู้จัดซื้อ
+        approver,              // เก็บข้อมูลผู้ตรวจสอบ
     };
     db.purchase_orders.push(newOrder);
     saveDatabase(db);
     return newOrder;
 }
 
-// po_receipts
-function addPOReceipt(po_id, received_by) {
+// po_receipts ใบรับพัสดุ
+function addPOReceipt(po_id, list, received_by) {
     const db = loadDatabase();
     const newReceipt = {
         id: Date.now(),
         po_id,
         received_date: new Date().toISOString(),
+        list,
         received_by,
         status: "Pending"
     };

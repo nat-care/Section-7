@@ -1,5 +1,3 @@
-
-
 export const handleLogin = async (username, password, setToken, setRole) => {
     try {
       const response = await fetch("http://localhost:3000/login", {
