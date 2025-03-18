@@ -6,9 +6,18 @@ function App() {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [role, setRole] = useState("");
+
+  // ข้อมูลฟอร์มใบขอซื้อ
   const [userId, setUserId] = useState("");
-  const [description, setDescription] = useState("");
-  const [totalAmount, setTotalAmount] = useState("");
+  const [dept, setDept] = useState(""); // แผนก
+  const [position, setPosition] = useState(""); // ตำแหน่ง
+  const [subject, setSubject] = useState(""); // หัวข้อ/เรื่อง
+  const [list, setList] = useState(""); // รายการสินค้า
+  const [quantity, setQuantity] = useState(""); // จำนวน
+  const [countingUnit, setCountingUnit] = useState(""); // หน่วยนับ
+  const [unitPrice, setUnitPrice] = useState(""); // ราคาต่อหน่วย
+  const [totalAmount, setTotalAmount] = useState(""); // จำนวนเงินรวม
+
 
   // ตรวจสอบ token และ role ที่บันทึกไว้ใน localStorage ตอนโหลดหน้า
   useEffect(() => {
@@ -21,13 +30,18 @@ function App() {
     }
   }, []);
 
-  // ฟังก์ชันสำหรับส่งข้อมูลฟอร์มใบขอซื้อ
   const handlePurchaseRequestSubmit = (e) => {
     e.preventDefault(); // ป้องกันการโหลดหน้าใหม่
     const purchaseRequest = {
       user_id: userId,
-      description,
-      total_amount: totalAmount,
+      dept,
+      position,
+      subject,
+      list,
+      quantity: Number(quantity), // แปลงเป็นตัวเลข
+      counting_unit: countingUnit,
+      unit_price: Number(unitPrice), // แปลงเป็นตัวเลข
+      total_amount: Number(totalAmount), // แปลงเป็นตัวเลข
     };
 
     // ส่งข้อมูลไปยัง API ที่เซิร์ฟเวอร์
@@ -57,26 +71,39 @@ function App() {
         <form onSubmit={handlePurchaseRequestSubmit}>
           <div>
             <label>รหัสผู้ใช้ (User ID):</label>
-            <input
-              type="number"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-            />
+            <input type="number" value={userId} onChange={(e) => setUserId(e.target.value)} required />
           </div>
           <div>
-            <label>รายละเอียด:</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
+            <label>แผนก:</label>
+            <input type="text" value={dept} onChange={(e) => setDept(e.target.value)} required />
           </div>
           <div>
-            <label>จำนวนเงิน:</label>
-            <input
-              type="number"
-              value={totalAmount}
-              onChange={(e) => setTotalAmount(e.target.value)}
-            />
+            <label>ตำแหน่ง:</label>
+            <input type="text" value={position} onChange={(e) => setPosition(e.target.value)} required />
+          </div>
+          <div>
+            <label>หัวข้อ/เรื่อง:</label>
+            <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} required />
+          </div>
+          <div>
+            <label>รายการสินค้า:</label>
+            <input type="text" value={list} onChange={(e) => setList(e.target.value)} required />
+          </div>
+          <div>
+            <label>จำนวน:</label>
+            <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} required />
+          </div>
+          <div>
+            <label>หน่วยนับ:</label>
+            <input type="text" value={countingUnit} onChange={(e) => setCountingUnit(e.target.value)} required />
+          </div>
+          <div>
+            <label>ราคาต่อหน่วย:</label>
+            <input type="number" value={unitPrice} onChange={(e) => setUnitPrice(e.target.value)} required />
+          </div>
+          <div>
+            <label>จำนวนเงินรวม:</label>
+            <input type="number" value={totalAmount} onChange={(e) => setTotalAmount(e.target.value)} required />
           </div>
           <button type="submit">ส่งใบขอซื้อ</button>
         </form>

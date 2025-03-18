@@ -39,27 +39,16 @@
   ],
   "purchase_requests": [
     {
-      "id": 1742221558636,
-      "user_id": "789",
-      "request_date": "2025-03-17T14:25:58.636Z",
-      "description": "ซื้ออ",
-      "total_amount": "10",
-      "status": "Pending"
-    },
-    {
-      "id": 1742224419472,
-      "user_id": "777",
-      "request_date": "2025-03-17T15:13:39.472Z",
-      "description": "7777",
-      "total_amount": "7777777777777777777",
-      "status": "Pending"
-    },
-    {
-      "id": 1742227654037,
-      "user_id": "88888",
-      "request_date": "2025-03-17T16:07:34.037Z",
-      "description": "7777",
-      "total_amount": "7777777777777777777",
+      "id": 1742299694676,
+      "user_id": "11",
+      "dept": "hh",
+      "position": "gg",
+      "subject": "hh",
+      "list": "ff",
+      "quantity": 10,
+      "counting_unit": "10",
+      "unit_price": 50,
+      "total_amount": 1000,
       "status": "Pending"
     }
   ],
