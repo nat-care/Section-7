@@ -102,6 +102,27 @@ app.post('/purchase-requests', (req, res) => {
     res.status(200).json(newRequest);
 });
 
+// ส่งข้อมูลไป cardlist
+app.get('/database.json', (req, res) => {
+    res.sendFile(__dirname + "/database.json");
+});
+
+// ส่งข้อมูลไป cardlist ให้ changerole
+app.put("/users/:id", (req, res) => {
+    const { id } = req.params;
+    const { role } = req.body;
+    let db = loadDatabase();
+
+    const userIndex = db.users.findIndex(user => user.id == id);
+    if (userIndex === -1) {
+        return res.status(404).json({ message: "User not found" });
+    }
+
+    db.users[userIndex].role = role;
+    saveDatabase(db);
+    res.json({ message: "Role updated successfully", user: db.users[userIndex] });
+});
+
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
