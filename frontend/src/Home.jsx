@@ -8,6 +8,7 @@ const Home = () => {
       <h1>Home Page</h1>
       <button onClick={() => navigate("/login")}>Go to Login</button>
       <button onClick={() => navigate("/ProcurementSystem")}>Go to ProcurementSystem</button>
+      <button onClick={() => navigate("/cardlist")}>Go to CardList</button>
     </div>
   );
 };
