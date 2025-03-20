@@ -1,0 +1,123 @@
+/* src/styles/ProcurementSystem.css */
+
+/* ปรับค่าเริ่มต้นของทุกอย่าง */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: black;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ปรับ container ให้กลางแนวตั้งและแนวนอน */
+.container {
+  padding-top: 10%;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100vh; /* ทำให้เต็มจอแนวตั้ง */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+/* ปรับกล่องข้อมูลให้ไม่ใหญ่เกินไป */
+.box {
+  background-color: white;
+  width: 1280px;
+
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+}
+
+/* ปรับขนาดหัวข้อ */
+.title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* ปรับตารางให้ชิดกันและลดช่องว่าง */
+.list-item {
+  display: grid;
+  grid-template-columns: 0.5fr 0.8fr 2.5fr 0.3fr; /* ลดช่องว่างของสถานะ */
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+  text-align: center;
+  gap: 5px;
+}
+
+/* ปรับขนาดและการจัดตำแหน่งของแต่ละคอลัมน์ให้ชิดกัน */
+.text-id,
+.text-code,
+.text-description {
+  border: solid 1px #ddd;
+  padding: 5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-description {
+  text-align: left;
+  border: solid 1px #ddd;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ลดขนาดของวงกลมสถานะและให้ชิดขวา */
+.status-circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  justify-self: center;
+}
+
+/* ปรับสีสถานะ */
+.green {
+  background-color: green;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.red {
+  background-color: red;
+}
+
+/* ปรับปุ่มย้อนกลับให้สมดุล */
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.back-button {
+  background-color: gray;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: darkgray;
+}
