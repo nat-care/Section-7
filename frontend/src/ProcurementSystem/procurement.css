@@ -54,7 +54,6 @@ body, html {
   display: grid;
   grid-template-columns: 0.5fr 0.8fr 2.5fr 0.3fr; /* ลดช่องว่างของสถานะ */
   align-items: center;
-  border-bottom: 1px solid #ddd;
   padding: 5px 0;
   text-align: center;
   gap: 5px;
@@ -64,7 +63,6 @@ body, html {
 .text-id,
 .text-code,
 .text-description {
-  border: solid 1px #ddd;
   padding: 5px;
   text-align: center;
   white-space: nowrap;
@@ -74,7 +72,6 @@ body, html {
 
 .text-description {
   text-align: left;
-  border: solid 1px #ddd;
   padding: 5px;
   white-space: nowrap;
   overflow: hidden;

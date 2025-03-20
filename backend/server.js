@@ -123,6 +123,12 @@ app.put("/users/:id", (req, res) => {
     res.json({ message: "Role updated successfully", user: db.users[userIndex] });
 });
 
+// ส่งข้อมูลไป purchase_requests
+app.get("/purchase_requests", (req, res) => {
+    const db = loadDatabase();
+    res.json(db.purchase_requests);
+});
+
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
