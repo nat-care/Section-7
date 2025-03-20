@@ -1,5 +1,5 @@
 
-import "./ProcurementSystem.css";
+import "./procurement.css";
 
 const ProcurementSystem = () => {
   const data = [
