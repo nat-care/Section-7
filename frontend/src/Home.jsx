@@ -9,6 +9,7 @@ const Home = () => {
       <button onClick={() => navigate("/login")}>Go to Login</button>
       <button onClick={() => navigate("/ProcurementSystem")}>Go to ProcurementSystem</button>
       <button onClick={() => navigate("/cardlist")}>Go to CardList</button>
+      <button onClick={() => navigate("/selectpages")}>Go to SelectPages</button>
     </div>
   );
 };

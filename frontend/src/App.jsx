@@ -4,6 +4,7 @@ import Login from "./Login/login";
 import PurchaseForm from "./PurchaseForm/purchaseForm"; 
 import ProcurementSystem from "./ProcurementSystem/procurement"; 
 import CardList from "./CardList/cardList";
+import SelectPages from "./SelectPages/selectPages";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/purchase" element={<PurchaseForm />} />
         <Route path="/ProcurementSystem" element={<ProcurementSystem />} />
         <Route path="/cardlist" element={<CardList />} />
+        <Route path="/selectpages" element={<SelectPages />} />
       </Routes>
     </Router>
   );

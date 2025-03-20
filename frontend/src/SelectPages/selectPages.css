@@ -1,0 +1,46 @@
+.container {
+    width: 350px;
+    height: auto; /* ปรับขนาดอัตโนมัติ */
+    min-height: 100px; /* ป้องกันการยุบตัวจนเกินไป */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .list-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .list-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .arrow {
+    color: orange;
+    margin-right: 10px;
+  }
+  
+  .text {
+    font-size: 14px;
+  }
+  
