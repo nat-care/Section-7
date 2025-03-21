@@ -1,0 +1,117 @@
+/* ตั้งค่า body ให้มีพื้นหลังและใช้ฟอนต์ที่ต้องการ พร้อมจัดให้อยู่ตรงกลางทั้งแนวนอนและแนวตั้ง */
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f0f0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Container สำหรับจัดให้อยู่ตรงกลาง */
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  /* ใช้ flex ใน container เพื่อจัดวางเนื้อหาในแนวตั้งและจัดกึ่งกลาง */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* กล่องเอกสาร */
+.purchase-requisition {
+  width: 100%;
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+/* หัวเรื่อง */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* จัดเรียงแถวและคอลัมน์ */
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.column {
+  width: 48%;
+}
+
+/* ข้อความ label และ value */
+.label {
+  font-weight: bold;
+}
+
+.value {
+  margin-left: 5px;
+}
+
+/* ส่วนสำหรับข้อมูลเพิ่มเติม */
+.section {
+  margin-bottom: 18px;
+}
+
+/* ตาราง */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+table th,
+table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+}
+
+/* ส่วนลงชื่อ */
+.signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.signature-block {
+  width: 45%;
+  text-align: center;
+}
+
+.date {
+  margin-top: 5px;
+}
+
+/* ปุ่ม PDF ให้อยู่ด้านล่างของกล่องเอกสาร (อยู่ภายใน container) */
+.pdf-button-container {
+  margin-top: 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.pdf-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #3033dd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pdf-button:hover {
+  background-color: #45a049;
+}

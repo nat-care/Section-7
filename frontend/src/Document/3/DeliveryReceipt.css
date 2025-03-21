@@ -1,0 +1,88 @@
+/* กล่องห่อให้อยู่กลางจอ */
+.page-wrapper {
+  display: flex;
+  justify-content: center;   /* กลางแนวนอน */
+  align-items: center;       /* กลางแนวตั้ง */
+  min-height: 100vh;         /* ให้สูงเต็มหน้าจอ */
+  background-color: #f9f9f9; /* สีพื้นหลัง */
+  padding: 20px;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* ให้เริ่มจากด้านบน */
+  min-height: 100vh; /* เต็มความสูงหน้าจอ */
+  font-family: 'Arial', sans-serif;
+}
+
+/* กล่องเอกสาร */
+.delivery-receipt {
+  background: white;
+  padding: 20px 30px;
+  border: 1px solid #000;
+  font-family: 'TH SarabunPSK', sans-serif;
+  font-size: 18px;
+  width: 800px;               /* ความกว้างเอกสาร */
+  max-width: 100%;
+  line-height: 1.8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* จัดกล่องขวาบน */
+.column-right {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+/* ตาราง */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0 20px 0;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  text-align: center;
+  padding: 6px;
+}
+
+/* ลายเซ็น */
+.signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.signature-block {
+  text-align: center;
+  width: 45%;
+}
+
+/* ปุ่ม PDF */
+.pdf-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pdf-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pdf-button:hover {
+  background-color: #0056b3;
+}

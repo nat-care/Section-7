@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* ให้แน่ใจว่าเนื้อหาจะอยู่กลางแนวตั้ง */
+    background: #f0f0f0;
+    position: relative; /* เพื่อให้ปุ่ม PDF (ที่ใช้ position: absolute) อ้างอิงจาก body */
+  }
+  
+  .invoice-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* แนวนอนและแนวตั้ง */
+    width: 100%;
+    padding-top: 30px;
+  }
+  
+  .invoice {
+    width: 100%;
+    max-width: 800px;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .half {
+    width: 48%;
+  }
+  
+  h3 {
+    margin-top: 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th, table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  /* ทำให้ทั้งสองส่วนใน signatures มีความกว้างเท่ากัน */
+  .signatures {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  
+  .signature {
+    width: 48%;  /* กำหนดให้เท่ากัน */
+    text-align: center;
+  }
+  
+  .signature p {
+    margin: 0;
+  }
+  
+  /* ย้ายปุ่ม PDF ให้อยู่ข้างล่างสุดนอกกระดาษ */
+  .pdf-button-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 100%;
+  }
+  
+  .pdf-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .pdf-button:hover {
+    background-color: #45a049;
+  }
+  
