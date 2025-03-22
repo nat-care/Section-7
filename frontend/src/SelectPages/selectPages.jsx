@@ -10,7 +10,7 @@ const pages = [
 
 const SelectPages = () => {
   return (
-    <div className="container">
+    <div className="select-container">
       <h2 className="title">หัวข้อเอกสาร</h2>
       <div className="list-container">
         {pages.map((page, index) => (
