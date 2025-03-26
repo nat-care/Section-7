@@ -17,6 +17,10 @@ const SN = () => {
     netAmount: "",
     payment: "",
     notes: "",
+    approver: "",
+    staff: "",
+    dateApproval: "",
+    dateApproval2: "",
   });
 
   const addRow = () => {
@@ -53,44 +57,42 @@ const SN = () => {
       {/* Form Section */}
       <div className="row">
         <div className="column">
-          <label htmlFor="id-pr">ID-PR/NO:</label>
+          <label htmlFor="idPO">ID-PR/NO:</label>
           <input
             type="text"
-            id="id-pr"
-            value={formData.idPR}
+            id="idPO"
+            value={formData.idPO}
             onChange={handleInputChange}
           />
         </div>
 
         <div className="column">
-          <label htmlFor="date-pr">วันที่:</label>
+          <label htmlFor="datePO">วันที่:</label>
           <input
             type="date"
-            id="date-pr"
-            value={formData.datePR}
+            id="datePO"
+            value={formData.datePO}
             onChange={handleInputChange}
           />
         </div>
-       
       </div>
 
       <div className="row">
-      
         <div className="column">
-          <label htmlFor="employee-position">ชื่อพนักงานผู้รับ:</label>
+          <label htmlFor="employeeName">ชื่อพนักงานผู้รับ:</label>
           <input
             type="text"
-            id="employee-position"
-            value={formData.employeePosition}
+            id="employeeName"
+            value={formData.employeeName}
             onChange={handleInputChange}
           />
         </div>
 
         <div className="column">
-          <label htmlFor="employee-position">รหัสพนักงาน:</label>
+          <label htmlFor="employeePosition">รหัสพนักงาน:</label>
           <input
             type="text"
-            id="employee-position"
+            id="employeePosition"
             value={formData.employeePosition}
             onChange={handleInputChange}
           />
@@ -107,10 +109,8 @@ const SN = () => {
             onChange={handleInputChange}
           />
         </div>
-       
       </div>
 
-     
       <div className="row">
         <div className="column">
           <label htmlFor="detail">เรื่องรายละเอียด:</label>
@@ -122,7 +122,6 @@ const SN = () => {
           />
         </div>
       </div>
-
 
       <h3>โปรดกรอกข้อมูลสินค้า</h3>
       <table id="productTable">
@@ -204,77 +203,69 @@ const SN = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="notes">หมายเลขพัสดุ:</label>
+          <label htmlFor="parcelNumber">หมายเลขพัสดุ:</label>
           <input
             type="text"
-            id="notes"
+            id="parcelNumber"
             value={formData.notes}
             onChange={handleInputChange}
           />
         </div>
       </div>
-
-
 
       <div className="row">
         <div className="column">
-          <label htmlFor="notes">หมายเหตุ:</label>
+          <label htmlFor="comments">หมายเหตุ:</label>
           <input
             type="text"
-            id="notes"
+            id="comments"
             value={formData.notes}
             onChange={handleInputChange}
           />
         </div>
       </div>
-      
+
       <div className="row">
-   
+        <div className="column">
+          <label htmlFor="approver">ผู้ส่งพัสดุ:</label>
+          <input
+            type="text"
+            id="approver"
+            value={formData.approver}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="column">
+          <label htmlFor="staff">ผู้รับพัสดุ:</label>
+          <input
+            type="text"
+            id="staff"
+            value={formData.staff}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
       <div className="row">
-                <div className="column">
-                    <label htmlFor="approver">ผู้ส่งพัสดุ:</label>
-                    <input
-                        type="text"
-                        id="approver"
-                        value={formData.approver}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="column">
-                    <label htmlFor="staff">ผู้รับพัสดุ:</label>
-                    <input
-                        type="text"
-                        id="staff"
-                        value={formData.staff}
-                        onChange={handleInputChange}
-                    />
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="column">
-                    <label htmlFor="date-approval">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-approval"
-                        value={formData.dateApproval}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="column">
-                    <label htmlFor="date-approval2">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-approval2"
-                        value={formData.dateApproval2}
-                        onChange={handleInputChange}
-                    />
-                </div>
-            </div>
-
-</div>
-
-
+        <div className="column">
+          <label htmlFor="dateApproval">วันที่:</label>
+          <input
+            type="date"
+            id="dateApproval"
+            value={formData.dateApproval}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="column">
+          <label htmlFor="dateApproval2">วันที่:</label>
+          <input
+            type="date"
+            id="dateApproval2"
+            value={formData.dateApproval2}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
 
       {/* Action Buttons (แก้ไขคำขอ and ส่งคำขอ) */}
       <div className="buttons">

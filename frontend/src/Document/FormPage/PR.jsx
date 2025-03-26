@@ -41,12 +41,40 @@ const PurchaseRequisition = () => {
         }));
     };
 
-    const handleSubmit = () => {
-        // Log or save the form data (e.g., to local storage, an API, or a file)
-        console.log('Form Data:', formData);
-        // Optionally, send the data to a server or store it in a JSON file
-        alert('ส่งคำขอเรียบร้อย!');
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/purchase-requests', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: 1, // Add the actual user ID here
+                    dept: formData.department,
+                    position: formData.employeePosition,
+                    subject: formData.detail,
+                    list: formData.products.map(product => product.item),
+                    quantity: formData.products.map(product => product.quantity),
+                    counting_unit: formData.products.map(product => product.unit),
+                    unit_price: formData.products.map(product => product.unitPrice),
+                    total_amount: formData.products.map(product => product.totalAmount)
+                })
+            });
+    
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Purchase Request Submitted:', result);
+                alert('ส่งคำขอเรียบร้อย!');
+            } else {
+                alert('Error submitting request');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error submitting request');
+        }
     };
+    
+    
 
     return (
         <div className="purchase-requisition">

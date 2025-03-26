@@ -42,11 +42,24 @@ const PO = () => {
   };
 
   const handleSubmit = () => {
-    // Log or save the form data (e.g., to local storage, an API, or a file)
-    console.log("Form Data:", formData);
-    // Optionally, send the data to a server or store it in a JSON file
-    alert("ส่งคำขอเรียบร้อย!");
-  };
+    // Send the form data to the server via POST request
+    fetch("http://localhost:3000/purchase-requests", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log("Form Data Submitted:", data);
+        alert("ส่งคำขอเรียบร้อย!");
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+        alert("เกิดข้อผิดพลาดในการส่งคำขอ");
+    });
+};
 
   return (
     <div className="purchase-requisition">

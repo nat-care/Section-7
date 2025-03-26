@@ -4,8 +4,8 @@ import "./DR.css";
 const DR = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idPO: "",
-    datePO: "",
+    idDR: "", // Corrected ID
+    dateDR: "", // Corrected ID
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -60,9 +60,22 @@ const DR = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Form Data:", formData);
-    alert("ส่งคำขอเรียบร้อย!");
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/saveDR", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        alert("Data saved successfully!");
+      } else {
+        alert("Failed to save data.");
+      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
   };
 
   return (
@@ -72,20 +85,20 @@ const DR = () => {
       {/* Form Section */}
       <div className="row">
         <div className="column">
-          <label htmlFor="idPO">ID-PR/NO:</label>
+          <label htmlFor="idDR">ID-DR/NO:</label> {/* Corrected ID */}
           <input
             type="text"
-            id="idPO"
-            value={formData.idPO}
+            id="idDR"
+            value={formData.idDR}
             onChange={handleInputChange}
           />
         </div>
         <div className="column">
-          <label htmlFor="datePO">PR.NO:</label>
+          <label htmlFor="dateDR">DR.NO:</label> {/* Corrected ID */}
           <input
             type="text"
-            id="datePO"
-            value={formData.datePO}
+            id="dateDR"
+            value={formData.dateDR}
             onChange={handleInputChange}
           />
         </div>
@@ -93,11 +106,11 @@ const DR = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="datePO">วันที่:</label>
+          <label htmlFor="dateDR">วันที่:</label> {/* Corrected ID */}
           <input
             type="date"
-            id="datePO"
-            value={formData.datePO}
+            id="dateDR"
+            value={formData.dateDR}
             onChange={handleInputChange}
           />
         </div>

@@ -11,7 +11,20 @@ app.use(cors());
 
 // โหลดฐานข้อมูล
 function loadDatabase() {
-    return fs.existsSync(DB_FILE) ? JSON.parse(fs.readFileSync(DB_FILE, 'utf-8')) : { users: [], purchase_requests: [], vendors: [], quotations: [], purchase_orders: [], po_receipts: [], payments: [], assets: [] };
+    return fs.existsSync(DB_FILE) ? JSON.parse(fs.readFileSync(DB_FILE, 'utf-8')) : { 
+        users: [], 
+        purchase_requests: [], 
+        vendors: [], 
+        quotations: [], 
+        purchase_orders: [], 
+        po_receipts: [], 
+        payments: [], 
+        assets: [],
+        purchase_requisitions: [], // Added
+        shipping_notes: [], // Added
+        requisition_forms: [], // Added
+        invoices: [] // Added
+    };
 }
 
 // บันทึกฐานข้อมูล
@@ -66,8 +79,9 @@ app.post('/login', (req, res) => {
     }
 });
 
-// purchase_requests ใบขอซื้อ
-app.post('/purchase-requests', (req, res) => {
+// ** API สำหรับ Purchase Requisition (PR) **
+
+app.post('/purchase-requisitions', (req, res) => {
     const { 
         user_id,
         dept, 
@@ -87,46 +101,240 @@ app.post('/purchase-requests', (req, res) => {
     const newRequest = {
         id: Date.now(),
         user_id,
-        dept,                   // แผนก
-        position,               // ตำแหน่ง
-        subject,                // หัวข้อ,เรื่อง
-        list,                   // รายการ
-        quantity,               // จำนวน
-        counting_unit,          // หน่วยนับ
-        unit_price,             // ราคาต่อหน่วย
-        total_amount,           // จำนวนเงินรวม
-        status: "Pending"       // สถานะเริ่มต้น
+        dept,                   
+        position,               
+        subject,                
+        list,                   
+        quantity,               
+        counting_unit,          
+        unit_price,             
+        total_amount,           
+        status: "Pending"       
     };
-    db.purchase_requests.push(newRequest);
+    db.purchase_requisitions.push(newRequest);
     saveDatabase(db);
     res.status(200).json(newRequest);
 });
 
-// ส่งข้อมูลไป cardlist
-app.get('/database.json', (req, res) => {
-    res.sendFile(__dirname + "/database.json");
+// GET: Retrieve all Purchase Requisitions (PR)
+app.get('/purchase-requisitions', (req, res) => {
+    const db = loadDatabase();
+    res.json(db.purchase_requisitions);
 });
 
-// ส่งข้อมูลไป cardlist ให้ changerole
-app.put("/users/:id", (req, res) => {
-    const { id } = req.params;
-    const { role } = req.body;
-    let db = loadDatabase();
+// ** API สำหรับ Delivery Receipt (DR) **
 
-    const userIndex = db.users.findIndex(user => user.id == id);
-    if (userIndex === -1) {
-        return res.status(404).json({ message: "User not found" });
+app.post('/delivery-receipts', (req, res) => {
+    const { 
+        user_id, 
+        po_id, 
+        date, 
+        items, 
+        received_by 
+    } = req.body;
+
+    if (!user_id || !po_id || !date || !items || !received_by) {
+        return res.status(400).json({ message: "Missing required fields" });
     }
 
-    db.users[userIndex].role = role;
+    const db = loadDatabase();
+    const newDR = {
+        id: Date.now(),
+        user_id,
+        po_id,
+        date,
+        items,
+        received_by,
+        status: "Pending"
+    };
+    db.po_receipts.push(newDR);
     saveDatabase(db);
-    res.json({ message: "Role updated successfully", user: db.users[userIndex] });
+    res.status(200).json(newDR);
 });
 
-// ส่งข้อมูลไป purchase_requests
-app.get("/purchase_requests", (req, res) => {
+// GET: Retrieve all Delivery Receipts (DR)
+app.get('/delivery-receipts', (req, res) => {
     const db = loadDatabase();
-    res.json(db.purchase_requests);
+    res.json(db.po_receipts);
+});
+
+// ** API สำหรับ Shipping Notes **
+
+app.post('/shipping-notes', (req, res) => {
+    const { 
+        user_id, 
+        po_id, 
+        shipping_date, 
+        shipping_company, 
+        tracking_number, 
+        items 
+    } = req.body;
+
+    if (!user_id || !po_id || !shipping_date || !shipping_company || !tracking_number || !items) {
+        return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const db = loadDatabase();
+    const newSN = {
+        id: Date.now(),
+        user_id,
+        po_id,
+        shipping_date,
+        shipping_company,
+        tracking_number,
+        items,
+        status: "Shipped"
+    };
+    db.shipping_notes.push(newSN);
+    saveDatabase(db);
+    res.status(200).json(newSN);
+});
+
+// GET: Retrieve all Shipping Notes
+app.get('/shipping-notes', (req, res) => {
+    const db = loadDatabase();
+    res.json(db.shipping_notes);
+});
+
+// ** API สำหรับ Requisition Forms **
+
+app.post('/requisition-forms', (req, res) => {
+    const { 
+        user_id, 
+        dept, 
+        items, 
+        requested_by, 
+        reason 
+    } = req.body;
+
+    if (!user_id || !dept || !items || !requested_by || !reason) {
+        return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const db = loadDatabase();
+    const newRF = {
+        id: Date.now(),
+        user_id,
+        dept,
+        items,
+        requested_by,
+        reason,
+        status: "Pending"
+    };
+    db.requisition_forms.push(newRF);
+    saveDatabase(db);
+    res.status(200).json(newRF);
+});
+
+// GET: Retrieve all Requisition Forms
+app.get('/requisition-forms', (req, res) => {
+    const db = loadDatabase();
+    res.json(db.requisition_forms);
+});
+
+// ** API สำหรับ Invoices **
+
+app.post('/invoices', (req, res) => {
+    const { 
+        po_id, 
+        invoice_number, 
+        date, 
+        total_amount, 
+        payment_status, 
+        notes 
+    } = req.body;
+
+    if (!po_id || !invoice_number || !date || !total_amount || !payment_status) {
+        return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const db = loadDatabase();
+    const newInvoice = {
+        id: Date.now(),
+        po_id,
+        invoice_number,
+        date,
+        total_amount,
+        payment_status,
+        notes,
+        status: "Pending"
+    };
+    db.invoices.push(newInvoice);
+    saveDatabase(db);
+    res.status(200).json(newInvoice);
+});
+
+// GET: Retrieve all Invoices
+app.get('/invoices', (req, res) => {
+    const db = loadDatabase();
+    res.json(db.invoices);
+});
+
+// ** API สำหรับ Purchase Orders (PO) **
+
+app.post('/purchase-orders', (req, res) => {
+    const {
+        idPO,
+        datePO,
+        employeeName,
+        employeePosition,
+        department,
+        section,
+        detail,
+        products,
+        totalAmount,
+        discount,
+        vat,
+        netAmount,
+        payment,
+        notes,
+        approver,
+        dateApprover,
+        staff,
+        dateStaff,
+        auditor,
+        dateAuditor
+    } = req.body;
+    console.log("Received Purchase Order:", req.body);
+
+    if (!idPO || !datePO || !employeeName || !employeePosition || !department || !section || !detail || !products || !totalAmount || !discount || !vat || !netAmount || !payment) {
+        return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const db = loadDatabase();
+    const newPO = {
+        id: Date.now(),
+        idPO,
+        datePO,
+        employeeName,
+        employeePosition,
+        department,
+        section,
+        detail,
+        products,
+        totalAmount,
+        discount,
+        vat,
+        netAmount,
+        payment,
+        notes,
+        approver,
+        dateApprover,
+        staff,
+        dateStaff,
+        auditor,
+        dateAuditor,
+        status: "Pending"
+    };
+    db.purchase_orders.push(newPO);
+    saveDatabase(db);
+    res.status(200).json(newPO);
+});
+
+// GET: Retrieve all Purchase Orders (PO)
+app.get('/purchase-orders', (req, res) => {
+    const db = loadDatabase();
+    res.json(db.purchase_orders);
 });
 
 // เริ่มเซิร์ฟเวอร์

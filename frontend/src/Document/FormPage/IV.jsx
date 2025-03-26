@@ -3,8 +3,8 @@ import React, { useState } from "react";
 const IV = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idPO: "",
-    datePO: "",
+    idIV: "", // Changed to idIV
+    dateIV: "", // Changed to dateIV
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -41,10 +41,27 @@ const IV = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    console.log("Form Data:", formData);
-    alert("ส่งคำขอเรียบร้อย!");
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/invoice", {
+        method: "POST", // or "PUT" depending on your API
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        console.log("Form Data sent to the server successfully.");
+        alert("ส่งคำขอเรียบร้อย!");
+      } else {
+        console.error("Error sending form data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+  
 
   return (
     <div className="purchase-requisition">
@@ -54,32 +71,32 @@ const IV = () => {
       <label htmlFor="">ผู้ส่งใบแจ้งหนี้</label>
       <div className="row">
         <div className="column">
-          <label htmlFor="id-pr">รหัสอ้างอิง</label>
+          <label htmlFor="id-IV">รหัสอ้างอิง</label>
           <input
             type="text"
-            id="id-pr"
-            value={formData.idPR}
+            id="id-IV" // Changed id to id-IV
+            value={formData.idIV}
             onChange={handleInputChange}
           />
         </div>
         <div className="column">
-          <label htmlFor="id-pr">ชื่อบริษัท</label>
+          <label htmlFor="companyName">ชื่อบริษัท</label>
           <input
             type="text"
-            id="id-pr"
-            value={formData.idPR}
+            id="companyName" // Changed id to companyName
+            value={formData.companyName}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
       <div className="row">
-      <div className="column">
-          <label htmlFor="id-pr">ที่อยู่ของบริษัท</label>
+        <div className="column">
+          <label htmlFor="companyAddress">ที่อยู่ของบริษัท</label>
           <input
             type="text"
-            id="id-pr"
-            value={formData.idPR}
+            id="companyAddress" // Changed id to companyAddress
+            value={formData.companyAddress}
             onChange={handleInputChange}
           />
         </div>
@@ -95,7 +112,6 @@ const IV = () => {
       </div>
 
       <label htmlFor="">ชำระเงินหนี้</label>
-
 
       <div className="row">
         <div className="column">
@@ -142,18 +158,15 @@ const IV = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="detail">Tax ID:</label>
+          <label htmlFor="taxID">Tax ID:</label> {/* Changed detail to taxID */}
           <input
             type="text"
-            id="detail"
-            value={formData.detail}
+            id="taxID" // Changed detail to taxID
+            value={formData.taxID} // Changed to taxID
             onChange={handleInputChange}
           />
         </div>
-
       </div>
-
-      
 
       <div className="row">
         <div className="column">
@@ -166,7 +179,6 @@ const IV = () => {
           />
         </div>
       </div>
-
 
       <h3>โปรดกรอกข้อมูลสินค้า</h3>
       <table id="productTable">
@@ -236,21 +248,21 @@ const IV = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="detail">จำนวนเงิน:</label>
+          <label htmlFor="totalAmount">จำนวนเงิน:</label> {/* Changed detail to totalAmount */}
           <input
             type="text"
-            id="detail"
-            value={formData.detail}
+            id="totalAmount" // Changed detail to totalAmount
+            value={formData.totalAmount} // Changed to totalAmount
             onChange={handleInputChange}
           />
         </div>
 
         <div className="column">
-          <label htmlFor="section">ส่วนลด:</label>
+          <label htmlFor="discount">ส่วนลด:</label>
           <input
             type="text"
-            id="section"
-            value={formData.section}
+            id="discount" // Changed section to discount
+            value={formData.discount} // Changed to discount
             onChange={handleInputChange}
           />
         </div>
@@ -258,21 +270,21 @@ const IV = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="detail">ภาษีมูลค่าเพิ่ม :</label>
+          <label htmlFor="vat">ภาษีมูลค่าเพิ่ม :</label> {/* Changed detail to vat */}
           <input
             type="text"
-            id="detail"
-            value={formData.detail}
+            id="vat" // Changed detail to vat
+            value={formData.vat} // Changed to vat
             onChange={handleInputChange}
           />
         </div>
 
         <div className="column">
-          <label htmlFor="section">รวมเงินทั้งสุทธิ:</label>
+          <label htmlFor="netAmount">รวมเงินทั้งสุทธิ:</label> {/* Changed section to netAmount */}
           <input
             type="text"
-            id="section"
-            value={formData.section}
+            id="netAmount" // Changed section to netAmount
+            value={formData.netAmount} // Changed to netAmount
             onChange={handleInputChange}
           />
         </div>
@@ -280,16 +292,15 @@ const IV = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="notes">การชำระเงิน:</label>
+          <label htmlFor="payment">การชำระเงิน:</label>
           <input
             type="text"
-            id="notes"
-            value={formData.notes}
+            id="payment"
+            value={formData.payment}
             onChange={handleInputChange}
           />
         </div>
       </div>
-
 
       <div className="row">
         <div className="column">
@@ -305,63 +316,57 @@ const IV = () => {
 
       <div className="row">
         <div className="column">
-          <label htmlFor="notes">ค่าปรับหรือดอกเบี้ยในกรณีชำระล่าช้า:</label>
+          <label htmlFor="penalty">ค่าปรับหรือดอกเบี้ยในกรณีชำระล่าช้า:</label> {/* Changed notes to penalty */}
           <input
             type="text"
-            id="notes"
-            value={formData.notes}
+            id="penalty" // Changed notes to penalty
+            value={formData.penalty} // Changed to penalty
             onChange={handleInputChange}
           />
         </div>
       </div>
-      
+
       <div className="row">
-   
+        <div className="column">
+          <label htmlFor="approver">ผู้มีอำนาจออกใบแจ้งหนี้:</label>
+          <input
+            type="text"
+            id="approver"
+            value={formData.approver}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="column">
+          <label htmlFor="staff">ตราประทับบริษัท:</label>
+          <input
+            type="text"
+            id="staff"
+            value={formData.staff}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
       <div className="row">
-                <div className="column">
-                    <label htmlFor="approver">ผู้มีอำนาจออกใบแจ้งหนี้:</label>
-                    <input
-                        type="text"
-                        id="approver"
-                        value={formData.approver}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="column">
-                    <label htmlFor="staff">ตราประทับบริษัท:</label>
-                    <input
-                        type="text"
-                        id="staff"
-                        value={formData.staff}
-                        onChange={handleInputChange}
-                    />
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="column">
-                    <label htmlFor="date-approval">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-approval"
-                        value={formData.dateApproval}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="column">
-                    <label htmlFor="date-approval2">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-approval2"
-                        value={formData.dateApproval2}
-                        onChange={handleInputChange}
-                    />
-                </div>
-            </div>
-
-</div>
-
-
+        <div className="column">
+          <label htmlFor="date-approval">วันที่:</label>
+          <input
+            type="date"
+            id="date-approval"
+            value={formData.dateApproval}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="column">
+          <label htmlFor="date-approval2">วันที่:</label>
+          <input
+            type="date"
+            id="date-approval2"
+            value={formData.dateApproval2}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
 
       {/* Action Buttons (แก้ไขคำขอ and ส่งคำขอ) */}
       <div className="buttons">
