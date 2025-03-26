@@ -1,7 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Invoice.css';
+import html2pdf from 'html2pdf.js';
 
 const Invoice = () => {
+  // กำหนดข้อมูลใบแจ้งหนี้ใน state
+  const [invoiceData, setInvoiceData] = useState({
+    issuer: {
+      ref: "12345",
+      company: "บริษัท ABC จำกัด",
+      address: "123 ถนน XYZ, แขวง ABC, เขต DEF, กรุงเทพมหานคร",
+      email: "example@company.com",
+    },
+    payer: {
+      ref: "67890",
+      company: "บริษัท DEF จำกัด",
+      address: "456 ถนน ABC, แขวง DEF, เขต GHI, กรุงเทพมหานคร",
+      email: "customer@company.com",
+      taxId: "123-456-7890",
+    },
+    details: "รายละเอียดการขายสินค้า/บริการ: จำหน่ายสินค้า Office Supplies และบริการดูแลระบบ",
+    items: [
+      { id: 1, description: "สินค้า A", quantity: 10, unit: "ชิ้น", unitPrice: 500, total: 5000 },
+      { id: 2, description: "สินค้า B", quantity: 5, unit: "ชิ้น", unitPrice: 800, total: 4000 },
+    ],
+    discount: 0.01, // 1%
+    vat: 0.07, // 7%
+    // คำนวณยอดรวม ตัวอย่างคำนวณอย่างง่าย:
+    subtotal: 9000,
+    discountAmount: 90, // 9000 * 0.01
+    vatAmount: 623, // (9000 - 90) * 0.07 ≈ 623
+    total: 9533, // 9000 - 90 + 623
+    signatures: {
+      issuerSignature: "นายสมชาย ใจดี",
+      issuerDate: "2025-03-26",
+      payerSignature: "นางสาวสมปอง พอใจ",
+      payerDate: "2025-03-27",
+    },
+  });
+
   const generatePDF = () => {
     const element = document.getElementById('invoice-content');
     const opt = {
@@ -22,24 +58,24 @@ const Invoice = () => {
         <div className="row">
           <div className="half">
             <h3>ผู้แจ้งหนี้</h3>
-            <p>รหัสอ้างอิง: 12345</p>
-            <p>บริษัท: บริษัท ABC</p>
-            <p>ที่อยู่: ถนน XYZ</p>
-            <p>Email: example@company.com</p>
+            <p>รหัสอ้างอิง: {invoiceData.issuer.ref}</p>
+            <p>บริษัท: {invoiceData.issuer.company}</p>
+            <p>ที่อยู่: {invoiceData.issuer.address}</p>
+            <p>Email: {invoiceData.issuer.email}</p>
           </div>
           <div className="half">
             <h3>ผู้ชำระหนี้</h3>
-            <p>รหัสอ้างอิง: 67890</p>
-            <p>บริษัท: บริษัท DEF</p>
-            <p>ที่อยู่: ถนน ABC</p>
-            <p>Email: customer@company.com</p>
-            <p>Tax ID: 123-456-7890</p>
+            <p>รหัสอ้างอิง: {invoiceData.payer.ref}</p>
+            <p>บริษัท: {invoiceData.payer.company}</p>
+            <p>ที่อยู่: {invoiceData.payer.address}</p>
+            <p>Email: {invoiceData.payer.email}</p>
+            <p>Tax ID: {invoiceData.payer.taxId}</p>
           </div>
         </div>
 
         <div className="section">
           <h3>รายละเอียด</h3>
-          <p>รายละเอียดการขายสินค้า/บริการต่างๆ</p>
+          <p>{invoiceData.details}</p>
         </div>
 
         <table>
@@ -54,25 +90,27 @@ const Invoice = () => {
             </tr>
           </thead>
           <tbody>
+            {invoiceData.items.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td>{item.description}</td>
+                <td>{item.quantity}</td>
+                <td>{item.unit}</td>
+                <td>{item.unitPrice} บาท</td>
+                <td>{item.total} บาท</td>
+              </tr>
+            ))}
             <tr>
-              <td>1</td>
-              <td>สินค้า A</td>
-              <td>10</td>
-              <td>ชิ้น</td>
-              <td>500 บาท</td>
-              <td>5,000 บาท</td>
+              <td colSpan="5">ส่วนลด {invoiceData.discount * 100}%</td>
+              <td>- {invoiceData.discountAmount} บาท</td>
             </tr>
             <tr>
-              <td colSpan="5">ส่วนลด 1%</td>
-              <td>-50 บาท</td>
-            </tr>
-            <tr>
-              <td colSpan="5">ภาษีมูลค่าเพิ่ม 7%</td>
-              <td>350 บาท</td>
+              <td colSpan="5">ภาษีมูลค่าเพิ่ม {invoiceData.vat * 100}%</td>
+              <td>{invoiceData.vatAmount} บาท</td>
             </tr>
             <tr>
               <td colSpan="5">รวมสุทธิ</td>
-              <td>5,300 บาท</td>
+              <td>{invoiceData.total} บาท</td>
             </tr>
           </tbody>
         </table>
@@ -80,13 +118,13 @@ const Invoice = () => {
         <div className="signatures">
           <div className="signature">
             <p>ผู้มีอำนาจออกใบแจ้งหนี้</p>
-            <p>(......................................)</p>
-            <p>วันที่ ......................................</p>
+            <p>{invoiceData.signatures.issuerSignature}</p>
+            <p>วันที่: {invoiceData.signatures.issuerDate}</p>
           </div>
           <div className="signature">
             <p>ผู้ชำระหนี้</p>
-            <p>(......................................)</p>
-            <p>วันที่ ......................................</p>
+            <p>{invoiceData.signatures.payerSignature}</p>
+            <p>วันที่: {invoiceData.signatures.payerDate}</p>
           </div>
         </div>
       </div>

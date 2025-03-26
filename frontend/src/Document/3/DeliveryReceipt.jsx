@@ -1,8 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './DeliveryReceipt.css';
 import html2pdf from 'html2pdf.js';
 
 const DeliveryReceipt = () => {
+  // กำหนดข้อมูลสำหรับใบรับพัสดุ
+  const [receiptData, setReceiptData] = useState({
+    idPrNo: 'ID-PR123456',
+    prNo: 'PR78910',
+    date: '2025-03-26',
+    employeeName: 'Somchai Prasert',
+    employeeCode: 'EMP001',
+    department: 'Sales',
+    position: 'Manager',
+    details: 'Delivery of office supplies',
+    product: 'Printer Paper, Ink Cartridges',
+    dueDate: '2025-04-05',
+    deliveryDate: '2025-03-28',
+    inspection: 'Checked by supervisor',
+    received: 'Received in good condition',
+    items: [
+      { id: 1, description: 'Printer Paper (A4)', quantity: 10, unit: 'reams', unitPrice: 150, total: 1500 },
+      { id: 2, description: 'Ink Cartridge', quantity: 5, unit: 'pcs', unitPrice: 500, total: 2500 }
+    ],
+    note: 'Please confirm receipt within 24 hours.',
+    sender: 'Warehouse Staff: Mr. Somchai',
+    senderDate: '2025-03-26',
+    receiver: 'Office Manager: Ms. Pranee',
+    receiverDate: '2025-03-27'
+  });
+
   const generatePDF = () => {
     const element = document.getElementById('receipt-content');
     const opt = {
@@ -20,26 +46,26 @@ const DeliveryReceipt = () => {
       {/* กล่องห่อเพื่อจัดกลางหน้า */}
       <div className="page-wrapper">
         <div className="delivery-receipt" id="receipt-content">
-          <h3 style={{ textAlign: 'center', marginBottom: '0' }}>ใบรับพัสดุ (Delivery Receipt)</h3>
           <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบรับพัสดุ</h2>
 
           <div className="row">
             <div className="column-right">
-              ID-PR.NO. ___________________________<br />
-              PR.NO. ___________________________<br />
-              วันที่ ___________________________
+              <p>ID-PR.NO.: {receiptData.idPrNo}</p>
+              <p>PR.NO.: {receiptData.prNo}</p>
+              <p>วันที่: {receiptData.date}</p>
             </div>
           </div>
-
-          <p>ชื่อพนักงาน ____________________________________________</p>
-          <p>รหัสพนักงาน ____________________________________________</p>
-          <p>แผนก ____________________________ ตำแหน่ง ____________________________</p>
-          <p>รายละเอียด ____________________________________________</p>
-          <p>ตามสินค้า ____________________________________________</p>
-          <p>วันที่ครบกำหนด ____________________________________________</p>
-          <p>วันที่ส่งมอบสินค้า ____________________________________________</p>
-          <p>ตรวจรับสินค้าตาม ____________________________________________</p>
-          <p>ได้รับสินค้า ____________________________________________</p>
+          <div className='Dataheard'>
+          <p>ชื่อพนักงาน: {receiptData.employeeName}</p>
+          <p>รหัสพนักงาน: {receiptData.employeeCode}</p>
+          <p>แผนก: {receiptData.department}  ตำแหน่ง: {receiptData.position}</p>
+          <p>รายละเอียด: {receiptData.details}</p>
+          <p>ตามสินค้า: {receiptData.product}</p>
+          <p>วันที่ครบกำหนด: {receiptData.dueDate}</p>
+          <p>วันที่ส่งมอบสินค้า: {receiptData.deliveryDate}</p>
+          <p>ตรวจรับสินค้าตาม: {receiptData.inspection}</p>
+          <p>ได้รับสินค้า: {receiptData.received}</p>
+          </div>
 
           <p>รายละเอียด</p>
           <table>
@@ -54,29 +80,29 @@ const DeliveryReceipt = () => {
               </tr>
             </thead>
             <tbody>
-              {[1, 2, 3, 4].map((num) => (
-                <tr key={num}>
-                  <td>{num}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+              {receiptData.items.map((item, index) => (
+                <tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td>{item.description}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.unit}</td>
+                  <td>{item.unitPrice}</td>
+                  <td>{item.total}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <p>หมายเหตุ: กรุณาส่งแบบฟอร์มฉบับงานเมื่อเสร็จของ</p>
+          <p>หมายเหตุ: {receiptData.note}</p>
 
           <div className="signatures">
             <div className="signature-block">
-              ผู้ส่งพัสดุ _______________________<br />
-              วันที่ [ ___________________ ]
+              ผู้ส่งพัสดุ <br /> {receiptData.sender}<br />
+              วันที่: {receiptData.senderDate}
             </div>
             <div className="signature-block">
-              ผู้รับพัสดุ _______________________<br />
-              วันที่ [ ___________________ ]
+              ผู้รับพัสดุ <br /> {receiptData.receiver}<br />
+              วันที่: {receiptData.receiverDate}
             </div>
           </div>
         </div>

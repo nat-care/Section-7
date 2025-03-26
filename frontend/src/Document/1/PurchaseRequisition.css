@@ -1,111 +1,111 @@
-/* ตั้งค่า body ให้มีพื้นหลังและใช้ฟอนต์ที่ต้องการ พร้อมจัดให้อยู่ตรงกลางทั้งแนวนอนและแนวตั้ง */
 body {
   margin: 0;
   padding: 0;
-  background: #f0f0f0;
-  font-family: Arial, sans-serif;
+  background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  align-items: flex-start; /* ให้เริ่มจากด้านบน */
+  min-height: 100vh; /* เต็มความสูงหน้าจอ */
+  font-family: 'Arial', sans-serif;
 }
 
-/* Container สำหรับจัดให้อยู่ตรงกลาง */
-.container {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  /* ใช้ flex ใน container เพื่อจัดวางเนื้อหาในแนวตั้งและจัดกึ่งกลาง */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.document-container {
+  width: 900px; 
+  height: 100%;
+  margin: 40px auto;
+  padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
 
-/* กล่องเอกสาร */
-.purchase-requisition {
-  width: 100%;
-  padding: 30px;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 18px;
-  box-sizing: border-box;
 }
-
-/* หัวเรื่อง */
 h1 {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
-/* จัดเรียงแถวและคอลัมน์ */
-.row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.column {
-  width: 48%;
-}
-
-/* ข้อความ label และ value */
-.label {
+.document-title {
+  text-align: center;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
-.value {
-  margin-left: 5px;
-}
-
-/* ส่วนสำหรับข้อมูลเพิ่มเติม */
-.section {
-  margin-bottom: 18px;
-}
-
-/* ตาราง */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
+/* จัด PR.NO และ วันที่ ไว้ขวา */
+.document-header {
+  display: flex;
+  justify-content: flex-end;
   margin-bottom: 10px;
 }
 
-table th,
-table td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
-  font-size: 16px;
+.header-right {
+  text-align: right;
 }
 
-/* ส่วนลงชื่อ */
-.signatures {
+.document-section {
+  margin: 10px 0;
+}
+
+/* ตารางรายการสินค้า */
+.document-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.document-table th,
+.document-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+/* ลายเซ็น */
+.signature-section {
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .signature-block {
-  width: 45%;
   text-align: center;
 }
 
-.date {
-  margin-top: 5px;
+.signature-line {
+  margin: 10px 0;
+  padding: 15px;
+  border-bottom: 1px solid black;
+  width: 200px;
+  margin: auto;
 }
 
-/* ปุ่ม PDF ให้อยู่ด้านล่างของกล่องเอกสาร (อยู่ภายใน container) */
-.pdf-button-container {
+/* ปุ่มกด */
+.button-container {
+  display: flex;
+  justify-content: center;
   margin-top: 20px;
-  text-align: center;
-  width: 100%;
+}
+
+.btn {
+  background: gray;
+  color: white;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: black;
+}
+.pdf-button-container {
+  text-align: center;  /* จัดตำแหน่งให้ปุ่มอยู่ตรงกลาง */
+  margin-top: 20px;
 }
 
 .pdf-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #3033dd;
+  background-color: #3033dd; /* สีเขียว */
   color: white;
   border: none;
   border-radius: 5px;

@@ -1,109 +1,128 @@
-import React from 'react';
-import './PurchaseRequisition.css';
+import React, { useState, useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+import "./PurchaseRequisition.css";
+import html2pdf from "html2pdf.js";
 
-const PurchaseRequisition = () => {
+const PurchaseDocument = () => {
+  const documentRef = useRef();
+
+  // กำหนดข้อมูลใน state ให้ครบทุก field
+  const [formData, setFormData] = useState({
+    prNo: "PO12345",
+    date: "2025-03-26",
+    desiredDate: "2025-04-01",
+    department: "IT",
+    position: "Manager",
+    subject: "Purchase Order for Laptops",
+    items: [
+      { id: 1, description: "Laptop", quantity: 5, unit: "pcs", unitPrice: 20000, total: 100000 },
+      { id: 2, description: "Monitor", quantity: 3, unit: "pcs", unitPrice: 5000, total: 15000 },
+      { id: 3, description: "Keyboard", quantity: 10, unit: "pcs", unitPrice: 300, total: 3000 }
+    ],
+    note: "Please process this order as soon as possible.",
+    approvalSignature: "John Doe",
+    approvalDate: "2025-03-25",
+    purchasingSignature: "Jane Smith",
+    purchasingDate: "2025-03-26"
+  });
+
+  // ฟังก์ชันสำหรับพิมพ์เป็น PDF (ผ่าน react-to-print)
+  const handlePrint = useReactToPrint({
+    content: () => documentRef.current,
+    documentTitle: "Purchase Document"
+  });
+
+  // ฟังก์ชันสร้าง PDF ด้วย html2pdf
   const generatePDF = () => {
-    const element = document.getElementById('requisition-content');
+    const element = documentRef.current;
     const opt = {
       margin: 0.5,
-      filename: 'purchase_requisition.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
+      filename: "purchase_document.pdf",
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
     };
     html2pdf().set(opt).from(element).save();
   };
 
   return (
     <div className="container">
-      <div className="purchase-requisition" id="requisition-content">
-        <h1>ใบขอซื้อ</h1>
+      {/* เอกสารใบจัดซื้อ */}
+      <div className="document-container" ref={documentRef}>
+      <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบจัดซื้อ</h2>
+       
 
-        <div className="row">
-          <div className="column">
-            <span className="label">PR.NO:</span>
-            <span className="value">PR-2025-003</span>
-          </div>
-          <div className="column">
-            <span className="label">วันที่:</span>
-            <span className="value">20 มี.ค. 2567</span>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="column">
-            <span className="label">วันที่ต้องการใช้:</span>
-            <span className="value">25 มี.ค. 2567</span>
-          </div>
-          <div className="column">
-            <span className="label">แผนก:</span>
-            <span className="value">ฝ่ายจัดซื้อ</span>
+        {/* ส่วนหัวของเอกสาร */}
+        <div className="document-header">
+          <div className="header-right">
+            <p>PR.NO: {formData.prNo}</p>
+            <p>วันที่: {formData.date}</p>
           </div>
         </div>
 
-        <div className="section">
-          <span className="label">ตำแหน่ง:</span>
-          <span className="value">พนักงานจัดซื้อ</span>
+        {/* ส่วนรายละเอียด */}
+        <div className="document-section">
+          <p>วันที่ต้องการใช้: {formData.desiredDate}</p>
+          <p>
+            แผนก: {formData.department} ตำแหน่ง: {formData.position}
+          </p>
+          <p>เรื่อง: {formData.subject}</p>
         </div>
 
-        <div className="section">
-          <span className="label">เรื่อง:</span>
-          <span className="value">จัดซื้อเครื่องมือสำนักงาน</span>
-        </div>
-
-        <table>
+        {/* ตารางรายการสินค้า */}
+        <table className="document-table">
           <thead>
             <tr>
               <th>ลำดับ</th>
               <th>รายการ</th>
               <th>จำนวน</th>
-              <th>หน่วยนับ</th>
+              <th>หน่วย</th>
               <th>ราคาต่อหน่วย</th>
-              <th>จำนวนเงิน</th>
+              <th>ราคารวม</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>คอมพิวเตอร์ Lenovo</td>
-              <td>5</td>
-              <td>เครื่อง</td>
-              <td>20,000 บาท</td>
-              <td>100,000 บาท</td>
-            </tr>
+            {formData.items.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td>{item.description}</td>
+                <td>{item.quantity}</td>
+                <td>{item.unit}</td>
+                <td>{item.unitPrice}</td>
+                <td>{item.total}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
 
-        <div className="section">
-          <span className="label">หมายเหตุ:</span>
-          <span className="value">กรุณาตรวจสอบข้อมูลให้ครบถ้วน</span>
+        {/* หมายเหตุ */}
+        <div className="document-section">
+          <p>หมายเหตุ: {formData.note}</p>
         </div>
 
-        <div className="signatures">
+        {/* ลายเซ็น */}
+        <div className="signature-section">
           <div className="signature-block">
-            <span className="label">ผู้อนุมัติ</span>
-            <br />
-            <span className="value">(..............................)</span>
-            <br />
-            <div className="date">วันที่ .....................</div>
+            <p>ผู้อนุมัติฝ่ายจัดซื้อ</p>
+            <div className="signature-line">{formData.approvalSignature}</div>
+            <p>วันที่: {formData.approvalDate}</p>
           </div>
-
           <div className="signature-block">
-            <span className="label">เจ้าหน้าที่ฝ่ายจัดซื้อ</span>
-            <br />
-            <span className="value">(..............................)</span>
-            <br />
-            <div className="date">วันที่ .....................</div>
+            <p>เจ้าหน้าที่ฝ่ายจัดซื้อ</p>
+            <div className="signature-line">{formData.purchasingSignature}</div>
+            <p>วันที่: {formData.purchasingDate}</p>
           </div>
         </div>
       </div>
 
-      {/* ปุ่มบันทึกเป็น PDF อยู่ด้านล่างของกล่องเอกสาร */}
+      {/* ปุ่มพิมพ์เป็น PDF (นอกกรอบของเอกสาร) */}
       <div className="pdf-button-container">
-        <button onClick={generatePDF} className="pdf-button">บันทึกเป็น PDF</button>
+        <button onClick={generatePDF} className="pdf-button">
+          บันทึกเป็น PDF
+        </button>
       </div>
     </div>
   );
 };
 
-export default PurchaseRequisition;
+export default PurchaseDocument;
