@@ -1,7 +1,7 @@
 /* PurchaseOrder.css */
 .purchase-order {
-  width: 105%; /* เพิ่มจาก 80% */
-  max-width: 1200px; /* ลด max-width ถ้ามันดูเล็กเกิน */
+  width: 900px; 
+  height: 100%;
   margin: 40px auto;
   padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
   background-color: #ffffff;
@@ -19,7 +19,20 @@ body {
   min-height: 100vh; /* เต็มความสูงหน้าจอ */
   font-family: 'Arial', sans-serif;
 }
+/* จัด PR.NO และ วันที่ ไว้ขวา */
+.document-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
 
+.header-right {
+  text-align: right;
+}
+
+.document-section {
+  margin: 10px 0;
+}
 h1 {
   text-align: center;
   margin-bottom: 20px;

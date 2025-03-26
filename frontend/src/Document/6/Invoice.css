@@ -1,31 +1,25 @@
 body {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* ให้แน่ใจว่าเนื้อหาจะอยู่กลางแนวตั้ง */
-    background: #f0f0f0;
-    position: relative; /* เพื่อให้ปุ่ม PDF (ที่ใช้ position: absolute) อ้างอิงจาก body */
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  height: 100%; /* <<< เพิ่มให้เต็มจอ */
+  width: 100%;  /* <<< เพิ่มให้เต็มจอ */
+  display: flex;
+  justify-content: center;  /* <<< จัดกลางแนวนอน */
+  align-items: flex-start;  /* <<< เริ่มจากบน ไม่กลางแนวตั้ง */
   }
   
   .invoice-container {
-    display: flex;
-    justify-content: center;
-    align-items: center; /* แนวนอนและแนวตั้ง */
-    width: 100%;
-    padding-top: 30px;
+    width: 900px; 
+    height: 100%;
+    margin: 40px auto;
+    padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
   }
   
-  .invoice {
-    width: 100%;
-    max-width: 800px;
-    padding: 30px;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
   
   h1 {
     text-align: center;
@@ -34,12 +28,15 @@ body {
   
   .row {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    justify-content: space-between; 
+    align-items: flex-start;      
+    gap: 20px;                      
   }
   
   .half {
-    width: 48%;
+   
+    width: 48%; 
+    box-sizing: border-box; 
   }
   
   h3 {

@@ -1,34 +1,32 @@
 /* พื้นหลังเทาอ่อน + จัดกลางหน้าจอ */
-html, body {
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-    height: 100%; /* <<< เพิ่มให้เต็มจอ */
-    width: 100%;  /* <<< เพิ่มให้เต็มจอ */
-    display: flex;
-    justify-content: center;  /* <<< จัดกลางแนวนอน */
-    align-items: flex-start;  /* <<< เริ่มจากบน ไม่กลางแนวตั้ง */
-  }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* ให้เริ่มจากด้านบน */
+  min-height: 100vh; /* เต็มความสูงหน้าจอ */
+  font-family: 'Arial', sans-serif;
+}
   
   .page-wrapper {
-    width: 100%;
-    max-width: 1200px; /* หรือ 1000px ตามต้องการ */
-    padding: 40px 20px;
+    width: 900px; 
+    height: 100%;
+    margin: 40px auto;
+    padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
   }
   
-  
-  /* กล่อง Shipping Note */
-/* กล่อง Shipping Note */
-.shipping-note {
-  width: 100%;
-  max-width: 1000px;
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  margin: 0 auto 20px auto;  /* <<< แก้ตรงนี้: จัดกลางแนวนอน */
-}
+  .row-info {
+    display: flex;
+    justify-content: flex-end; /* จัดให้เนื้อหาทั้งหมดอยู่ทางขวา */
+    width: 100%;
+    margin-bottom: 5px; /* เพิ่มระยะห่างระหว่างแถว */
+  }
+
 
   
   h1, h3 {
@@ -83,25 +81,29 @@ html, body {
     flex-direction: column;
     width: 45%;
   }
-  
-  /* ปุ่ม PDF อยู่กลาง ล่างกล่อง */
-  .pdf-button-container {
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .pdf-button {
-    background-color: #007bff;
-    color: white;
-    font-size: 18px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .pdf-button:hover {
-    background-color: #0056b3;
-  }
-  
+  /* ปุ่มบันทึกเป็น PDF ให้อยู่ด้านล่างของเอกสาร */
+/* กำหนดให้ปุ่มอยู่ข้างล่างของหน้าจอ */
+.pdf-button-container {
+  position: fixed; /* ทำให้ปุ่มติดอยู่ที่ตำแหน่งที่กำหนด */
+  bottom: 20px; /* อยู่ห่างจากด้านล่างของหน้าจอ */
+  left: 50%; /* จัดให้ปุ่มอยู่ตรงกลาง */
+  transform: translateX(-50%); /* ชดเชยการใช้ left เพื่อให้ปุ่มอยู่กลางพอดี */
+  z-index: 10; /* ให้ปุ่มอยู่เหนือเนื้อหาของเอกสาร */
+  padding: 10px;
+}
+
+/* สไตล์ของปุ่ม PDF */
+.pdf-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pdf-button:hover {
+  background-color: #45a049;
+}
+

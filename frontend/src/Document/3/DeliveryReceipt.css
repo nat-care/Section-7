@@ -1,12 +1,12 @@
 /* กล่องห่อให้อยู่กลางจอ */
 .page-wrapper {
-  display: flex;
-  justify-content: center;   /* กลางแนวนอน */
-  align-items: center;       /* กลางแนวตั้ง */
-  min-height: 100vh;         /* ให้สูงเต็มหน้าจอ */
-  background-color: #f9f9f9; /* สีพื้นหลัง */
-  padding: 20px;
-  box-sizing: border-box;
+  width: 900px; 
+  height: 100%;
+  margin: 40px auto;
+  padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
 }
 body {
   margin: 0;
@@ -19,23 +19,17 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
-/* กล่องเอกสาร */
-.delivery-receipt {
-  background: white;
-  padding: 20px 30px;
-  border: 1px solid #000;
-  font-family: 'TH SarabunPSK', sans-serif;
-  font-size: 18px;
-  width: 800px;               /* ความกว้างเอกสาร */
-  max-width: 100%;
-  line-height: 1.8;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.row {
+  display: flex;
+  justify-content: flex-end;
 }
+
 
 /* จัดกล่องขวาบน */
 .column-right {
   text-align: right;
   margin-bottom: 20px;
+  margin: 10px 0;
 }
 
 /* ตาราง */
@@ -61,10 +55,18 @@ th, td {
   margin-top: 40px;
 }
 
+/* แก้ไข signature-block ให้แสดงข้อมูลในแนวตั้ง */
 .signature-block {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 45%;
+  /* สามารถเพิ่ม margin ระหว่างบรรทัดได้ตามต้องการ */
+  gap: 8px;
+  text-align: center;
 }
+
+
 
 /* ปุ่ม PDF */
 .pdf-button-container {

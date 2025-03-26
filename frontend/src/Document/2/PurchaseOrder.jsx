@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./PurchaseOrder.css";  // อย่าลืมสร้างไฟล์ CSS สำหรับ styling
+import html2pdf from 'html2pdf.js';
 
 const PurchaseOrder = () => {
   const [formData, setFormData] = useState({
@@ -26,22 +27,32 @@ const PurchaseOrder = () => {
   const vatAmount = Math.round((formData.totalAmount - formData.discount) * formData.vat);
   const totalWithVat = Math.round(formData.totalAmount - formData.discount + vatAmount);
 
+  const generatePDF = () => {
+    const element = document.getElementById('receipt-content');
+    const opt = {
+      margin: 0.5,
+      filename: 'purchase_order.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  };
+
   return (
     <div>
-      <div className="purchase-order">
-        <h1>ใบสั่งซื้อ</h1>
+      <div id="receipt-content" className="purchase-order">
+      <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบสั่งซื้อ</h2>
+
         {/* รายละเอียด */}
         <div className="section">
-          <div className="row">
-            <div className="column">
-              <span className="label45">เลขที่ใบสั่งซื้อ: </span>
-              <span className="value1">{formData.prno}</span>
-            </div>
-            <div className="column">
-              <span className="label52">วันที่: </span>
-              <span className="value1">{formData.date}</span>
+          <div className="document-header">
+            <div className="header-right">
+              <p>PR.NO: ______________________</p>
+              <p>วันที่: ______________________</p>
             </div>
           </div>
+          
           <div className="row">
             <div className="column">
               <span className="label21">วันที่ต้องการใช้: </span>
@@ -132,30 +143,30 @@ const PurchaseOrder = () => {
           <div className="signature">
             <span className="label">ผู้มีอำนาจ</span>
             <br />
-            <span className="value">(..............................)</span>
+            <span className="value">______________________</span>
             <br />
-            <div className="date">วันที่ .....................</div>
+            <div className="date">วันที่ ______________________</div>
           </div>
           <div className="signature">
             <span className="label">ผู้จัดซื้อ</span>
             <br />
-            <span className="value">(..............................)</span>
+            <span className="value">______________________</span>
             <br />
-            <div className="date">วันที่ .....................</div>
+            <div className="date">วันที่ ______________________</div>
           </div>
           <div className="signature">
             <span className="label">ผู้ตรวจสอบ</span>
             <br />
-            <span className="value">(..............................)</span>
+            <span className="value">______________________</span>
             <br />
-            <div className="date">วันที่ .....................</div>
+            <div className="date">วันที่ ______________________</div>
           </div>
         </div>
       </div>
 
       {/* ปุ่ม PDF ข้างนอกกรอบ */}
       <div className="pdf-button-container">
-        <button className="pdf-button">บันทึกเป็น PDF</button>
+        <button onClick={generatePDF} className="pdf-button">บันทึกเป็น PDF</button>
       </div>
     </div>
   );
