@@ -52,7 +52,7 @@ const Invoice = () => {
 
   return (
     <div className="invoice-container">
-      <div className="invoice" id="invoice-content">
+      <div className="invoice-content" id="invoice-content">
         <h1>ใบแจ้งหนี้</h1>
 
         <div className="row">
@@ -78,7 +78,7 @@ const Invoice = () => {
           <p>{invoiceData.details}</p>
         </div>
 
-        <table>
+        <table className="invoice-table">
           <thead>
             <tr>
               <th>ลำดับ</th>

@@ -38,7 +38,7 @@ const Login = () => {
         localStorage.setItem("role", role);
         alert("Login successful!");
   
-        // ✅ Redirect ตาม role
+        // ✅ Redirect according to role
         switch (role) {
           case "IT Administrator":
             navigate("/procurement");
@@ -62,7 +62,6 @@ const Login = () => {
       alert("Error logging in. Please try again.");
     }
   };
-  
 
   // Logout function (previously in auth.js)
   const handleLogout = () => {
@@ -77,19 +76,21 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <h1 className="logo">logo</h1>
-        <p className="system-name">Warehouse Procurement System</p>
+        <h1 className="login-logo">logo</h1>
+        <p className="login-system-name">Warehouse Procurement System</p>
         {!token ? (
           <>
-          <h4 className="input-head-text">Username</h4>
+            <h4 className="login-input-head-text">Username</h4>
             <input
+              className="login-input"
               type="text"
               placeholder="USER NAME"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <h4 className="input-head-text">Password</h4>
+            <h4 className="login-input-head-text">Password</h4>
             <input
+              className="login-input"
               type="password"
               placeholder="PASSWORD"
               value={password}
@@ -104,15 +105,15 @@ const Login = () => {
           </>
         ) : (
           <>
-            <p className="welcome-message">
+            <p className="login-welcome-message">
               คุณเข้าสู่ระบบในบทบาท: <strong>{role}</strong>
             </p>
-            <button className="logout-button" onClick={handleLogout}>
+            <button className="login-logout-button" onClick={handleLogout}>
               Logout
             </button>
             {role === "Procurement Officer" && (
               <button
-                className="purchase-button"
+                className="login-purchase-button"
                 onClick={() => navigate("/purchase")}
               >
                 ไปที่ฟอร์มใบขอซื้อ

@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'; // Importing DatePicker
 import "react-datepicker/dist/react-datepicker.css"; // Import the required styles
 import './PR.css';
 
-const PurchaseRequisition = () => {
+const PR = () => {
     const [rows, setRows] = useState([1]); // Initial row
     const [formData, setFormData] = useState({
         idPR: '',
@@ -18,7 +18,7 @@ const PurchaseRequisition = () => {
         staff: '',
         dateApproval: '',
         dateApproval2: '',
-        products: [{ item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }] // Initialize with one product row
+        products: [{ item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }] 
     });
 
     const addRow = () => {
@@ -299,4 +299,4 @@ const PurchaseRequisition = () => {
     );
 };
 
-export default PurchaseRequisition;
+export default PR;

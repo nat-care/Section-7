@@ -42,33 +42,35 @@ const CardList = () => {
   };
 
   return (
-    <div className="container">
-      <div className="content">
-        <h1 className="header">Warehouse Procurement System</h1>
-        <div className="user-list">
-          {users.map((user) => (
-            <div className="user-card" key={user.id}>
-              <div className="user-info">
-                <span className="user-icon">👤</span>
-                <div className="user-details">
-                  <span className="user-name">{user.username}</span>
-                  <span className="user-id">{user.id}</span>
+    <div className="card-list-container">
+      <div className="container">
+        <div className="content">
+          <h1 className="header">Warehouse Procurement System</h1>
+          <div className="user-list">
+            {users.map((user) => (
+              <div className="user-card" key={user.id}>
+                <div className="user-info">
+                  <span className="user-icon">👤</span>
+                  <div className="user-details">
+                    <span className="user-name">{user.username}</span>
+                    <span className="user-id">{user.id}</span>
+                  </div>
                 </div>
+                <select
+                  className="dropdown"
+                  value={user.role}
+                  onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                >
+                  <option value="IT Administrator">IT Administrator</option>
+                  <option value="Procurement Officer">Procurement Officer</option>
+                  <option value="Finance & Accounting">Finance & Accounting</option>
+                  <option value="Management & Approvers">Management & Approvers</option>
+                </select>
               </div>
-              <select
-                className="dropdown"
-                value={user.role}
-                onChange={(e) => handleRoleChange(user.id, e.target.value)}
-              >
-                <option value="IT Administrator">IT Administrator</option>
-                <option value="Procurement Officer">Procurement Officer</option>
-                <option value="Finance & Accounting">Finance & Accounting</option>
-                <option value="Management & Approvers">Management & Approvers</option>
-              </select>
-            </div>
-          ))}
+            ))}
+          </div>
+          <button className="submit-btn">ยืนยัน</button>
         </div>
-        <button className="submit-btn">ยืนยัน</button>
       </div>
     </div>
   );

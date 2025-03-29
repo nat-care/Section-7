@@ -1,113 +1,94 @@
-body {
+/* RequisitionForm.css */
+.requisition-page-wrapper {
   margin: 0;
   padding: 0;
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
-  height: 100%; /* <<< เพิ่มให้เต็มจอ */
-  width: 100%;  /* <<< เพิ่มให้เต็มจอ */
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;  /* <<< จัดกลางแนวนอน */
-  align-items: flex-start;  /* <<< เริ่มจากบน ไม่กลางแนวตั้ง */
-  }
-  
-  .page-wrapper {
-    width: 900px; 
-    height: 100%;
-    margin: 40px auto;
-    padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
-  }
-  
-  .right-align {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;  /* จัดตำแหน่งไปขวา */
-  }
-  
-  
-  /* .requisition-form {
-    width: 100%;
-    max-width: 1000px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-  }
-   */
-  h1, h3 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .info-section .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .label {
-    font-weight: bold;
-    width: 200px;
-  }
-  
-  .value {
-    min-width: 200px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 1px solid #ddd;
-  }
-  
-  th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  .remarks-section {
-    margin-top: 30px;
-  }
-  
-  .signatures-3 {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  
-  .signature-block {
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-  }
-  
-  .pdf-button-container {
-    position: fixed; /* ทำให้ปุ่มติดอยู่ที่ตำแหน่งที่กำหนด */
-    bottom: 20px; /* อยู่ห่างจากด้านล่างของหน้าจอ */
-    left: 50%; /* จัดให้ปุ่มอยู่ตรงกลาง */
-    transform: translateX(-50%); /* ชดเชยการใช้ left เพื่อให้ปุ่มอยู่กลางพอดี */
-    z-index: 10; /* ให้ปุ่มอยู่เหนือเนื้อหาของเอกสาร */
-    padding: 10px;
-  }
-  
-  /* สไตล์ของปุ่ม PDF */
-  .pdf-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #0056b3;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
-  .pdf-button:hover {
-    background-color: #0056b3;
-  }
-  
-  
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.requisition-form-container {
+  width: 900px;
+  height: 100%;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.requisition-title, .requisition-item-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.requisition-info-section .requisition-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.requisition-label {
+  font-weight: bold;
+  width: 200px;
+}
+
+.requisition-value {
+  min-width: 200px;
+}
+
+.requisition-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.requisition-table th, .requisition-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.requisition-remarks-section {
+  margin-top: 30px;
+}
+
+.requisition-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.requisition-signature-block {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.requisition-pdf-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 10px;
+}
+
+.requisition-pdf-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.requisition-pdf-button:hover {
+  background-color: #004c99;
+}

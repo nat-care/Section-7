@@ -28,43 +28,42 @@ const RequisitionForm = () => {
   };
 
   return (
-    <div className="page-wrapper">
-      <div className="requisition-form" ref={formRef}>
-      <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบรับเบิก</h2>
+    <div className="requisition-page-wrapper">
+      <div className="requisition-form-container" ref={formRef}>
+        <h2 className="requisition-title">ใบรับเบิก</h2>
 
-    
-        <div className="info-section">
-        <div className="right-align">
-  <div className="rowNO">
-    <span className="label">RP.NO:</span>
-    <span className="value">{formData.rpNo}</span>
-  </div>
-  <div className="rowData">
-    <span className="label">วันที่:</span>
-    <span className="value">{formData.date}</span>
-  </div>
-</div>
+        <div className="requisition-info-section">
+          <div className="requisition-right-align">
+            <div className="requisition-rowNO">
+              <span className="requisition-label">RP.NO:</span>
+              <span className="requisition-value">{formData.rpNo}</span>
+            </div>
+            <div className="requisition-rowData">
+              <span className="requisition-label">วันที่:</span>
+              <span className="requisition-value">{formData.date}</span>
+            </div>
+          </div>
 
-          <div className="rowName">
-            <span className="label">ชื่อผู้เบิก:</span>
-            <span className="value">{formData.requesterName}</span>
+          <div className="requisition-rowName">
+            <span className="requisition-label">ชื่อผู้เบิก:</span>
+            <span className="requisition-value">{formData.requesterName}</span>
           </div>
-          <div className="rownumber">
-            <span className="label">รหัสพนักงาน:</span>
-            <span className="value">{formData.employeeCode}</span>
+          <div className="requisition-rownumber">
+            <span className="requisition-label">รหัสพนักงาน:</span>
+            <span className="requisition-value">{formData.employeeCode}</span>
           </div>
-          <div className="rowNameS">
-            <span className="label">ชื่อผู้ส่ง:</span>
-            <span className="value">{formData.senderName}</span>
+          <div className="requisition-rowNameS">
+            <span className="requisition-label">ชื่อผู้ส่ง:</span>
+            <span className="requisition-value">{formData.senderName}</span>
           </div>
-          <div className="rowway">
-            <span className="label">เหตุผลการเบิก:</span>
-            <span className="value">{formData.reason}</span>
+          <div className="requisition-rowway">
+            <span className="requisition-label">เหตุผลการเบิก:</span>
+            <span className="requisition-value">{formData.reason}</span>
           </div>
         </div>
 
-        <h3>รายการที่ขอเบิก</h3>
-        <table>
+        <h3 className="requisition-item-header">รายการที่ขอเบิก</h3>
+        <table className="requisition-table">
           <thead>
             <tr>
               <th>ลำดับ</th>
@@ -89,41 +88,41 @@ const RequisitionForm = () => {
           </tbody>
         </table>
 
-        <div className="remarks-section">
-          <span className="label">หมายเหตุ:</span>
-          <span className="value">{formData.remarks}</span>
+        <div className="requisition-remarks-section">
+          <span className="requisition-label">หมายเหตุ:</span>
+          <span className="requisition-value">{formData.remarks}</span>
         </div>
 
-        <div className="signatures-3">
-          <div className="signature-block">
-            <span className="label">ผู้ขอเบิก</span>
+        <div className="requisition-signatures">
+          <div className="requisition-signature-block">
+            <span className="requisition-label">ผู้ขอเบิก</span>
             <br />
-            <span className="value">  {formData.requesterSignature || '______________________'} </span>
+            <span className="requisition-value">{formData.requesterSignature || '______________________'}</span>
             <br />
-            <span className="label">วันที่</span>
-            <span className="value">______________________</span>
+            <span className="requisition-label">วันที่</span>
+            <span className="requisition-value">______________________</span>
           </div>
-          <div className="signature-block">
-            <span className="label">หัวหน้าฝ่าย / ผู้อนุมัติ</span>
+          <div className="requisition-signature-block">
+            <span className="requisition-label">หัวหน้าฝ่าย / ผู้อนุมัติ</span>
             <br />
-            <span className="value">  {formData.approverSignature || '______________________'} </span>
+            <span className="requisition-value">{formData.approverSignature || '______________________'}</span>
             <br />
-            <span className="label">วันที่</span>
-            <span className="value">______________________</span>
+            <span className="requisition-label">วันที่</span>
+            <span className="requisition-value">______________________</span>
           </div>
-          <div className="signature-block">
-            <span className="label">เจ้าหน้าที่คลัง</span>
+          <div className="requisition-signature-block">
+            <span className="requisition-label">เจ้าหน้าที่คลัง</span>
             <br />
-            <span className="value">  {formData.warehouseSignature || '______________________'} </span>
+            <span className="requisition-value">{formData.warehouseSignature || '______________________'}</span>
             <br />
-            <span className="label">วันที่</span>
-            <span className="value">______________________</span>
+            <span className="requisition-label">วันที่</span>
+            <span className="requisition-value">______________________</span>
           </div>
         </div>
       </div>
 
-      <div className="pdf-button-container">
-        <button className="pdf-button" onClick={generatePDF}>บันทึกเป็น PDF</button>
+      <div className="requisition-pdf-button-container">
+        <button className="requisition-pdf-button" onClick={generatePDF}>บันทึกเป็น PDF</button>
       </div>
     </div>
   );

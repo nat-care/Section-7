@@ -1,97 +1,95 @@
-body {
+/* Apply styles only within the .invoice-container */
+.invoice-container {
+  width: 900px;
+  height: 100%;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.invoice-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.invoice-container .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.invoice-container .half {
+  width: 48%;
+  box-sizing: border-box;
+}
+
+.invoice-container h3 {
+  margin-top: 0;
+}
+
+.invoice-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.invoice-container table th,
+.invoice-container table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.invoice-container .signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.invoice-container .signature {
+  width: 48%;
+  text-align: center;
+}
+
+.invoice-container .signature p {
+  margin: 0;
+}
+
+.invoice-container .pdf-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+}
+
+.invoice-container .pdf-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.invoice-container .pdf-button:hover {
+  background-color: #45a049;
+}
+
+/* Additional body styles for this specific page */
+body.invoice-page {
   margin: 0;
   padding: 0;
   background-color: #f0f0f0;
   font-family: Arial, sans-serif;
-  height: 100%; /* <<< เพิ่มให้เต็มจอ */
-  width: 100%;  /* <<< เพิ่มให้เต็มจอ */
+  height: 100%;
+  width: 100%;
   display: flex;
-  justify-content: center;  /* <<< จัดกลางแนวนอน */
-  align-items: flex-start;  /* <<< เริ่มจากบน ไม่กลางแนวตั้ง */
-  }
-  
-  .invoice-container {
-    width: 900px; 
-    height: 100%;
-    margin: 40px auto;
-    padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
-  }
-  
-  
-  h1 {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .row {
-    display: flex;
-    justify-content: space-between; 
-    align-items: flex-start;      
-    gap: 20px;                      
-  }
-  
-  .half {
-   
-    width: 48%; 
-    box-sizing: border-box; 
-  }
-  
-  h3 {
-    margin-top: 0;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  table th, table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
-  }
-  
-  /* ทำให้ทั้งสองส่วนใน signatures มีความกว้างเท่ากัน */
-  .signatures {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  
-  .signature {
-    width: 48%;  /* กำหนดให้เท่ากัน */
-    text-align: center;
-  }
-  
-  .signature p {
-    margin: 0;
-  }
-  
-  /* ย้ายปุ่ม PDF ให้อยู่ข้างล่างสุดนอกกระดาษ */
-  .pdf-button-container {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    width: 100%;
-  }
-  
-  .pdf-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .pdf-button:hover {
-    background-color: #45a049;
-  }
-  
+  justify-content: center;
+  align-items: flex-start;
+}
