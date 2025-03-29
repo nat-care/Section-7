@@ -4,13 +4,23 @@ const DB_FILE = './database.json';
 // อ่านข้อมูลจากไฟล์ JSON
 function loadDatabase() {
     if (fs.existsSync(DB_FILE)) {
-        return JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+        const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+        console.log("โหลดฐานข้อมูล:", data);  // เพิ่ม log ที่นี่
+        return data;
     }
-    return { users: [], purchase_requests: [], quotations: [], vendors: [], purchase_orders: [], po_receipts: [], payments: [], assets: [] };
+    console.log("ฐานข้อมูลใหม่ที่สร้างขึ้น");
+    return { 
+        users: [], 
+        purchase_requests: [], 
+        quotations: [], 
+        products: [], 
+        stock_locations: [] 
+    };
 }
 
 // เขียนข้อมูลลงไฟล์ JSON
 function saveDatabase(data) {
+    console.log("บันทึกข้อมูล:", data);
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
 
@@ -55,4 +65,74 @@ function addPurchaseRequest(
     return newRequest;
 }
 
-console.log(loadDatabase());
+// **ฟังก์ชันเพิ่มสินค้า (addProduct)**
+// ฟังก์ชันสำหรับเพิ่มสินค้าใหม่
+function addProduct(name, description, price, stock_quantity) {
+    const db = loadDatabase();
+    const newProduct = {
+        product_id: Date.now(),
+        name,
+        description,
+        price,
+        stock_quantity,
+        remaining_stock: stock_quantity // สินค้าคงเหลือเริ่มต้นเท่ากับ stock_quantity
+    };
+    console.log("เพิ่มสินค้า:", newProduct);
+    db.products.push(newProduct);
+    saveDatabase(db);
+    return newProduct;
+}
+
+// **ฟังก์ชันเพิ่มตำแหน่งสินค้าในคลัง (addStockLocation)**
+// ฟังก์ชันสำหรับเพิ่มข้อมูลตำแหน่งคลังสินค้า
+function addStockLocation(product_id, warehouse_id, quantity) {
+    const db = loadDatabase();
+    const newStockLocation = {
+        stock_id: Date.now(),
+        product_id,
+        warehouse_id,
+        quantity
+    };
+    console.log("เพิ่มตำแหน่งสินค้าในคลัง:", newStockLocation);
+    db.stock_locations.push(newStockLocation);
+
+    // อัปเดตสินค้าคงเหลือ
+    updateRemainingStock(product_id);
+
+    saveDatabase(db);
+    return newStockLocation;
+}
+
+// **ฟังก์ชันคำนวณสินค้าคงเหลือ (updateRemainingStock)**
+// ฟังก์ชันคำนวณสินค้าคงเหลือของสินค้า
+function updateRemainingStock(product_id) {
+    const db = loadDatabase();
+    let remainingStock = 0;
+
+    // คำนวณสินค้าคงเหลือจาก stock_locations
+    db.stock_locations.forEach(stock => {
+        if (stock.product_id === product_id) {
+            remainingStock += stock.quantity;
+        }
+    });
+
+    // อัปเดต remaining_stock ใน products
+    const product = db.products.find(p => p.product_id === product_id);
+    if (product) {
+        product.remaining_stock = remainingStock;
+        saveDatabase(db);  // บันทึกข้อมูลใหม่
+    }
+}
+
+// **ทดสอบการใช้งาน**
+// เพิ่มสินค้า
+const newProduct = addProduct("เครื่องพิมพ์", "เครื่องพิมพ์ขาวดำ", 5000, 100);
+console.log("เพิ่มสินค้าใหม่:", newProduct);
+
+// เพิ่มตำแหน่งสินค้าในคลัง
+const newStockLocation = addStockLocation(newProduct.product_id, 1, 50);  // เพิ่มสินค้าที่คลัง 1 จำนวน 50 ตัว
+console.log("เพิ่มตำแหน่งสินค้าในคลัง:", newStockLocation);
+
+// แสดงฐานข้อมูลหลังจากการเพิ่มข้อมูล
+console.log("ฐานข้อมูลที่อัปเดต:", loadDatabase());
+

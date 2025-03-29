@@ -14,12 +14,9 @@ function loadDatabase() {
     return fs.existsSync(DB_FILE) ? JSON.parse(fs.readFileSync(DB_FILE, 'utf-8')) : { 
         users: [], 
         purchase_requests: [], 
-        vendors: [], 
         quotations: [], 
-        purchase_orders: [], 
-        po_receipts: [], 
-        payments: [], 
-        assets: [],
+        products: [], //รายการสินค้า
+        stock_locations: [], //คลังสินค้า
         purchase_requisitions: [], // Added
         shipping_notes: [], // Added
         requisition_forms: [], // Added
