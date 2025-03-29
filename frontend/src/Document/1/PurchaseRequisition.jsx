@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import "./PurchaseRequisition.css";
 import html2pdf from "html2pdf.js";

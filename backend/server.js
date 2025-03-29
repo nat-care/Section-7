@@ -79,6 +79,12 @@ app.post('/login', (req, res) => {
     }
 });
 
+// GET: ดึงข้อมูล purchase_requests
+app.get('/purchase_requests', (req, res) => {
+    const db = loadDatabase();
+    res.json(db.purchase_requests || []);
+});
+
 // ** API สำหรับ Purchase Requisition (PR) **
 
 app.post('/purchase-requisitions', (req, res) => {

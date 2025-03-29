@@ -27,14 +27,33 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await response.json();
+  
       if (response.ok) {
+        const role = data.role;
         setToken(data.token);
-        setRole(data.role);
+        setRole(role);
         localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.role);
+        localStorage.setItem("role", role);
         alert("Login successful!");
+  
+        // ✅ Redirect ตาม role
+        switch (role) {
+          case "IT Administrator":
+            navigate("/procurement");
+            break;
+          case "Procurement Officer":
+          case "Finance & Accounting":
+          case "Management & Approvers":
+            navigate("/selectpages");
+            break;
+          default:
+            alert("ไม่รู้จักบทบาทผู้ใช้");
+            navigate("/login");
+            break;
+        }
+  
       } else {
         alert("Invalid username or password");
       }
@@ -43,6 +62,7 @@ const Login = () => {
       alert("Error logging in. Please try again.");
     }
   };
+  
 
   // Logout function (previously in auth.js)
   const handleLogout = () => {
