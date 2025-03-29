@@ -1,120 +1,121 @@
-/* src/styles/ProcurementSystem.css */
-
-/* ปรับค่าเริ่มต้นของทุกอย่าง */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: black;
+  font-family: Arial, sans-serif;
 }
 
-body, html {
-  width: 100%;
-  height: 100%;
+body {
   background-color: white;
-  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
+  height: 100vh;
 }
 
-/* ปรับ container ให้กลางแนวตั้งและแนวนอน */
+/* Container */
 .container {
-  padding-top: 10%;
-  width: 100%;
-  max-width: 1200px;
-  min-height: 100vh; /* ทำให้เต็มจอแนวตั้ง */
   display: flex;
-  flex-direction: column;
-  align-items: center;
-
+  justify-content: center;
+  align-items: start;
+  padding: 100px 20px;
+  width: 100%;
 }
 
-/* ปรับกล่องข้อมูลให้ไม่ใหญ่เกินไป */
+/* Box */
 .box {
-  background-color: white;
-  width: 1280px;
-
-  padding: 20px;
+  background: white;
+  padding: 30px 40px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  min-width: 1200px;   /* เพิ่มความกว้าง */
+  width: 100%;
+  margin: 0 auto;
 }
-
-/* ปรับขนาดหัวข้อ */
+/* Title */
 .title {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-/* ปรับตารางให้ชิดกันและลดช่องว่าง */
+/* List Item */
 .list-item {
-  display: grid;
-  grid-template-columns: 0.5fr 0.8fr 2.5fr 0.3fr; /* ลดช่องว่างของสถานะ */
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 5px 0;
-  text-align: center;
-  gap: 5px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  gap: 40px;
 }
 
-/* ปรับขนาดและการจัดตำแหน่งของแต่ละคอลัมน์ให้ชิดกัน */
-.text-id,
-.text-code,
-.text-description {
-  padding: 5px;
-  text-align: center;
+/* Text Columns */
+.text-id {
+  flex: 0 0 180px;
+  font-weight: bold;
+  color: #333;
+}
+
+.text-code {
+  flex: 0 0 320px;
+  font-weight: 600;
+  color: #000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .text-description {
-  text-align: left;
-  padding: 5px;
+  flex: 1;
+  color: #444;
+  padding-left: 16px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* ลดขนาดของวงกลมสถานะและให้ชิดขวา */
+/* Status Circle */
 .status-circle {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  justify-self: center;
+  flex-shrink: 0;
 }
 
-/* ปรับสีสถานะ */
 .green {
   background-color: green;
 }
-
 .orange {
   background-color: orange;
 }
-
 .red {
   background-color: red;
 }
 
-/* ปรับปุ่มย้อนกลับให้สมดุล */
+/* Confirm Button */
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .back-button {
-  background-color: gray;
+  background-color: #777;
   color: white;
-  padding: 12px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
 }
 
 .back-button:hover {
-  background-color: darkgray;
+  background-color: #555;
 }
