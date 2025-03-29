@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// 🔹 หน้าเริ่มต้นระบบ
 import Home from "./Home";
 import Login from "./Login/login";
-// import PurchaseForm from "./PurchaseForm/purchaseForm"; 
-import ProcurementSystem from "./ProcurementSystem/procurement"; 
+import ProcurementSystem from "./ProcurementSystem/procurement";
 import CardList from "./CardList/cardList";
 import SelectPages from "./SelectPages/selectPages";
 
+// 🔹 ฟอร์มเอกสารหลักจาก Document/1-6
 import PurchaseRequisition from "./Document/1/PurchaseRequisition";
 import PurchaseOrder from "./Document/2/PurchaseOrder";
 import DeliveryReceipt from "./Document/3/DeliveryReceipt";
@@ -13,21 +15,42 @@ import ShippingNote from "./Document/4/ShippingNote";
 import RequisitionForm from "./Document/5/RequisitionForm";
 import Invoice from "./Document/6/Invoice";
 
+// 🔹 ฟอร์มจาก FormPage (ทดสอบ/เสริม)
+import PR from "./Document/FormPage/PR";
+import PO from "./Document/FormPage/PO";
+import DR from "./Document/FormPage/DR";
+import SN from "./Document/FormPage/SN";
+import IV from "./Document/FormPage/IV";
+import RF from "./Document/FormPage/RF";
+
 const App = () => {
   return (
     <Router>
       <Routes>
+        {/* 🔹 หน้าเข้าสู่ระบบ */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+
+        {/* 🔹 หน้าหลังเข้าสู่ระบบ */}
         <Route path="/selectpages" element={<SelectPages />} />
+        <Route path="/procurement" element={<ProcurementSystem />} />
+        <Route path="/cardlist" element={<CardList />} />
+
+        {/* 🔹 เอกสารหลัก (Document/1-6) */}
         <Route path="/purchase" element={<PurchaseRequisition />} />
         <Route path="/purchase-orders" element={<PurchaseOrder />} />
         <Route path="/delivery-receipts" element={<DeliveryReceipt />} />
         <Route path="/shipping-notes" element={<ShippingNote />} />
         <Route path="/requisition-forms" element={<RequisitionForm />} />
         <Route path="/invoices" element={<Invoice />} />
-        <Route path="/procurement" element={<ProcurementSystem />} />
-        <Route path="/cardlist" element={<CardList />} />
+
+        {/* 🔹 ทดสอบ FormPage แยก */}
+        <Route path="/form/pr" element={<PR />} />
+        <Route path="/form/po" element={<PO />} />
+        <Route path="/form/dr" element={<DR />} />
+        <Route path="/form/sn" element={<SN />} />
+        <Route path="/form/iv" element={<IV />} />
+        <Route path="/form/rf" element={<RF />} />
       </Routes>
     </Router>
   );
