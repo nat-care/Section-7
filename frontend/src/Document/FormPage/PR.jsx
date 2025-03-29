@@ -1,4 +1,6 @@
-import  { useState } from 'react';
+import { useState } from 'react';
+import DatePicker from 'react-datepicker'; // Importing DatePicker
+import "react-datepicker/dist/react-datepicker.css"; // Import the required styles
 import './PR.css';
 
 const PurchaseRequisition = () => {
@@ -16,18 +18,22 @@ const PurchaseRequisition = () => {
         staff: '',
         dateApproval: '',
         dateApproval2: '',
-        products: []
+        products: [{ item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }] // Initialize with one product row
     });
 
     const addRow = () => {
         setRows([...rows, rows.length + 1]);
+        setFormData((prevData) => ({
+            ...prevData,
+            products: [...prevData.products, { item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }]
+        }));
     };
 
     const handleInputChange = (e) => {
         const { id, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
-            [id]: value
+            [id]: value,
         }));
     };
 
@@ -35,6 +41,16 @@ const PurchaseRequisition = () => {
         const { name, value } = e.target;
         const updatedProducts = [...formData.products];
         updatedProducts[index] = { ...updatedProducts[index], [name]: value };
+
+        // Calculate totalAmount for the product
+        if (updatedProducts[index].unitPrice && updatedProducts[index].quantity) {
+            updatedProducts[index].totalAmount = (
+                parseFloat(updatedProducts[index].unitPrice) * parseFloat(updatedProducts[index].quantity)
+            ).toFixed(2);
+        } else {
+            updatedProducts[index].totalAmount = ''; // Reset if no quantity or unitPrice
+        }
+
         setFormData((prevData) => ({
             ...prevData,
             products: updatedProducts
@@ -73,8 +89,6 @@ const PurchaseRequisition = () => {
             alert('Error submitting request');
         }
     };
-    
-    
 
     return (
         <div className="purchase-requisition">
@@ -93,11 +107,11 @@ const PurchaseRequisition = () => {
                 </div>
                 <div className="column">
                     <label htmlFor="date-pr">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-pr"
-                        value={formData.datePR}
-                        onChange={handleInputChange}
+                    <DatePicker
+                        selected={formData.datePR ? new Date(formData.datePR) : null}
+                        onChange={(date) => setFormData({ ...formData, datePR: date })}
+                        dateFormat="yyyy-MM-dd"
+                        className="date-picker"
                     />
                 </div>
             </div>
@@ -258,31 +272,31 @@ const PurchaseRequisition = () => {
             <div className="row">
                 <div className="column">
                     <label htmlFor="date-approval">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-approval"
-                        value={formData.dateApproval}
-                        onChange={handleInputChange}
+                    <DatePicker
+                        selected={formData.dateApproval ? new Date(formData.dateApproval) : null}
+                        onChange={(date) => setFormData({ ...formData, dateApproval: date })}
+                        dateFormat="yyyy-MM-dd"
+                        className="date-picker"
                     />
                 </div>
                 <div className="column">
                     <label htmlFor="date-approval2">วันที่:</label>
-                    <input
-                        type="date"
-                        id="date-approval2"
-                        value={formData.dateApproval2}
-                        onChange={handleInputChange}
+                    <DatePicker
+                        selected={formData.dateApproval2 ? new Date(formData.dateApproval2) : null}
+                        onChange={(date) => setFormData({ ...formData, dateApproval2: date })}
+                        dateFormat="yyyy-MM-dd"
+                        className="date-picker"
                     />
                 </div>
             </div>
 
-            {/* Action Buttons (แก้ไขคำขอ and ส่งคำขอ) */}
-            <div className="buttons">
-                <button type="button" id="editRequestBtn">แก้ไขคำขอ</button>
-                <button type="button" id="submitRequestBtn" onClick={handleSubmit}>ส่งคำขอ</button>
+            {/* Action Buttons (Save and Submit) */}
+            <div className="actions">
+                <button onClick={handleSubmit}>ส่งคำขอ</button>
+                <button>บันทึก</button>
             </div>
         </div>
     );
-}
+};
 
 export default PurchaseRequisition;

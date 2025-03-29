@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import "./DR.css";
 
 const DR = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idDR: "", // Corrected ID
-    dateDR: "", // Corrected ID
+    idDR: "",
+    dateDR: "",
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -38,7 +37,7 @@ const DR = () => {
   const handleCheckboxChange = (name, e) => {
     setFormData((prevData) => ({
       ...prevData,
-      [name]: e.target.checked, // Updates the checkbox state independently
+      [name]: e.target.checked,
     }));
   };
 
@@ -47,7 +46,6 @@ const DR = () => {
     const updatedProducts = [...formData.products];
     updatedProducts[index] = { ...updatedProducts[index], [name]: value };
 
-    // Calculate totalAmount when quantity or unitPrice changes
     if (name === "quantity" || name === "unitPrice") {
       const quantity = parseFloat(updatedProducts[index]?.quantity) || 0;
       const unitPrice = parseFloat(updatedProducts[index]?.unitPrice) || 0;
@@ -67,7 +65,7 @@ const DR = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         alert("Data saved successfully!");
       } else {
@@ -79,124 +77,135 @@ const DR = () => {
   };
 
   return (
-    <div className="purchase-requisition">
-      <h2>ใบรับพัสดุ (Delivery Receipt)</h2>
+    <div className="delivery-receipt">
+      <h2 className="title">ใบรับพัสดุ (Delivery Receipt)</h2>
 
       {/* Form Section */}
-      <div className="row">
-        <div className="column">
-          <label htmlFor="idDR">ID-DR/NO:</label> {/* Corrected ID */}
+      <div className="form-row">
+        <div className="form-column">
+          <label htmlFor="idDR">ID-DR/NO:</label>
           <input
             type="text"
             id="idDR"
             value={formData.idDR}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
-        <div className="column">
-          <label htmlFor="dateDR">DR.NO:</label> {/* Corrected ID */}
+        <div className="form-column">
+          <label htmlFor="dateDR">DR.NO:</label>
           <input
             type="text"
             id="dateDR"
             value={formData.dateDR}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="dateDR">วันที่:</label> {/* Corrected ID */}
+      <div className="form-row">
+        <div className="form-column">
+          <label htmlFor="dateDR">วันที่:</label>
           <input
             type="date"
             id="dateDR"
             value={formData.dateDR}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
-        <div className="column">
+        <div className="form-column">
           <label htmlFor="employeePosition">รหัสพนักงาน:</label>
           <input
             type="text"
             id="employeePosition"
             value={formData.employeePosition}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="form-row">
+        <div className="form-column">
           <label htmlFor="department">ตำแหน่ง:</label>
           <input
             type="text"
             id="department"
             value={formData.department}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
-        <div className="column">
+        <div className="form-column">
           <label htmlFor="section">แผนก:</label>
           <input
             type="text"
             id="section"
             value={formData.section}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
 
       <label className="checkbox-label">ตามสินค้า:</label>
-      <label>
-        <input
-          type="checkbox"
-          name="purchaseRecord"
-          checked={formData.purchaseRecord || false}
-          onChange={(e) => handleCheckboxChange("purchaseRecord", e)}
-        />
-        บันทึกจัดซื้อ/สั่งซื้อ
-      </label>
+      <div className="checkbox-group">
+        <label>
+          <input
+            type="checkbox"
+            name="purchaseRecord"
+            checked={formData.purchaseRecord || false}
+            onChange={(e) => handleCheckboxChange("purchaseRecord", e)}
+            className="checkbox-input"
+          />
+          บันทึกจัดซื้อ/สั่งซื้อ
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="receiveGoods"
+            checked={formData.receiveGoods || false}
+            onChange={(e) => handleCheckboxChange("receiveGoods", e)}
+            className="checkbox-input"
+          />
+          รับพัสดุ
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="returnDamagedGoods"
+            checked={formData.returnDamagedGoods || false}
+            onChange={(e) => handleCheckboxChange("returnDamagedGoods", e)}
+            className="checkbox-input"
+          />
+          คืนพัสดุเสียหาย
+        </label>
+      </div>
 
-      <label>
-        <input
-          type="checkbox"
-          name="receiveGoods"
-          checked={formData.receiveGoods || false}
-          onChange={(e) => handleCheckboxChange("receiveGoods", e)}
-        />
-        รับพัสดุ
-      </label>
-
-      <label>
-        <input
-          type="checkbox"
-          name="returnDamagedGoods"
-          checked={formData.returnDamagedGoods || false}
-          onChange={(e) => handleCheckboxChange("returnDamagedGoods", e)}
-        />
-        คืนพัสดุเสียหาย
-      </label>
-
-      <div className="row">
-        <div className="column">
+      <div className="form-row">
+        <div className="form-column">
           <label htmlFor="detail">วันที่ครบกำหนด:</label>
           <input
             type="text"
             id="detail"
             value={formData.detail}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="form-row">
+        <div className="form-column">
           <label htmlFor="deliveryDate">วันที่ส่งมอบสินค้า:</label>
           <input
             type="text"
             id="deliveryDate"
             value={formData.deliveryDate}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
@@ -209,68 +218,65 @@ const DR = () => {
             name="checkGoods"
             checked={formData.checkGoods || false}
             onChange={(e) => handleCheckboxChange("checkGoods", e)}
+            className="checkbox-input"
           />
           ใบส่งของ
         </label>
-      </div>
-
-      <div className="checkbox-group">
         <label>
           <input
             type="checkbox"
             name="products"
             checked={formData.products || false}
             onChange={(e) => handleCheckboxChange("products", e)}
+            className="checkbox-input"
           />
-          ใบสั่งซื้อ{" "}
+          ใบสั่งซื้อ
         </label>
-      </div>
-
-      <div className="checkbox-group">
         <label>
           <input
             type="checkbox"
             name="products"
             checked={formData.products || false}
             onChange={(e) => handleCheckboxChange("products", e)}
+            className="checkbox-input"
           />
-          ใบแจ้งชำระหนี้{" "}
+          ใบแจ้งชำระหนี้
         </label>
       </div>
-      
-&nbsp;
+
       <div className="received-section">
         <label>ได้รับสินค้าและถือว่า:</label>
         <div className="checkbox-group">
           <label>
-            <input type="checkbox" /> ถูกต้อง
+            <input type="checkbox" className="checkbox-input" /> ถูกต้อง
           </label>
           <label>
-            <input type="checkbox" /> ไม่ถูกต้อง
+            <input type="checkbox" className="checkbox-input" /> ไม่ถูกต้อง
           </label>
         </div>
         <div className="input-group">
           <label>จำนวนรายการ:</label>
-          <input type="number" />
+          <input type="number" className="form-input" />
           <label>สินค้าเสียหาย:</label>
-          <input type="text" />
+          <input type="text" className="form-input" />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="form-row">
+        <div className="form-column">
           <label htmlFor="notes">หมายเหตุ:</label>
           <input
             type="text"
             id="notes"
             value={formData.notes}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
 
-      <h3>โปรดกรอกข้อมูลสินค้า</h3>
-      <table id="productTable">
+      <h3 className="product-title">โปรดกรอกข้อมูลสินค้า</h3>
+      <table id="productTable" className="product-table">
         <thead>
           <tr>
             <th>ลำดับ</th>
@@ -291,6 +297,7 @@ const DR = () => {
                   name="item"
                   value={formData.products[index]?.item || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="product-input"
                 />
               </td>
               <td>
@@ -299,6 +306,7 @@ const DR = () => {
                   name="quantity"
                   value={formData.products[index]?.quantity || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="product-input"
                 />
               </td>
               <td>
@@ -307,6 +315,7 @@ const DR = () => {
                   name="unit"
                   value={formData.products[index]?.unit || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="product-input"
                 />
               </td>
               <td>
@@ -315,6 +324,7 @@ const DR = () => {
                   name="unitPrice"
                   value={formData.products[index]?.unitPrice || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="product-input"
                 />
               </td>
               <td>
@@ -323,6 +333,7 @@ const DR = () => {
                   name="totalAmount"
                   value={formData.products[index]?.totalAmount || ""}
                   readOnly
+                  className="product-input"
                 />
               </td>
             </tr>
@@ -330,35 +341,38 @@ const DR = () => {
         </tbody>
       </table>
 
-      <button onClick={addRow} id="addRowBtn">
+      <button onClick={addRow} className="add-row-btn">
         เพิ่มแถว
       </button>
 
-      <div className="row">
-        <div className="column">
+      <div className="form-row">
+        <div className="form-column">
           <label htmlFor="approver">ผู้อนุมัติ:</label>
           <input
             type="text"
             id="approver"
             value={formData.approver}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
-        <div className="column">
+        <div className="form-column">
           <label htmlFor="approvalDate">วันที่อนุมัติ:</label>
           <input
             type="date"
             id="approvalDate"
             value={formData.approvalDate}
             onChange={handleInputChange}
+            className="form-input"
           />
         </div>
       </div>
+      
       <div className="buttons">
-        <button type="button" id="editRequestBtn">
+        <button type="button" className="edit-request-btn">
           แก้ไขคำขอ
         </button>
-        <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
+        <button type="button" className="submit-request-btn" onClick={handleSubmit}>
           ส่งคำขอ
         </button>
       </div>

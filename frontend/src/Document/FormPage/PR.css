@@ -1,208 +1,220 @@
 /* General body styling */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More formal font */
-    background-color: #fff; /* Set the background to white */
+.purchase-requisition {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    min-height: 100vh; /* Ensure the body takes up full viewport height */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align content at the top */
-    overflow-y: auto; /* Enable scrolling */
+    justify-content: flex-start;
+    overflow-y: auto;
+    height: 100%;
 }
 
 /* Title Styling */
-h2, h3 {
+.purchase-requisition h2, .purchase-requisition h3 {
     text-align: center;
-    margin-bottom: 15px;
-    font-size: 20px; /* Smaller font size for headings */
+    margin-bottom: 10px; /* Reduced margin */
+    font-size: 18px; /* Smaller font size */
     color: #333;
 }
 
 /* Row and Column Layout */
-.row {
+.purchase-requisition .row {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on small screens */
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 8px; /* Reduced margin */
 }
 
-.column {
+.purchase-requisition .column {
     width: 48%;
     display: flex;
     flex-direction: column;
-    margin-bottom: 8px;
+    margin-bottom: 6px; /* Reduced margin */
 }
 
 @media (max-width: 768px) {
-    .column {
+    .purchase-requisition .column {
         width: 100%; /* Full width on smaller screens */
     }
 }
 
 /* Label Styling */
-label {
+.purchase-requisition label {
     font-weight: 600;
-    font-size: 14px; /* Smaller font size for labels */
+    font-size: 12px; /* Smaller font size */
     color: #444;
-    margin-bottom: 6px;
+    margin-bottom: 4px; /* Reduced margin */
 }
 
 /* Input Styling */
-input {
+.purchase-requisition input {
     width: 100%;
-    padding: 8px; /* Smaller padding */
+    padding: 6px; /* Smaller padding */
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 10px; /* Reduced margin */
-    font-size: 14px; /* Smaller font size for inputs */
+    margin-bottom: 8px; /* Reduced margin */
+    font-size: 12px; /* Smaller font size */
     box-sizing: border-box;
     background-color: #fff;
 }
 
+.purchase-requisition input[type="date"] {
+    font-size: 12px; /* Matching your input styling */
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+
 /* Table Styling */
-table {
+.purchase-requisition table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px; /* Reduced margin-top */
-    font-size: 14px; /* Smaller font size for table */
+    margin-top: 10px; /* Reduced margin-top */
+    font-size: 12px; /* Smaller font size */
+    color: #000;
     background-color: #fff;
     border: 1px solid #ddd;
 }
 
-th, td {
-    padding: 12px; /* Reduced padding */
-    text-align: center; /* Center-align column headers */
+.purchase-requisition th, .purchase-requisition td {
+    padding: 8px; /* Reduced padding */
+    text-align: center;
     border: 1px solid #ddd;
 }
 
-th {
+.purchase-requisition th {
     background-color: #f2f2f2;
     font-weight: 600;
 }
 
-th:nth-child(1), td:nth-child(1) {
+.purchase-requisition th:nth-child(1), .purchase-requisition td:nth-child(1) {
     width: 10%;
 }
 
-th:nth-child(2), td:nth-child(2) {
-    width: 30%;  /* Make "รายการ" wider */
+.purchase-requisition th:nth-child(2), .purchase-requisition td:nth-child(2) {
+    width: 30%;
 }
 
-th:nth-child(3), td:nth-child(3),
-th:nth-child(4), td:nth-child(4),
-th:nth-child(5), td:nth-child(5) {
-    width: 15%;  /* Standard width for other columns */
+.purchase-requisition th:nth-child(3), .purchase-requisition td:nth-child(3),
+.purchase-requisition th:nth-child(4), .purchase-requisition td:nth-child(4),
+.purchase-requisition th:nth-child(5), .purchase-requisition td:nth-child(5) {
+    width: 15%;
 }
 
-th:nth-child(6), td:nth-child(6) {
-    width: 20%;  /* "จำนวนเงิน" is wider than the others */
+.purchase-requisition th:nth-child(6), .purchase-requisition td:nth-child(6) {
+    width: 20%;
 }
 
-table input {
+.purchase-requisition table input {
     width: 100%;
-    padding: 8px; /* Smaller padding */
+    padding: 6px; /* Smaller padding */
     border: none;
     text-align: center;
-    font-size: 12px; /* Smaller font size for inputs */
+    font-size: 10px; /* Smaller font size */
 }
 
 /* Styling for the "ข้อมูลรายละเอียดสินค้า" */
-h3 {
+.purchase-requisition h3 {
     text-align: left;
-    margin-bottom: 15px; /* Reduced margin */
+    margin-bottom: 10px; /* Reduced margin */
 }
 
 /* Place the "Add Row" button above the table */
-.add-row-container {
+.purchase-requisition .add-row-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 8px; /* Reduced margin-bottom */
+    margin-bottom: 6px; /* Reduced margin-bottom */
 }
 
 /* Align the "Add Row" button to the right */
-#addRowBtn {
+.purchase-requisition #addRowBtn {
     border: 1px solid #333;
     background-color: #fff;
     color: #333;
-    padding: 8px 20px; /* Smaller padding */
+    padding: 6px 16px; /* Smaller padding */
     cursor: pointer;
-    font-size: 14px; /* Smaller font size */
+    font-size: 12px; /* Smaller font size */
     border-radius: 4px;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#addRowBtn:hover {
+.purchase-requisition #addRowBtn:hover {
     background-color: #f0f0f0;
     color: #000;
 }
 
 /* Styling for the buttons container */
-.buttons {
+.purchase-requisition .buttons {
     display: flex;
-    justify-content: center; /* Center-align the buttons horizontally */
-    margin-top: 15px; /* Reduced margin-top */
+    justify-content: center;
+    margin-top: 10px; /* Reduced margin-top */
 }
 
-button {
-    padding: 8px 20px; /* Smaller padding */
-    border: 1px solid #333; /* Black border */
-    background-color: #fff; /* White background */
-    color: #333; /* Dark text color */
-    font-size: 14px; /* Smaller font size */
+.purchase-requisition button {
+    padding: 6px 16px; /* Smaller padding */
+    border: 1px solid #333;
+    background-color: #fff;
+    color: #333;
+    font-size: 12px; /* Smaller font size */
     cursor: pointer;
     border-radius: 4px;
-    margin: 8px; /* Reduced margin */
+    margin: 6px; /* Reduced margin */
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button:hover {
-    background-color: #f0f0f0; /* Light gray on hover */
+.purchase-requisition button:hover {
+    background-color: #f0f0f0;
     color: #000;
 }
 
-#editRequestBtn {
+.purchase-requisition #editRequestBtn {
     background-color: #fff;
     border: 1px solid #333;
     color: #333;
 }
 
-#editRequestBtn:hover {
+.purchase-requisition #editRequestBtn:hover {
     background-color: #f0f0f0;
 }
 
-#submitRequestBtn {
+.purchase-requisition #submitRequestBtn {
     background-color: #fff;
     border: 1px solid #333;
     color: #333;
 }
 
-#submitRequestBtn:hover {
+.purchase-requisition #submitRequestBtn:hover {
     background-color: #f0f0f0;
 }
 
 /* Ensure table is responsive on smaller screens */
 @media (max-width: 768px) {
-    table, th, td {
-        font-size: 12px; /* Smaller font size on smaller screens */
+    .purchase-requisition table, .purchase-requisition th, .purchase-requisition td {
+        font-size: 10px; /* Smaller font size */
     }
-    th, td {
-        padding: 8px; /* Reduced padding on smaller screens */
+    .purchase-requisition th, .purchase-requisition td {
+        padding: 6px; /* Reduced padding */
     }
 }
 
 /* Ensure page background stays white */
 .purchase-requisition {
-    background-color: #fff; /* Ensure the content background is white */
-    padding: 15px; /* Smaller padding */
+    background-color: #fff;
+    padding: 12px; /* Smaller padding */
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Overall Scroll Section */
 html, body {
-    height: 100%; /* Full height for the page */
-    background-color: #fff; /* Make sure the whole page has a white background */
+    height: 100%;
+    background-color: #fff;
 }
