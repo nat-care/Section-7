@@ -7,37 +7,37 @@ const pages = [
     id: "PR7889909",
     text: "การจัดทำใบขอซื้อ",
     engText: "Purchase Requisition - PR",
-    path: "/purchase",
+    path: "/form/pr",
   },
   {
     id: "PR5429881",
     text: "การจัดทำใบสั่งซื้อ",
     engText: "Purchase Order - PO",
-    path: "/purchase-orders",
+    path: "/form/po",
   },
   {
     id: "PR0223981",
     text: "ใบรับวัสดุ",
     engText: "Delivery Receipt",
-    path: "/delivery-receipts",
+    path: "/form/dr",
   },
   {
     id: "PR7889909",
     text: "ใบส่งของ",
     engText: "Shipping Note",
-    path: "/shipping-notes",
+    path: "/form/sn",
   },
   {
     id: "PR5429881",
     text: "ใบกำกับภาษี",
     engText: "Invoice",
-    path: "/invoices",
+    path: "/form/iv",
   },
   {
     id: "PR1234567",
     text: "ฟอร์มเบิกวัสดุ",
     engText: "Requisition Form",
-    path: "/requisition-forms",
+    path: "/form/rf",
   },
 ];
 
@@ -61,7 +61,7 @@ const SelectPages = () => {
             key={index}
             className="list-item"
             onClick={() => navigate(page.path)}
-            style={{ cursor: "pointer" }} // เพิ่มให้รู้ว่ากดได้
+            style={{ cursor: "pointer" }}
           >
             <span className="arrow">▶</span>
             <span className="text">
