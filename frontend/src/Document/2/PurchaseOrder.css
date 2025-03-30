@@ -1,139 +1,122 @@
 /* PurchaseOrder.css */
 .purchase-order {
-  width: 900px; 
+  width: 900px;
   height: 100%;
   margin: 40px auto;
-  padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
+  padding: 30px;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* ให้เริ่มจากด้านบน */
-  min-height: 100vh; /* เต็มความสูงหน้าจอ */
-  font-family: 'Arial', sans-serif;
+.purchase-order h2 {
+  text-align: center;
+  margin-top: 0;
 }
-/* จัด PR.NO และ วันที่ ไว้ขวา */
-.document-header {
+
+.purchase-order .section,
+.purchase-order .summary,
+.purchase-order .payment-conditions,
+.purchase-order .signatures {
+  margin-bottom: 20px;
+}
+
+.purchase-order .document-header {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
 }
 
-.header-right {
+.purchase-order .header-right {
   text-align: right;
 }
 
-.document-section {
-  margin: 10px 0;
-}
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-h3 {
-  text-align: center;
-  color: #333;
-  margin-top: 20px;
-}
-
-.section, .summary, .payment-conditions, .signatures {
-  margin-bottom: 20px;
-}
-
-.row {
+.purchase-order .row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
   align-items: center;
 }
 
-.column {
-  width: 48%;  /* จัดแบ่งความกว้างเท่ากัน */
+.purchase-order .column {
+  width: 48%;
   text-align: left;
 }
 
-.label {
+.purchase-order .label21,
+.purchase-order .label527,
+.purchase-order .label45,
+.purchase-order .label452 {
   font-weight: bold;
-  display: block;
 }
 
-.value {
-  display: block;
+.purchase-order .value1 {
   margin-top: 5px;
 }
 
-table {
+.purchase-order table {
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
   border: 1px solid #ddd;
 }
 
-table th, table td {
+.purchase-order table th,
+.purchase-order table td {
   padding: 10px;
-  text-align: center;  /* จัดตำแหน่งให้ข้อความในเซลล์อยู่ตรงกลาง */
+  text-align: center;
   border: 1px solid #ddd;
 }
 
-.payment-conditions .payment-condition {
+.purchase-order .payment-conditions .payment-condition {
   margin-bottom: 10px;
 }
 
-.payment-conditions input {
+.purchase-order .payment-conditions input {
   margin-right: 10px;
 }
 
-.signatures {
+.purchase-order .signatures {
   display: flex;
   justify-content: space-between;
 }
 
-.signature {
+.purchase-order .signature {
   width: 30%;
 }
 
-.signature .label {
+.purchase-order .signature .label {
   font-weight: bold;
 }
 
-.signature .value {
+.purchase-order .signature .value {
   display: block;
   margin-top: 5px;
 }
 
-/* เพิ่ม CSS สำหรับข้อความที่อยู่ในแถวสรุปยอด */
-.summary-label {
-  text-align: center;  /* จัดตำแหน่งข้อความให้ตรงกลาง */
+.purchase-order .summary-label {
+  text-align: center;
 }
 
-.summary-value {
-  text-align: center;  /* จัดตำแหน่งค่าผลลัพธ์ให้อยู่ตรงกลาง */
+.purchase-order .summary-value {
+  text-align: center;
 }
-/* เพิ่ม CSS สำหรับการจัดตำแหน่งปุ่ม PDF ข้างนอกกรอบ */
-.pdf-button-container {
-  text-align: center;  /* จัดตำแหน่งให้ปุ่มอยู่ตรงกลาง */
+
+.purchase-order .pdf-button-container {
+  text-align: center;
   margin-top: 20px;
 }
 
-.pdf-button {
+.purchase-order .pdf-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #3033dd; /* สีเขียว */
+  background-color: #3033dd;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.pdf-button:hover {
+.purchase-order .pdf-button:hover {
   background-color: #45a049;
 }
-

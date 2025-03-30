@@ -1,4 +1,4 @@
-body {
+.purchase-requisition-body {
   margin: 0;
   padding: 0;
   background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
@@ -9,7 +9,7 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
-.document-container {
+.purchase-requisition-container {
   width: 900px; 
   height: 100%;
   margin: 40px auto;
@@ -17,60 +17,60 @@ body {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
-
 }
-h1 {
+
+.purchase-requisition-title {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.document-title {
+.purchase-requisition-document-title {
   text-align: center;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
 /* จัด PR.NO และ วันที่ ไว้ขวา */
-.document-header {
+.purchase-requisition-header {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
 }
 
-.header-right {
+.purchase-requisition-header-right {
   text-align: right;
 }
 
-.document-section {
+.purchase-requisition-section {
   margin: 10px 0;
 }
 
 /* ตารางรายการสินค้า */
-.document-table {
+.purchase-requisition-table {
   width: 100%;
   border-collapse: collapse;
   margin: 10px 0;
 }
 
-.document-table th,
-.document-table td {
+.purchase-requisition-table th,
+.purchase-requisition-table td {
   border: 1px solid black;
   padding: 8px;
   text-align: center;
 }
 
 /* ลายเซ็น */
-.signature-section {
+.purchase-requisition-signature {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.signature-block {
+.purchase-requisition-signature-block {
   text-align: center;
 }
 
-.signature-line {
+.purchase-requisition-signature-line {
   margin: 10px 0;
   padding: 15px;
   border-bottom: 1px solid black;
@@ -79,13 +79,13 @@ h1 {
 }
 
 /* ปุ่มกด */
-.button-container {
+.purchase-requisition-button-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.btn {
+.purchase-requisition-btn {
   background: gray;
   color: white;
   padding: 10px 20px;
@@ -94,15 +94,16 @@ h1 {
   cursor: pointer;
 }
 
-.btn:hover {
+.purchase-requisition-btn:hover {
   background: black;
 }
-.pdf-button-container {
+
+.purchase-requisition-pdf-button-container {
   text-align: center;  /* จัดตำแหน่งให้ปุ่มอยู่ตรงกลาง */
   margin-top: 20px;
 }
 
-.pdf-button {
+.purchase-requisition-pdf-button {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #3033dd; /* สีเขียว */
@@ -112,6 +113,6 @@ h1 {
   cursor: pointer;
 }
 
-.pdf-button:hover {
+.purchase-requisition-pdf-button:hover {
   background-color: #45a049;
 }

@@ -1,81 +1,101 @@
-/* กล่องห่อให้อยู่กลางจอ */
-.page-wrapper {
+/* ==============================
+   Delivery Receipt Page Styling
+   ============================== */
+
+/* Center the main container */
+.delivery-receipt-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+  padding: 40px 0;
+}
+
+/* Main container for content */
+.delivery-receipt-container {
   width: 900px; 
-  height: 100%;
-  margin: 40px auto;
-  padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 30px;
 }
+
+/* Global styling */
 body {
   margin: 0;
   padding: 0;
-  background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* ให้เริ่มจากด้านบน */
-  min-height: 100vh; /* เต็มความสูงหน้าจอ */
   font-family: 'Arial', sans-serif;
 }
 
-.row {
+/* Header title */
+.delivery-receipt-title {
+  text-align: center;
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Right-aligned section */
+.delivery-receipt-info {
   display: flex;
-  justify-content: flex-end;
-}
-
-
-/* จัดกล่องขวาบน */
-.column-right {
-  text-align: right;
+  flex-direction: column;
   margin-bottom: 20px;
-  margin: 10px 0;
 }
 
-/* ตาราง */
-table {
+/* Align text to the right */
+.delivery-receipt-info p {
+  text-align: right;
+  margin: 5px 0;
+}
+
+/* Table */
+.delivery-receipt-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 10px 0 20px 0;
+  margin-top: 20px;
 }
 
-table, th, td {
+.delivery-receipt-table th,
+.delivery-receipt-table td {
   border: 1px solid black;
-}
-
-th, td {
+  padding: 8px;
   text-align: center;
-  padding: 6px;
 }
 
-/* ลายเซ็น */
-.signatures {
+.delivery-receipt-table th {
+  background-color: #e0e0e0;
+}
+
+/* Note section */
+.delivery-receipt-note {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Signature section */
+.delivery-receipt-signatures {
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
-/* แก้ไข signature-block ให้แสดงข้อมูลในแนวตั้ง */
-.signature-block {
+.delivery-receipt-signature {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 45%;
-  /* สามารถเพิ่ม margin ระหว่างบรรทัดได้ตามต้องการ */
-  gap: 8px;
   text-align: center;
 }
 
-
-
-/* ปุ่ม PDF */
-.pdf-button-container {
+/* PDF Button */
+.delivery-receipt-button-container {
   display: flex;
   justify-content: center;
   margin: 20px 0;
 }
 
-.pdf-button {
+.delivery-receipt-button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -83,8 +103,27 @@ th, td {
   font-size: 16px;
   cursor: pointer;
   border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
 
-.pdf-button:hover {
+.delivery-receipt-button:hover {
   background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .delivery-receipt-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .delivery-receipt-signatures {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .delivery-receipt-signature {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }

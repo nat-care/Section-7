@@ -1,99 +1,95 @@
-/* พื้นหลังเทาอ่อน + จัดกลางหน้าจอ */
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #f2f2f2; /* สีพื้นหลังที่ทำให้กล่องดูเด่น */
+/* Wrapper for the Shipping Note page */
+.shipping-note-page {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* ให้เริ่มจากด้านบน */
-  min-height: 100vh; /* เต็มความสูงหน้าจอ */
+  align-items: flex-start; /* Align from the top */
+  min-height: 100vh;
+  background-color: #f2f2f2; /* Light gray background */
   font-family: 'Arial', sans-serif;
+  padding: 40px 0;
 }
-  
-  .page-wrapper {
-    width: 900px; 
-    height: 100%;
-    margin: 40px auto;
-    padding: 30px; /* เพิ่ม padding ให้กล่องใหญ่ขึ้น */
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* เพิ่มความเด่น */
-  }
-  
-  .row-info {
-    display: flex;
-    justify-content: flex-end; /* จัดให้เนื้อหาทั้งหมดอยู่ทางขวา */
-    width: 100%;
-    margin-bottom: 5px; /* เพิ่มระยะห่างระหว่างแถว */
-  }
 
+/* Main container for the Shipping Note */
+.shipping-note-container {
+  width: 900px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+}
 
-  
-  h1, h3 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Section info */
-  .info-section .row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .label {
-    font-weight: bold;
-    width: 200px;
-  }
-  
-  .value {
-    min-width: 200px;
-  }
-  
-  /* Table */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    border: 1px solid #ddd;
-  }
-  
-  th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  
-  /* เว้นบรรทัดด้านล่างของตาราง */
-  .remarks-section {
-    margin-top: 30px;
-  }
-  
-  /* ลายเซ็นแนวตั้ง */
-  .signatures-vertical {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  }
-  
-  .signature-block {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
-  }
-  /* ปุ่มบันทึกเป็น PDF ให้อยู่ด้านล่างของเอกสาร */
-/* กำหนดให้ปุ่มอยู่ข้างล่างของหน้าจอ */
-.pdf-button-container {
-  position: fixed; /* ทำให้ปุ่มติดอยู่ที่ตำแหน่งที่กำหนด */
-  bottom: 20px; /* อยู่ห่างจากด้านล่างของหน้าจอ */
-  left: 50%; /* จัดให้ปุ่มอยู่ตรงกลาง */
-  transform: translateX(-50%); /* ชดเชยการใช้ left เพื่อให้ปุ่มอยู่กลางพอดี */
-  z-index: 10; /* ให้ปุ่มอยู่เหนือเนื้อหาของเอกสาร */
+/* Page Title */
+.shipping-note-title {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Info Section */
+.shipping-note-info {
+  margin-bottom: 20px;
+}
+
+.shipping-note-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.shipping-note-label {
+  font-weight: bold;
+  width: 200px;
+}
+
+.shipping-note-value {
+  min-width: 200px;
+}
+
+/* Table Styling */
+.shipping-note-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.shipping-note-table th, 
+.shipping-note-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+/* Remarks Section */
+.shipping-note-remarks {
+  margin-top: 30px;
+}
+
+/* Signatures Section */
+.shipping-note-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.shipping-note-signature {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+/* PDF Button Container */
+.shipping-note-button-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
   padding: 10px;
 }
 
-/* สไตล์ของปุ่ม PDF */
-.pdf-button {
+/* PDF Button */
+.shipping-note-button {
   padding: 10px 20px;
   font-size: 16px;
   background-color: #0056b3;
@@ -103,7 +99,6 @@ body {
   border-radius: 5px;
 }
 
-.pdf-button:hover {
+.shipping-note-button:hover {
   background-color: #45a049;
 }
-

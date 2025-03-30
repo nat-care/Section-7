@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./PurchaseOrder.css";  // อย่าลืมสร้างไฟล์ CSS สำหรับ styling
+import "./PurchaseOrder.css";  // Import the updated CSS file
 import html2pdf from 'html2pdf.js';
 
 const PurchaseOrder = () => {
@@ -23,12 +23,11 @@ const PurchaseOrder = () => {
     inspectorSignature: "",
   });
 
-  // คำนวณภาษีและรวมยอดโดยการปัดเศษ
   const vatAmount = Math.round((formData.totalAmount - formData.discount) * formData.vat);
   const totalWithVat = Math.round(formData.totalAmount - formData.discount + vatAmount);
 
   const generatePDF = () => {
-    const element = document.getElementById('receipt-content');
+    const element = document.getElementById('purchase-order-content');
     const opt = {
       margin: 0.5,
       filename: 'purchase_order.pdf',
@@ -40,43 +39,43 @@ const PurchaseOrder = () => {
   };
 
   return (
-    <div>
-      <div id="receipt-content" className="purchase-order">
-      <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบสั่งซื้อ</h2>
+    <div className="purchase-order-page">
+      <div id="purchase-order-content" className="purchase-order-container">
+        <h2 className="purchase-order-title">ใบสั่งซื้อ</h2>
 
         {/* รายละเอียด */}
-        <div className="section">
-          <div className="document-header">
+        <div className="purchase-order-details">
+          <div className="purchase-order-header">
             <div className="header-right">
               <p>PR.NO: ______________________</p>
               <p>วันที่: ______________________</p>
             </div>
           </div>
           
-          <div className="row">
-            <div className="column">
-              <span className="label21">วันที่ต้องการใช้: </span>
-              <span className="value1">{formData.requiredDate}</span>
+          <div className="purchase-order-row">
+            <div className="purchase-order-column">
+              <span className="label">วันที่ต้องการใช้: </span>
+              <span className="value">{formData.requiredDate}</span>
             </div>
-            <div className="column">
-              <span className="label527">แผนก: </span>
-              <span className="value1">{formData.department}</span>
+            <div className="purchase-order-column">
+              <span className="label">แผนก: </span>
+              <span className="value">{formData.department}</span>
             </div>
           </div>
-          <div className="row">
-            <div className="column">
-              <span className="label45">ตำแหน่ง: </span>
-              <span className="value1">{formData.position}</span>
+          <div className="purchase-order-row">
+            <div className="purchase-order-column">
+              <span className="label">ตำแหน่ง: </span>
+              <span className="value">{formData.position}</span>
             </div>
-            <div className="column">
-              <span className="label452">เรื่อง: </span>
-              <span className="value1">{formData.subject}</span>
+            <div className="purchase-order-column">
+              <span className="label">เรื่อง: </span>
+              <span className="value">{formData.subject}</span>
             </div>
           </div>
         </div>
 
         {/* ตารางสินค้า */}
-        <table>
+        <table className="purchase-order-table">
           <thead>
             <tr>
               <th>ลำดับ</th>
@@ -118,43 +117,42 @@ const PurchaseOrder = () => {
         </table>
 
         {/* เงื่อนไขการชำระเงิน */}
-        <br />
-        <div className="payment-conditions">
-          <div className="payment-condition">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินก่อนรับสินค้า"} />
+        <div className="purchase-order-payment-conditions">
+          <div className="purchase-order-payment-option">
+            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินก่อนรับสินค้า"} readOnly />
             <span>ชำระเงินก่อนรับสินค้า</span>
           </div>
-          <div className="payment-condition">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินหลังได้รับสินค้า"} />
+          <div className="purchase-order-payment-option">
+            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินหลังได้รับสินค้า"} readOnly />
             <span>ชำระเงินหลังได้รับสินค้า</span>
           </div>
-          <div className="payment-condition">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินแบบเครดิต"} />
+          <div className="purchase-order-payment-option">
+            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินแบบเครดิต"} readOnly />
             <span>ชำระเงินแบบเครดิต</span>
           </div>
-          <div className="payment-condition">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินเป็นงวดตามสัญญา"} />
+          <div className="purchase-order-payment-option">
+            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินเป็นงวดตามสัญญา"} readOnly />
             <span>ชำระเงินเป็นงวดตามสัญญา</span>
           </div>
         </div>
 
         {/* ลงชื่อ */}
-        <div className="signatures">
-          <div className="signature">
+        <div className="purchase-order-signatures">
+          <div className="purchase-order-signature">
             <span className="label">ผู้มีอำนาจ</span>
             <br />
             <span className="value">______________________</span>
             <br />
             <div className="date">วันที่ ______________________</div>
           </div>
-          <div className="signature">
+          <div className="purchase-order-signature">
             <span className="label">ผู้จัดซื้อ</span>
             <br />
             <span className="value">______________________</span>
             <br />
             <div className="date">วันที่ ______________________</div>
           </div>
-          <div className="signature">
+          <div className="purchase-order-signature">
             <span className="label">ผู้ตรวจสอบ</span>
             <br />
             <span className="value">______________________</span>
@@ -165,8 +163,8 @@ const PurchaseOrder = () => {
       </div>
 
       {/* ปุ่ม PDF ข้างนอกกรอบ */}
-      <div className="pdf-button-container">
-        <button onClick={generatePDF} className="pdf-button">บันทึกเป็น PDF</button>
+      <div className="purchase-order-button-container">
+        <button onClick={generatePDF} className="purchase-order-button">บันทึกเป็น PDF</button>
       </div>
     </div>
   );

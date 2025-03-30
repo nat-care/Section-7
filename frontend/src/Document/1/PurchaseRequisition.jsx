@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import "./PurchaseRequisition.css";
 import html2pdf from "html2pdf.js";
 
-const PurchaseDocument = () => {
+const PurchaseRequisition = () => {
   const documentRef = useRef();
 
   // กำหนดข้อมูลใน state ให้ครบทุก field
@@ -46,14 +46,13 @@ const PurchaseDocument = () => {
   };
 
   return (
-    <div className="container">
+    <div className="purchase-requisition-container">
       {/* เอกสารใบจัดซื้อ */}
-      <div className="document-container" ref={documentRef}>
-      <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบจัดซื้อ</h2>
-       
+      <div className="purchase-requisition-document" ref={documentRef}>
+        <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบจัดซื้อ</h2>
 
         {/* ส่วนหัวของเอกสาร */}
-        <div className="document-header">
+        <div className="purchase-requisition-header">
           <div className="header-right">
             <p>PR.NO: {formData.prNo}</p>
             <p>วันที่: {formData.date}</p>
@@ -61,7 +60,7 @@ const PurchaseDocument = () => {
         </div>
 
         {/* ส่วนรายละเอียด */}
-        <div className="document-section">
+        <div className="purchase-requisition-section">
           <p>วันที่ต้องการใช้: {formData.desiredDate}</p>
           <p>
             แผนก: {formData.department} ตำแหน่ง: {formData.position}
@@ -70,7 +69,7 @@ const PurchaseDocument = () => {
         </div>
 
         {/* ตารางรายการสินค้า */}
-        <table className="document-table">
+        <table className="purchase-requisition-table">
           <thead>
             <tr>
               <th>ลำดับ</th>
@@ -96,12 +95,12 @@ const PurchaseDocument = () => {
         </table>
 
         {/* หมายเหตุ */}
-        <div className="document-section">
+        <div className="purchase-requisition-section">
           <p>หมายเหตุ: {formData.note}</p>
         </div>
 
         {/* ลายเซ็น */}
-        <div className="signature-section">
+        <div className="purchase-requisition-signature">
           <div className="signature-block">
             <p>ผู้อนุมัติฝ่ายจัดซื้อ</p>
             <div className="signature-line">{formData.approvalSignature}</div>
@@ -116,8 +115,8 @@ const PurchaseDocument = () => {
       </div>
 
       {/* ปุ่มพิมพ์เป็น PDF (นอกกรอบของเอกสาร) */}
-      <div className="pdf-button-container">
-        <button onClick={generatePDF} className="pdf-button">
+      <div className="purchase-requisition-pdf-button-container">
+        <button onClick={generatePDF} className="purchase-requisition-pdf-button">
           บันทึกเป็น PDF
         </button>
       </div>
@@ -125,4 +124,4 @@ const PurchaseDocument = () => {
   );
 };
 
-export default PurchaseDocument;
+export default PurchaseRequisition;

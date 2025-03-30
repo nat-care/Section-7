@@ -3,7 +3,6 @@ import './DeliveryReceipt.css';
 import html2pdf from 'html2pdf.js';
 
 const DeliveryReceipt = () => {
-  // กำหนดข้อมูลสำหรับใบรับพัสดุ
   const [receiptData, setReceiptData] = useState({
     idPrNo: 'ID-PR123456',
     prNo: 'PR78910',
@@ -30,7 +29,7 @@ const DeliveryReceipt = () => {
   });
 
   const generatePDF = () => {
-    const element = document.getElementById('receipt-content');
+    const element = document.getElementById('delivery-receipt-content');
     const opt = {
       margin: 0.5,
       filename: 'delivery_receipt.pdf',
@@ -43,32 +42,27 @@ const DeliveryReceipt = () => {
 
   return (
     <>
-      {/* กล่องห่อเพื่อจัดกลางหน้า */}
-      <div className="page-wrapper">
-        <div className="delivery-receipt" id="receipt-content">
-          <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบรับพัสดุ</h2>
+      <div className="delivery-receipt-page">
+        <div className="delivery-receipt-container" id="delivery-receipt-content">
+          <h2 className="delivery-receipt-title">ใบรับพัสดุ</h2>
 
-          <div className="row">
-            <div className="column-right">
-              <p>ID-PR.NO.: {receiptData.idPrNo}</p>
-              <p>PR.NO.: {receiptData.prNo}</p>
-              <p>วันที่: {receiptData.date}</p>
-            </div>
-          </div>
-          <div className='Dataheard'>
-          <p>ชื่อพนักงาน: {receiptData.employeeName}</p>
-          <p>รหัสพนักงาน: {receiptData.employeeCode}</p>
-          <p>แผนก: {receiptData.department}  ตำแหน่ง: {receiptData.position}</p>
-          <p>รายละเอียด: {receiptData.details}</p>
-          <p>ตามสินค้า: {receiptData.product}</p>
-          <p>วันที่ครบกำหนด: {receiptData.dueDate}</p>
-          <p>วันที่ส่งมอบสินค้า: {receiptData.deliveryDate}</p>
-          <p>ตรวจรับสินค้าตาม: {receiptData.inspection}</p>
-          <p>ได้รับสินค้า: {receiptData.received}</p>
+          <div className="delivery-receipt-info">
+            <p>ID-PR.NO.: {receiptData.idPrNo}</p>
+            <p>PR.NO.: {receiptData.prNo}</p>
+            <p>วันที่: {receiptData.date}</p>
+            <p>ชื่อพนักงาน: {receiptData.employeeName}</p>
+            <p>รหัสพนักงาน: {receiptData.employeeCode}</p>
+            <p>แผนก: {receiptData.department} ตำแหน่ง: {receiptData.position}</p>
+            <p>รายละเอียด: {receiptData.details}</p>
+            <p>ตามสินค้า: {receiptData.product}</p>
+            <p>วันที่ครบกำหนด: {receiptData.dueDate}</p>
+            <p>วันที่ส่งมอบสินค้า: {receiptData.deliveryDate}</p>
+            <p>ตรวจรับสินค้าตาม: {receiptData.inspection}</p>
+            <p>ได้รับสินค้า: {receiptData.received}</p>
           </div>
 
-          <p>รายละเอียด</p>
-          <table>
+          <p className="delivery-receipt-subtitle">รายละเอียด</p>
+          <table className="delivery-receipt-table">
             <thead>
               <tr>
                 <th>ลำดับ</th>
@@ -93,14 +87,14 @@ const DeliveryReceipt = () => {
             </tbody>
           </table>
 
-          <p>หมายเหตุ: {receiptData.note}</p>
+          <p className="delivery-receipt-note">หมายเหตุ: {receiptData.note}</p>
 
-          <div className="signatures">
-            <div className="signature-block">
+          <div className="delivery-receipt-signatures">
+            <div className="delivery-receipt-signature">
               ผู้ส่งพัสดุ <br /> {receiptData.sender}<br />
               วันที่: {receiptData.senderDate}
             </div>
-            <div className="signature-block">
+            <div className="delivery-receipt-signature">
               ผู้รับพัสดุ <br /> {receiptData.receiver}<br />
               วันที่: {receiptData.receiverDate}
             </div>
@@ -108,9 +102,8 @@ const DeliveryReceipt = () => {
         </div>
       </div>
 
-      {/* ปุ่ม PDF */}
-      <div className="pdf-button-container">
-        <button onClick={generatePDF} className="pdf-button">บันทึกเป็น PDF</button>
+      <div className="delivery-receipt-button-container">
+        <button onClick={generatePDF} className="delivery-receipt-button">บันทึกเป็น PDF</button>
       </div>
     </>
   );
