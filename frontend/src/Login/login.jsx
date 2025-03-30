@@ -19,7 +19,7 @@ const Login = () => {
     }
   }, []);
 
-  // Authentication function (previously in auth.js)
+  // Authentication function
   const handleLogin = async (username, password) => {
     try {
       const response = await fetch("http://localhost:3000/login", {
@@ -38,7 +38,7 @@ const Login = () => {
         localStorage.setItem("role", role);
         alert("Login successful!");
   
-        // ✅ Redirect according to role
+        // Redirect according to role
         switch (role) {
           case "IT Administrator":
             navigate("/procurement");
@@ -49,11 +49,10 @@ const Login = () => {
             navigate("/selectpages");
             break;
           default:
-            alert("ไม่รู้จักบทบาทผู้ใช้");
+            alert("Unknown role");
             navigate("/login");
             break;
         }
-  
       } else {
         alert("Invalid username or password");
       }
@@ -63,14 +62,14 @@ const Login = () => {
     }
   };
 
-  // Logout function (previously in auth.js)
+  // Logout function
   const handleLogout = () => {
     setToken("");
     setRole("");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     alert("Logged out successfully!");
-    navigate("/login"); // Redirect to login page after logout
+    navigate("/login");
   };
 
   return (

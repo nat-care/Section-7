@@ -1,5 +1,5 @@
-/* General body styling for .purchase-requisition */
-.purchase-requisition {
+/* General body styling */
+.po-purchase-requisition {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f9f9f9;
     margin: 0;
@@ -10,12 +10,13 @@
     flex-direction: column;
     justify-content: flex-start;
     overflow-y: auto;
+    height: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Title styling for headings */
-.purchase-requisition h2, .purchase-requisition h3 {
+/* Title Styling */
+.po-purchase-requisition h2, .po-purchase-requisition h3 {
     text-align: center;
     margin-bottom: 12px;
     font-size: 22px;
@@ -23,40 +24,39 @@
     font-weight: 600;
 }
 
-/* Layout for rows and columns */
-.purchase-requisition .row {
+/* Row and Column Layout */
+.po-purchase-requisition .po-row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 12px;
 }
 
-.purchase-requisition .column {
+.po-purchase-requisition .po-column {
     width: 48%;
+    display: flex;
+    flex-direction: column;
     margin-bottom: 12px;
 }
 
-/* Responsive columns for smaller screens */
 @media (max-width: 768px) {
-    .purchase-requisition .column {
+    .po-purchase-requisition .po-column {
         width: 100%; /* Full width on smaller screens */
     }
 }
 
-/* Label styling */
-.purchase-requisition label {
+/* Label Styling */
+.po-purchase-requisition label {
     font-weight: 600;
     font-size: 14px;
     color: #444;
     margin-bottom: 6px;
 }
 
-/* Input styling */
-.purchase-requisition input,
-.purchase-requisition input[type="date"] {
+/* Input Styling */
+.po-purchase-requisition input {
     width: 100%;
     padding: 10px;
-    color: #000000;
     border: 1px solid #ddd;
     border-radius: 6px;
     margin-bottom: 14px;
@@ -65,8 +65,17 @@
     background-color: #fff;
 }
 
-/* Table styling */
-.purchase-requisition table {
+.po-purchase-requisition input[type="date"] {
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    width: 100%;
+}
+
+/* Table Styling */
+.po-purchase-requisition table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 16px;
@@ -78,38 +87,36 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.purchase-requisition th, .purchase-requisition td {
+.po-purchase-requisition th, .po-purchase-requisition td {
     padding: 12px;
     text-align: center;
     border: 1px solid #ddd;
 }
 
-.purchase-requisition th {
+.po-purchase-requisition th {
     background-color: #f8f8f8;
     font-weight: 600;
 }
 
-/* Column width adjustments for the table */
-.purchase-requisition th:nth-child(1), .purchase-requisition td:nth-child(1) {
+.po-purchase-requisition th:nth-child(1), .po-purchase-requisition td:nth-child(1) {
     width: 10%;
 }
 
-.purchase-requisition th:nth-child(2), .purchase-requisition td:nth-child(2) {
+.po-purchase-requisition th:nth-child(2), .po-purchase-requisition td:nth-child(2) {
     width: 30%;
 }
 
-.purchase-requisition th:nth-child(3), .purchase-requisition td:nth-child(3),
-.purchase-requisition th:nth-child(4), .purchase-requisition td:nth-child(4),
-.purchase-requisition th:nth-child(5), .purchase-requisition td:nth-child(5) {
+.po-purchase-requisition th:nth-child(3), .po-purchase-requisition td:nth-child(3),
+.po-purchase-requisition th:nth-child(4), .po-purchase-requisition td:nth-child(4),
+.po-purchase-requisition th:nth-child(5), .po-purchase-requisition td:nth-child(5) {
     width: 15%;
 }
 
-.purchase-requisition th:nth-child(6), .purchase-requisition td:nth-child(6) {
+.po-purchase-requisition th:nth-child(6), .po-purchase-requisition td:nth-child(6) {
     width: 20%;
 }
 
-/* Input styling for table rows */
-.purchase-requisition table input {
+.po-purchase-requisition table input {
     width: 100%;
     padding: 8px;
     border: none;
@@ -117,21 +124,8 @@
     font-size: 12px;
 }
 
-/* Header styling for "ข้อมูลรายละเอียดสินค้า" */
-.purchase-requisition h3 {
-    text-align: left;
-    margin-bottom: 14px;
-}
-
-/* Styling for "Add Row" button */
-.purchase-requisition .add-row-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-}
-
-.purchase-requisition #addRowBtn {
+/* Button Styling for Add Row */
+.po-purchase-requisition #po-addRowBtn {
     border: 1px solid #333;
     background-color: #fff;
     color: #333;
@@ -142,19 +136,19 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.purchase-requisition #addRowBtn:hover {
+.po-purchase-requisition #po-addRowBtn:hover {
     background-color: #f1f1f1;
     color: #000;
 }
 
-/* Buttons container styling */
-.purchase-requisition .buttons {
+/* Styling for the buttons container */
+.po-purchase-requisition .po-buttons {
     display: flex;
     justify-content: center;
     margin-top: 20px;
 }
 
-.purchase-requisition button {
+.po-purchase-requisition button {
     padding: 10px 20px;
     border: 1px solid #333;
     background-color: #fff;
@@ -166,30 +160,37 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.purchase-requisition button:hover {
+.po-purchase-requisition button:hover {
     background-color: #f1f1f1;
     color: #000;
 }
 
-/* Styling for specific buttons */
-.purchase-requisition #editRequestBtn,
-.purchase-requisition #submitRequestBtn {
+.po-purchase-requisition #editRequestBtn {
     background-color: #fff;
     border: 1px solid #333;
     color: #333;
 }
 
-.purchase-requisition #editRequestBtn:hover,
-.purchase-requisition #submitRequestBtn:hover {
+.po-purchase-requisition #editRequestBtn:hover {
     background-color: #f1f1f1;
 }
 
-/* Responsive adjustments for smaller screens */
+.po-purchase-requisition #submitRequestBtn {
+    background-color: #fff;
+    border: 1px solid #333;
+    color: #333;
+}
+
+.po-purchase-requisition #submitRequestBtn:hover {
+    background-color: #f1f1f1;
+}
+
+/* Ensure table is responsive on smaller screens */
 @media (max-width: 768px) {
-    .purchase-requisition table, .purchase-requisition th, .purchase-requisition td {
+    .po-purchase-requisition table, .po-purchase-requisition th, .po-purchase-requisition td {
         font-size: 12px;
     }
-    .purchase-requisition th, .purchase-requisition td {
+    .po-purchase-requisition th, .po-purchase-requisition td {
         padding: 10px;
     }
 }

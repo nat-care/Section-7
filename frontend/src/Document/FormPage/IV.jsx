@@ -61,10 +61,9 @@ const IV = () => {
       console.error("Error:", error);
     }
   };
-  
 
   return (
-    <div className="purchase-requisition">
+    <div className="invoice">
       <h2>ใบแจ้งหนี้ (Invoice)</h2>
 
       {/* Form Section */}

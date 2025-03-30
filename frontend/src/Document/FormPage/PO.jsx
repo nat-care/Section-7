@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./PO.css";
 
 const PO = () => {
   const [rows, setRows] = useState([1]); // Initial row
@@ -59,36 +60,36 @@ const PO = () => {
         console.error("Error:", error);
         alert("เกิดข้อผิดพลาดในการส่งคำขอ");
     });
-};
+  };
 
   return (
-    <div className="purchase-requisition">
+    <div className="po-purchase-requisition">
       <h2>การจัดทำใบสั่งซื้อ (Purchase Order - PO)</h2>
 
       {/* Form Section */}
-      <div className="row">
-        <div className="column">
-          <label htmlFor="id-pr">ID-PR/NO:</label>
+      <div className="po-row">
+        <div className="po-column">
+          <label htmlFor="id-po">ID-PO/NO:</label>
           <input
             type="text"
-            id="id-pr"
-            value={formData.idPR}
+            id="id-po"
+            value={formData.idPO}
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
-          <label htmlFor="date-pr">วันที่:</label>
+        <div className="po-column">
+          <label htmlFor="date-po">วันที่:</label>
           <input
             type="date"
-            id="date-pr"
-            value={formData.datePR}
+            id="date-po"
+            value={formData.datePO}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="employee-name">ชื่อพนักงาน:</label>
           <input
             type="text"
@@ -97,7 +98,7 @@ const PO = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
+        <div className="po-column">
           <label htmlFor="employee-position">ตำแหน่งพนักงาน:</label>
           <input
             type="text"
@@ -108,8 +109,8 @@ const PO = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="department">ฝ่ายงานที่:</label>
           <input
             type="text"
@@ -118,7 +119,7 @@ const PO = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
+        <div className="po-column">
           <label htmlFor="section">แผนก:</label>
           <input
             type="text"
@@ -129,8 +130,8 @@ const PO = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="detail">เรื่องรายละเอียด:</label>
           <input
             type="text"
@@ -142,7 +143,7 @@ const PO = () => {
       </div>
 
       <h3>โปรดกรอกข้อมูลสินค้า</h3>
-      <table id="productTable">
+      <table id="po-productTable">
         <thead>
           <tr>
             <th>ลำดับ</th>
@@ -203,14 +204,14 @@ const PO = () => {
       </table>
 
       {/* Add Row Button */}
-      <button onClick={addRow} id="addRowBtn">
+      <button onClick={addRow} id="po-addRowBtn">
         เพิ่มแถว
       </button>
 
       {/* Input fields under the table */}
       <h3>ข้อมูลการชำระเงิน</h3>
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="totalAmount">จำนวนเงิน:</label>
           <input
             type="text"
@@ -219,7 +220,7 @@ const PO = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
+        <div className="po-column">
           <label htmlFor="discount">ส่วนลด:</label>
           <input
             type="text"
@@ -230,8 +231,8 @@ const PO = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="vat">ภาษีมูลค่าเพิ่ม:</label>
           <input
             type="text"
@@ -240,7 +241,7 @@ const PO = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
+        <div className="po-column">
           <label htmlFor="netAmount">รวมเงินทั้งสุทธิ:</label>
           <input
             type="text"
@@ -251,8 +252,8 @@ const PO = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="payment">การชำระเงิน:</label>
           <input
             type="text"
@@ -263,8 +264,8 @@ const PO = () => {
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
+      <div className="po-row">
+        <div className="po-column">
           <label htmlFor="notes">หมายเหตุ:</label>
           <input
             type="text"
@@ -274,62 +275,60 @@ const PO = () => {
           />
         </div>
       </div>
-      
-      <div className="row">
-    <div className="column">
-        <label htmlFor="approver">ผู้มีอำนาจ:</label>
-        <input
+
+      <div className="po-row">
+        <div className="po-column">
+          <label htmlFor="approver">ผู้มีอำนาจ:</label>
+          <input
             type="text"
             id="approver"
             value={formData.approver}
             onChange={handleInputChange}
-        />
-        <label htmlFor="date-approver">วันที่:</label>
-        <input
+          />
+          <label htmlFor="date-approver">วันที่:</label>
+          <input
             type="date"
             id="date-approver"
             value={formData.dateApprover}
             onChange={handleInputChange}
-        />
-    </div>
-    <div className="column">
-        <label htmlFor="staff">ผู้จัดซื้อ:</label>
-        <input
+          />
+        </div>
+        <div className="po-column">
+          <label htmlFor="staff">ผู้จัดซื้อ:</label>
+          <input
             type="text"
             id="staff"
             value={formData.staff}
             onChange={handleInputChange}
-        />
-        <label htmlFor="date-staff">วันที่:</label>
-        <input
+          />
+          <label htmlFor="date-staff">วันที่:</label>
+          <input
             type="date"
             id="date-staff"
             value={formData.dateStaff}
             onChange={handleInputChange}
-        />
-    </div>
-    <div className="column">
-        <label htmlFor="auditor">ผู้ตรวจสอบ:</label>
-        <input
+          />
+        </div>
+        <div className="po-column">
+          <label htmlFor="auditor">ผู้ตรวจสอบ:</label>
+          <input
             type="text"
             id="auditor"
             value={formData.auditor}
             onChange={handleInputChange}
-        />
-        <label htmlFor="date-auditor">วันที่:</label>
-        <input
+          />
+          <label htmlFor="date-auditor">วันที่:</label>
+          <input
             type="date"
             id="date-auditor"
             value={formData.dateAuditor}
             onChange={handleInputChange}
-        />
-    </div>
-</div>
-
-
+          />
+        </div>
+      </div>
 
       {/* Action Buttons (แก้ไขคำขอ and ส่งคำขอ) */}
-      <div className="buttons">
+      <div className="po-buttons">
         <button type="button" id="editRequestBtn">
           แก้ไขคำขอ
         </button>

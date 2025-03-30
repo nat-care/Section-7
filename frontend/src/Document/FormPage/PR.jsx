@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import DatePicker from 'react-datepicker'; // Importing DatePicker
-import "react-datepicker/dist/react-datepicker.css"; // Import the required styles
+import DatePicker from 'react-datepicker'; 
+import "react-datepicker/dist/react-datepicker.css"; 
 import './PR.css';
 
 const PR = () => {
-    const [rows, setRows] = useState([1]); // Initial row
+    const [rows, setRows] = useState([1]); 
     const [formData, setFormData] = useState({
         idPR: '',
         datePR: '',
@@ -23,15 +23,28 @@ const PR = () => {
 
     const addRow = () => {
         setRows([...rows, rows.length + 1]);
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
             ...prevData,
             products: [...prevData.products, { item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }]
         }));
     };
 
+    const deleteRow = (index) => {
+        // Remove the row from the `rows` array
+        const newRows = rows.filter((_, i) => i !== index);
+        setRows(newRows);
+
+        // Remove the corresponding product from the `products` array
+        const newProducts = formData.products.filter((_, i) => i !== index);
+        setFormData(prevData => ({
+            ...prevData,
+            products: newProducts
+        }));
+    };
+
     const handleInputChange = (e) => {
         const { id, value } = e.target;
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
             ...prevData,
             [id]: value,
         }));
@@ -48,10 +61,10 @@ const PR = () => {
                 parseFloat(updatedProducts[index].unitPrice) * parseFloat(updatedProducts[index].quantity)
             ).toFixed(2);
         } else {
-            updatedProducts[index].totalAmount = ''; // Reset if no quantity or unitPrice
+            updatedProducts[index].totalAmount = ''; 
         }
 
-        setFormData((prevData) => ({
+        setFormData(prevData => ({
             ...prevData,
             products: updatedProducts
         }));
@@ -65,7 +78,7 @@ const PR = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    user_id: 1, // Add the actual user ID here
+                    user_id: 1, 
                     dept: formData.department,
                     position: formData.employeePosition,
                     subject: formData.detail,
@@ -90,6 +103,15 @@ const PR = () => {
         }
     };
 
+    const renderDatePicker = (id, selectedDate, onChange) => (
+        <DatePicker
+            selected={selectedDate ? new Date(selectedDate) : null}
+            onChange={onChange}
+            dateFormat="yyyy-MM-dd"
+            className="date-picker"
+        />
+    );
+
     return (
         <div className="purchase-requisition">
             <h2>การจัดทำใบขอซื้อ (Purchase Requisition - PR)</h2>
@@ -107,12 +129,7 @@ const PR = () => {
                 </div>
                 <div className="column">
                     <label htmlFor="date-pr">วันที่:</label>
-                    <DatePicker
-                        selected={formData.datePR ? new Date(formData.datePR) : null}
-                        onChange={(date) => setFormData({ ...formData, datePR: date })}
-                        dateFormat="yyyy-MM-dd"
-                        className="date-picker"
-                    />
+                    {renderDatePicker('date-pr', formData.datePR, (date) => setFormData({ ...formData, datePR: date }))}
                 </div>
             </div>
 
@@ -127,7 +144,7 @@ const PR = () => {
                     />
                 </div>
                 <div className="column">
-                    <label htmlFor="employee-position">ตำแหน่งพนักงาน:</label>
+                    <label htmlFor="employee-position">รหัสพนักงาน:</label>
                     <input
                         type="text"
                         id="employee-position"
@@ -139,7 +156,7 @@ const PR = () => {
 
             <div className="row">
                 <div className="column">
-                    <label htmlFor="department">ฝ่ายงานที่:</label>
+                    <label htmlFor="department">ตำแหน่งพนักงาน:</label>
                     <input
                         type="text"
                         id="department"
@@ -180,6 +197,7 @@ const PR = () => {
                         <th>หน่วยนับ</th>
                         <th>ราคาต่อหน่วย</th>
                         <th>จำนวนเงิน</th>
+                        <th>ลบ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -225,6 +243,9 @@ const PR = () => {
                                     value={formData.products[index]?.totalAmount || ''}
                                     readOnly
                                 />
+                            </td>
+                            <td>
+                                <button onClick={() => deleteRow(index)}>ลบแถว</button>
                             </td>
                         </tr>
                     ))}
@@ -272,21 +293,11 @@ const PR = () => {
             <div className="row">
                 <div className="column">
                     <label htmlFor="date-approval">วันที่:</label>
-                    <DatePicker
-                        selected={formData.dateApproval ? new Date(formData.dateApproval) : null}
-                        onChange={(date) => setFormData({ ...formData, dateApproval: date })}
-                        dateFormat="yyyy-MM-dd"
-                        className="date-picker"
-                    />
+                    {renderDatePicker('date-approval', formData.dateApproval, (date) => setFormData({ ...formData, dateApproval: date }))}
                 </div>
                 <div className="column">
                     <label htmlFor="date-approval2">วันที่:</label>
-                    <DatePicker
-                        selected={formData.dateApproval2 ? new Date(formData.dateApproval2) : null}
-                        onChange={(date) => setFormData({ ...formData, dateApproval2: date })}
-                        dateFormat="yyyy-MM-dd"
-                        className="date-picker"
-                    />
+                    {renderDatePicker('date-approval2', formData.dateApproval2, (date) => setFormData({ ...formData, dateApproval2: date }))}
                 </div>
             </div>
 

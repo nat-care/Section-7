@@ -3,10 +3,10 @@ import React, { useState } from "react";
 const RF = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idPO: "",
-    datePO: "",
+    idRF: "", // Updated ID
+    dateRF: "", // Updated date
     employeeName: "",
-    employeeId: "", // Added employeeId
+    employeeId: "", // Updated employeeId
     employeePosition: "",
     department: "",
     section: "",
@@ -18,10 +18,10 @@ const RF = () => {
     netAmount: "",
     payment: "",
     notes: "",
-    approver: "", // Added approver
-    staff: "", // Added staff
-    dateApproval: "", // Added dateApproval
-    dateApproval2: "", // Added dateApproval2
+    approver: "", // Updated approver
+    staff: "", // Updated staff
+    dateApproval: "", // Updated dateApproval
+    dateApproval2: "", // Updated dateApproval2
   });
 
   const addRow = () => {
@@ -48,7 +48,7 @@ const RF = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/invoice", {
+      const response = await fetch("http://localhost:5000/api/requisition", {
         method: "POST", // or "PUT" depending on your API
         headers: {
           "Content-Type": "application/json",
@@ -72,26 +72,26 @@ const RF = () => {
   };
 
   return (
-    <div className="purchase-requisition">
+    <div className="requisition-form">
       <h2>ใบรับเบิก (Requisition Form)</h2>
 
       {/* Form Section */}
       <div className="row">
         <div className="column">
-          <label htmlFor="id-po">ID-PO/NO:</label>
+          <label htmlFor="id-rf">ID-RF/NO:</label>
           <input
             type="text"
-            id="id-po"
-            value={formData.idPO}
+            id="id-rf"
+            value={formData.idRF}
             onChange={handleInputChange}
           />
         </div>
         <div className="column">
-          <label htmlFor="date-po">วันที่:</label>
+          <label htmlFor="date-rf">วันที่:</label>
           <input
             type="date"
-            id="date-po"
-            value={formData.datePO}
+            id="date-rf"
+            value={formData.dateRF}
             onChange={handleInputChange}
           />
         </div>

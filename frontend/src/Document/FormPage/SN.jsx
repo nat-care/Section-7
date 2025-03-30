@@ -3,8 +3,8 @@ import React, { useState } from "react";
 const SN = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idPO: "",
-    datePO: "",
+    idSN: "",  // Changed from idPO to idSN
+    dateSN: "", // Changed from datePO to dateSN
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -51,27 +51,27 @@ const SN = () => {
   };
 
   return (
-    <div className="purchase-requisition">
+    <div className="shipping-note">
       <h2>ใบส่งพัสดุ  Shipping Note</h2>
 
       {/* Form Section */}
       <div className="row">
         <div className="column">
-          <label htmlFor="idPO">ID-PR/NO:</label>
+          <label htmlFor="idSN">ID-SN/NO:</label> {/* Changed from idPO to idSN */}
           <input
             type="text"
-            id="idPO"
-            value={formData.idPO}
+            id="idSN"  // Changed from idPO to idSN
+            value={formData.idSN}
             onChange={handleInputChange}
           />
         </div>
 
         <div className="column">
-          <label htmlFor="datePO">วันที่:</label>
+          <label htmlFor="dateSN">วันที่:</label> {/* Changed from datePO to dateSN */}
           <input
             type="date"
-            id="datePO"
-            value={formData.datePO}
+            id="dateSN"  // Changed from datePO to dateSN
+            value={formData.dateSN}
             onChange={handleInputChange}
           />
         </div>
