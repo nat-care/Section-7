@@ -22,6 +22,13 @@ const PO = () => {
 
   const addRow = () => {
     setRows([...rows, rows.length + 1]);
+    setFormData((prevData) => ({
+      ...prevData,
+      products: [
+        ...prevData.products,
+        { item: "", quantity: 0, unit: "", unitPrice: 0, totalAmount: 0 },
+      ],
+    }));
   };
 
   const handleInputChange = (e) => {
@@ -36,6 +43,12 @@ const PO = () => {
     const { name, value } = e.target;
     const updatedProducts = [...formData.products];
     updatedProducts[index] = { ...updatedProducts[index], [name]: value };
+
+    if (name === "quantity" || name === "unitPrice") {
+      const totalAmount = updatedProducts[index].quantity * updatedProducts[index].unitPrice;
+      updatedProducts[index].totalAmount = totalAmount;
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       products: updatedProducts,
@@ -43,23 +56,28 @@ const PO = () => {
   };
 
   const handleSubmit = () => {
+    if (!formData.idPO || !formData.datePO || !formData.employeeName) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+      return;
+    }
+
     // Send the form data to the server via POST request
-    fetch("http://localhost:3000/purchase-requests", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    fetch("http://localhost:3000/purchase-orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     })
-    .then((response) => response.json())
-    .then((data) => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log("Form Data Submitted:", data);
         alert("ส่งคำขอเรียบร้อย!");
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error:", error);
         alert("เกิดข้อผิดพลาดในการส่งคำขอ");
-    });
+      });
   };
 
   return (
@@ -69,19 +87,19 @@ const PO = () => {
       {/* Form Section */}
       <div className="po-row">
         <div className="po-column">
-          <label htmlFor="id-po">ID-PO/NO:</label>
+          <label htmlFor="idPO">ID-PO/NO:</label>
           <input
             type="text"
-            id="id-po"
+            id="idPO"
             value={formData.idPO}
             onChange={handleInputChange}
           />
         </div>
         <div className="po-column">
-          <label htmlFor="date-po">วันที่:</label>
+          <label htmlFor="datePO">วันที่:</label>
           <input
             type="date"
-            id="date-po"
+            id="datePO"
             value={formData.datePO}
             onChange={handleInputChange}
           />
@@ -90,19 +108,19 @@ const PO = () => {
 
       <div className="po-row">
         <div className="po-column">
-          <label htmlFor="employee-name">ชื่อพนักงาน:</label>
+          <label htmlFor="employeeName">ชื่อพนักงาน:</label>
           <input
             type="text"
-            id="employee-name"
+            id="employeeName"
             value={formData.employeeName}
             onChange={handleInputChange}
           />
         </div>
         <div className="po-column">
-          <label htmlFor="employee-position">ตำแหน่งพนักงาน:</label>
+          <label htmlFor="employeePosition">ตำแหน่งพนักงาน:</label>
           <input
             type="text"
-            id="employee-position"
+            id="employeePosition"
             value={formData.employeePosition}
             onChange={handleInputChange}
           />
@@ -271,57 +289,6 @@ const PO = () => {
             type="text"
             id="notes"
             value={formData.notes}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
-
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="approver">ผู้มีอำนาจ:</label>
-          <input
-            type="text"
-            id="approver"
-            value={formData.approver}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="date-approver">วันที่:</label>
-          <input
-            type="date"
-            id="date-approver"
-            value={formData.dateApprover}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="po-column">
-          <label htmlFor="staff">ผู้จัดซื้อ:</label>
-          <input
-            type="text"
-            id="staff"
-            value={formData.staff}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="date-staff">วันที่:</label>
-          <input
-            type="date"
-            id="date-staff"
-            value={formData.dateStaff}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="po-column">
-          <label htmlFor="auditor">ผู้ตรวจสอบ:</label>
-          <input
-            type="text"
-            id="auditor"
-            value={formData.auditor}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="date-auditor">วันที่:</label>
-          <input
-            type="date"
-            id="date-auditor"
-            value={formData.dateAuditor}
             onChange={handleInputChange}
           />
         </div>

@@ -20,7 +20,8 @@ function loadDatabase() {
         purchase_requisitions: [], // Added
         shipping_notes: [], // Added
         requisition_forms: [], // Added
-        invoices: [] // Added
+        invoices: [], // Added
+        purchase_orders: [] // Added missing purchase_orders
     };
 }
 
@@ -39,7 +40,6 @@ app.get('/users', (req, res) => {
 
 /* POST: เพิ่มผู้ใช้ใหม่ */
 app.post('/users', (req, res) => {
-    const db = loadDatabase();
     const { id, username, password, role } = req.body;
     console.log("Received Data:", req.body); 
 
@@ -77,14 +77,14 @@ app.post('/login', (req, res) => {
 });
 
 // GET: ดึงข้อมูล purchase_requests
-app.get('/purchase_requests', (req, res) => {
+app.get('/purchase-requests', (req, res) => {
     const db = loadDatabase();
     res.json(db.purchase_requests || []);
 });
 
 // ** API สำหรับ Purchase Requisition (PR) **
 
-app.post('/purchase-requisitions', (req, res) => {
+app.post('/purchase-requests', (req, res) => {
     const { 
         user_id,
         dept, 
@@ -114,52 +114,118 @@ app.post('/purchase-requisitions', (req, res) => {
         total_amount,           
         status: "Pending"       
     };
-    db.purchase_requisitions.push(newRequest);
+    db.purchase_requests.push(newRequest);
     saveDatabase(db);
     res.status(200).json(newRequest);
 });
-
-// GET: Retrieve all Purchase Requisitions (PR)
-app.get('/purchase-requisitions', (req, res) => {
-    const db = loadDatabase();
-    res.json(db.purchase_requisitions);
-});
-
 // ** API สำหรับ Delivery Receipt (DR) **
 
 app.post('/delivery-receipts', (req, res) => {
     const { 
-        user_id, 
-        po_id, 
-        date, 
-        items, 
-        received_by 
+        idDR, 
+        drNo, 
+        dateDR, 
+        employeeName, 
+        employeePosition, 
+        department, 
+        section, 
+        products, 
+        totalAmount, 
+        discount, 
+        vat, 
+        netAmount, 
+        payment, 
+        notes, 
+        purchaseRecord, 
+        receiveGoods, 
+        returnDamagedGoods, 
+        checkGoods, 
+        approver, 
+        approvalDate, 
+        approvalDate2, // New field from frontend
+        goodsDetails, 
+        dueDate, 
+        deliveryDate, 
+        checkGoodsDetail, 
+        receiveGoodsDate, 
+        additionalDetails, 
+        remarks, 
+        senderName, // Sender Name from frontend
+        senderPosition, // Sender Position from frontend
+        receiverName, // Receiver Name from frontend
+        receiverPosition, // Receiver Position from frontend
     } = req.body;
 
-    if (!user_id || !po_id || !date || !items || !received_by) {
+    // Validate required fields
+    if (!idDR || !drNo || !dateDR || !employeeName || !employeePosition || !department || !section || !products) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
+    // Validate that products array is not empty
+    if (!products || products.length === 0) {
+        return res.status(400).json({ message: "Please provide at least one product" });
+    }
+
+    // Validate individual product fields
+    for (let i = 0; i < products.length; i++) {
+        const product = products[i];
+        if (!product.item || !product.quantity || !product.unit || !product.unitPrice) {
+            return res.status(400).json({ message: `Missing product details for item #${i + 1}` });
+        }
+    }
+
     const db = loadDatabase();
+
+    // Create a new Delivery Receipt entry
     const newDR = {
         id: Date.now(),
-        user_id,
-        po_id,
-        date,
-        items,
-        received_by,
-        status: "Pending"
+        idDR,
+        drNo, // DR.No from frontend
+        dateDR,
+        employeeName,
+        employeePosition,
+        department,
+        section,
+        products, // Array of product details
+        totalAmount,
+        discount,
+        vat,
+        netAmount,
+        payment,
+        notes,
+        purchaseRecord,
+        receiveGoods,
+        returnDamagedGoods,
+        checkGoods,
+        approver,
+        approvalDate,
+        approvalDate2, // New field for "วันที่อนุมัติ"
+        goodsDetails,
+        dueDate,
+        deliveryDate,
+        checkGoodsDetail,
+        receiveGoodsDate,
+        additionalDetails,
+        remarks,
+        senderName, // Sender Name from frontend
+        senderPosition, // Sender Position from frontend
+        receiverName, // Receiver Name from frontend
+        receiverPosition, // Receiver Position from frontend
+        status: "Pending" // Default status
     };
-    db.po_receipts.push(newDR);
+
+    db.delivery_receipts.push(newDR);
     saveDatabase(db);
-    res.status(200).json(newDR);
+
+    res.status(200).json(newDR); // Return the new delivery receipt data
 });
 
 // GET: Retrieve all Delivery Receipts (DR)
 app.get('/delivery-receipts', (req, res) => {
     const db = loadDatabase();
-    res.json(db.po_receipts);
+    res.json(db.delivery_receipts); // Return all delivery receipts
 });
+
 
 // ** API สำหรับ Shipping Notes **
 

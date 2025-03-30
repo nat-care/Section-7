@@ -71,6 +71,18 @@ const PR = () => {
     };
 
     const handleSubmit = async () => {
+        console.log('Sending data:', {
+            user_id: 1,
+            dept: formData.department,
+            position: formData.employeePosition,
+            subject: formData.detail,
+            list: formData.products.map(product => product.item),
+            quantity: formData.products.map(product => product.quantity),
+            counting_unit: formData.products.map(product => product.unit),
+            unit_price: formData.products.map(product => product.unitPrice),
+            total_amount: formData.products.map(product => product.totalAmount)
+        });
+    
         try {
             const response = await fetch('http://localhost:3000/purchase-requests', {
                 method: 'POST',
@@ -102,6 +114,7 @@ const PR = () => {
             alert('Error submitting request');
         }
     };
+    
 
     const renderDatePicker = (id, selectedDate, onChange) => (
         <DatePicker
@@ -119,35 +132,35 @@ const PR = () => {
             {/* Form Section */}
             <div className="row">
                 <div className="column">
-                    <label htmlFor="id-pr">ID-PR/NO:</label>
+                    <label htmlFor="idPR">ID-PR/NO:</label>
                     <input
                         type="text"
-                        id="id-pr"
+                        id="idPR"
                         value={formData.idPR}
                         onChange={handleInputChange}
                     />
                 </div>
                 <div className="column">
-                    <label htmlFor="date-pr">วันที่:</label>
-                    {renderDatePicker('date-pr', formData.datePR, (date) => setFormData({ ...formData, datePR: date }))}
+                    <label htmlFor="datePR">วันที่:</label>
+                    {renderDatePicker('datePR', formData.datePR, (date) => setFormData({ ...formData, datePR: date }))}
                 </div>
             </div>
 
             <div className="row">
                 <div className="column">
-                    <label htmlFor="employee-name">ชื่อพนักงาน:</label>
+                    <label htmlFor="employeeName">ชื่อพนักงาน:</label>
                     <input
                         type="text"
-                        id="employee-name"
+                        id="employeeName"
                         value={formData.employeeName}
                         onChange={handleInputChange}
                     />
                 </div>
                 <div className="column">
-                    <label htmlFor="employee-position">รหัสพนักงาน:</label>
+                    <label htmlFor="employeePosition">รหัสพนักงาน:</label>
                     <input
                         type="text"
-                        id="employee-position"
+                        id="employeePosition"
                         value={formData.employeePosition}
                         onChange={handleInputChange}
                     />

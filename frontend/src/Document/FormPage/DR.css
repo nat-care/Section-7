@@ -1,0 +1,130 @@
+/* DR.css */
+.DR-page {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .DR-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .DR-form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .DR-form-column {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .DR-form-column:last-child {
+    margin-right: 0;
+  }
+  
+  .DR-form-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .DR-checkbox-label {
+    display: block;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .DR-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .DR-text-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .DR-product-title {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .DR-product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .DR-product-table th,
+  .DR-product-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .DR-product-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .DR-add-row-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .DR-add-row-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .DR-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  
+  .DR-edit-request-btn,
+  .DR-submit-request-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .DR-edit-request-btn {
+    background-color: #f0ad4e;
+  }
+  
+  .DR-submit-request-btn {
+    background-color: #5bc0de;
+  }
+  
+  .DR-edit-request-btn:hover {
+    background-color: #ec971f;
+  }
+  
+  .DR-submit-request-btn:hover {
+    background-color: #31b0d5;
+  }
+  

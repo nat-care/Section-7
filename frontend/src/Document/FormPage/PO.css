@@ -54,6 +54,7 @@
 }
 
 /* Input Styling */
+/* Input Styling */
 .po-purchase-requisition input {
     width: 100%;
     padding: 10px;
@@ -63,6 +64,7 @@
     font-size: 14px;
     box-sizing: border-box;
     background-color: #fff;
+    color: black; /* Set input text color to black */
 }
 
 .po-purchase-requisition input[type="date"] {
@@ -72,7 +74,9 @@
     border-radius: 6px;
     margin-bottom: 14px;
     width: 100%;
+    color: black; /* Set date input text color to black */
 }
+
 
 /* Table Styling */
 .po-purchase-requisition table {

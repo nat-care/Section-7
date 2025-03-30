@@ -1,29 +1,36 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; 
+import "./DR.css";
 
 const DR = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
     idDR: "",
-    dateDR: "",
+    drNo: "", // DR No.
+    dateDR: "", // Date
     employeeName: "",
-    employeePosition: "",
-    department: "",
-    section: "",
-    detail: "",
-    products: [],
-    totalAmount: "",
-    discount: "",
-    vat: "",
-    netAmount: "",
-    payment: "",
-    notes: "",
-    purchaseRecord: false,
-    receiveGoods: false,
-    returnDamagedGoods: false,
+    employeePosition: "", // Employee Position
+    products: [], // Array of product objects
+    goodsDetails: "", // ตามสินค้า
+    dueDate: "", // วันที่ครบกำหนด
+    deliveryDate: "", // วันที่ส่งมอบสินค้า
+    checkGoodsDetail: "", // ตรวจรับสินค้าตาม
+    receiveGoodsDate: "", // ได้รับสินค้า
+    additionalDetails: "", // เรื่องรายละเอียด
+    remarks: "", // หมายเหตุ
+    approver: "", // ผู้อนุมัติ
+    approvalDate: "", // วันที่อนุมัติ
+    receiver: "", // ผู้รับพัสดุ
   });
 
   const addRow = () => {
     setRows([...rows, rows.length + 1]);
+    setFormData((prevData) => ({
+      ...prevData,
+      products: [
+        ...prevData.products,
+        { item: "", quantity: "", unit: "", unitPrice: "", totalAmount: "" },
+      ],
+    }));
   };
 
   const handleInputChange = (e) => {
@@ -34,18 +41,12 @@ const DR = () => {
     }));
   };
 
-  const handleCheckboxChange = (name, e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: e.target.checked,
-    }));
-  };
-
   const handleProductChange = (index, e) => {
     const { name, value } = e.target;
     const updatedProducts = [...formData.products];
     updatedProducts[index] = { ...updatedProducts[index], [name]: value };
 
+    // Calculate totalAmount if quantity or unitPrice changes
     if (name === "quantity" || name === "unitPrice") {
       const quantity = parseFloat(updatedProducts[index]?.quantity) || 0;
       const unitPrice = parseFloat(updatedProducts[index]?.unitPrice) || 0;
@@ -58,225 +59,153 @@ const DR = () => {
     }));
   };
 
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/saveDR", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        alert("Data saved successfully!");
-      } else {
-        alert("Failed to save data.");
-      }
-    } catch (error) {
-      console.error("Error saving data:", error);
+  const handleSubmit = () => {
+    console.log(formData); // Log the form data for debugging
+  
+    // Your existing validation logic
+    if (
+      !formData.idDR ||
+      !formData.dateDR ||
+      !formData.employeeName ||
+      !formData.products ||
+      formData.products.length === 0 ||
+      formData.products.some(
+        (product) =>
+          !product.item ||
+          !product.quantity ||
+          !product.unit ||
+          !product.unitPrice
+      )
+    ) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+      return;
     }
+  
+    // Continue with the POST request
+    fetch("http://localhost:3000/delivery-receipts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Form Data Submitted:", data);
+        alert("ส่งข้อมูลเรียบร้อย!");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+      });
   };
 
   return (
-    <div className="delivery-receipt-page">
-      <h2 className="delivery-receipt-title">ใบรับพัสดุ (Delivery Receipt)</h2>
+    <div className="DR-page">
+      <h2 className="DR-title">ใบรับพัสดุ (Delivery Receipt)</h2>
 
       {/* Form Section */}
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
+      <div className="DR-form-row">
+        <div className="DR-form-column">
           <label htmlFor="idDR">ID-DR/NO:</label>
           <input
             type="text"
             id="idDR"
             value={formData.idDR}
             onChange={handleInputChange}
-            className="delivery-receipt-form-input"
+            className="DR-form-input"
           />
         </div>
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="dateDR">DR.NO:</label>
+        <div className="DR-form-column">
+          <label htmlFor="drNo">DR.NO:</label>
           <input
             type="text"
-            id="dateDR"
-            value={formData.dateDR}
+            id="drNo"
+            value={formData.drNo}
             onChange={handleInputChange}
-            className="delivery-receipt-form-input"
+            className="DR-form-input"
           />
         </div>
       </div>
 
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
+      <div className="DR-form-row">
+        <div className="DR-form-column">
           <label htmlFor="dateDR">วันที่:</label>
           <input
             type="date"
             id="dateDR"
             value={formData.dateDR}
             onChange={handleInputChange}
-            className="delivery-receipt-form-input"
+            className="DR-form-input"
           />
         </div>
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="employeePosition">รหัสพนักงาน:</label>
+        <div className="DR-form-column">
+          <label htmlFor="employeePosition">ตำแหน่งพนักงาน:</label>
           <input
             type="text"
             id="employeePosition"
             value={formData.employeePosition}
             onChange={handleInputChange}
-            className="delivery-receipt-form-input"
+            className="DR-form-input"
           />
         </div>
       </div>
 
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="department">ตำแหน่ง:</label>
-          <input
-            type="text"
-            id="department"
-            value={formData.department}
-            onChange={handleInputChange}
-            className="delivery-receipt-form-input"
-          />
-        </div>
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="section">แผนก:</label>
-          <input
-            type="text"
-            id="section"
-            value={formData.section}
-            onChange={handleInputChange}
-            className="delivery-receipt-form-input"
-          />
-        </div>
+      {/* Other sections */}
+      <div className="DR-text-group">
+        <label htmlFor="goodsDetails">ตามสินค้า:</label>
+        <input
+          type="text"
+          id="goodsDetails"
+          value={formData.goodsDetails}
+          onChange={handleInputChange}
+          className="DR-text-input"
+        />
+        <label htmlFor="dueDate">วันที่ครบกำหนด:</label>
+        <input
+          type="date"
+          id="dueDate"
+          value={formData.dueDate}
+          onChange={handleInputChange}
+          className="DR-text-input"
+        />
+        <label htmlFor="deliveryDate">วันที่ส่งมอบสินค้า:</label>
+        <input
+          type="date"
+          id="deliveryDate"
+          value={formData.deliveryDate}
+          onChange={handleInputChange}
+          className="DR-text-input"
+        />
+        <label htmlFor="checkGoodsDetail">ตรวจรับสินค้าตาม:</label>
+        <input
+          type="text"
+          id="checkGoodsDetail"
+          value={formData.checkGoodsDetail}
+          onChange={handleInputChange}
+          className="DR-text-input"
+        />
+        <label htmlFor="receiveGoodsDate">ได้รับสินค้า:</label>
+        <input
+          type="date"
+          id="receiveGoodsDate"
+          value={formData.receiveGoodsDate}
+          onChange={handleInputChange}
+          className="DR-text-input"
+        />
+        <label htmlFor="additionalDetails">เรื่องรายละเอียด:</label>
+        <input
+          type="text"
+          id="additionalDetails"
+          value={formData.additionalDetails}
+          onChange={handleInputChange}
+          className="DR-text-input"
+        />
       </div>
 
-      <label className="delivery-receipt-checkbox-label">ตามสินค้า:</label>
-      <div className="delivery-receipt-checkbox-group">
-        <label>
-          <input
-            type="checkbox"
-            name="purchaseRecord"
-            checked={formData.purchaseRecord || false}
-            onChange={(e) => handleCheckboxChange("purchaseRecord", e)}
-            className="delivery-receipt-checkbox-input"
-          />
-          บันทึกจัดซื้อ/สั่งซื้อ
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="receiveGoods"
-            checked={formData.receiveGoods || false}
-            onChange={(e) => handleCheckboxChange("receiveGoods", e)}
-            className="delivery-receipt-checkbox-input"
-          />
-          รับพัสดุ
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="returnDamagedGoods"
-            checked={formData.returnDamagedGoods || false}
-            onChange={(e) => handleCheckboxChange("returnDamagedGoods", e)}
-            className="delivery-receipt-checkbox-input"
-          />
-          คืนพัสดุเสียหาย
-        </label>
-      </div>
-
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="detail">วันที่ครบกำหนด:</label>
-          <input
-            type="text"
-            id="detail"
-            value={formData.detail}
-            onChange={handleInputChange}
-            className="delivery-receipt-form-input"
-          />
-        </div>
-      </div>
-
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="deliveryDate">วันที่ส่งมอบสินค้า:</label>
-          <input
-            type="text"
-            id="deliveryDate"
-            value={formData.deliveryDate}
-            onChange={handleInputChange}
-            className="delivery-receipt-form-input"
-          />
-        </div>
-      </div>
-
-      <label className="delivery-receipt-checkbox-label">ตรวจรับสินค้าตาม:</label>
-      <div className="delivery-receipt-checkbox-group">
-        <label>
-          <input
-            type="checkbox"
-            name="checkGoods"
-            checked={formData.checkGoods || false}
-            onChange={(e) => handleCheckboxChange("checkGoods", e)}
-            className="delivery-receipt-checkbox-input"
-          />
-          ใบส่งของ
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="products"
-            checked={formData.products || false}
-            onChange={(e) => handleCheckboxChange("products", e)}
-            className="delivery-receipt-checkbox-input"
-          />
-          ใบสั่งซื้อ
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="products"
-            checked={formData.products || false}
-            onChange={(e) => handleCheckboxChange("products", e)}
-            className="delivery-receipt-checkbox-input"
-          />
-          ใบแจ้งชำระหนี้
-        </label>
-      </div>
-
-      <div className="delivery-receipt-received-section">
-        <label>ได้รับสินค้าและถือว่า:</label>
-        <div className="delivery-receipt-checkbox-group">
-          <label>
-            <input type="checkbox" className="delivery-receipt-checkbox-input" /> ถูกต้อง
-          </label>
-          <label>
-            <input type="checkbox" className="delivery-receipt-checkbox-input" /> ไม่ถูกต้อง
-          </label>
-        </div>
-        <div className="delivery-receipt-input-group">
-          <label>จำนวนรายการ:</label>
-          <input type="number" className="delivery-receipt-form-input" />
-          <label>สินค้าเสียหาย:</label>
-          <input type="text" className="delivery-receipt-form-input" />
-        </div>
-      </div>
-
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
-          <label htmlFor="notes">หมายเหตุ:</label>
-          <input
-            type="text"
-            id="notes"
-            value={formData.notes}
-            onChange={handleInputChange}
-            className="delivery-receipt-form-input"
-          />
-        </div>
-      </div>
-
-      <h3 className="delivery-receipt-product-title">โปรดกรอกข้อมูลสินค้า</h3>
-      <table id="productTable" className="delivery-receipt-product-table">
+      {/* Product Table */}
+      <h3 className="DR-product-title">โปรดกรอกข้อมูลสินค้า</h3>
+      <table id="productTable" className="DR-product-table">
         <thead>
           <tr>
             <th>ลำดับ</th>
@@ -295,45 +224,50 @@ const DR = () => {
                 <input
                   type="text"
                   name="item"
+                  id={`product-item-${index}`} // Added unique ID for better accessibility
                   value={formData.products[index]?.item || ""}
                   onChange={(e) => handleProductChange(index, e)}
-                  className="delivery-receipt-product-input"
+                  className="DR-product-input"
                 />
               </td>
               <td>
                 <input
                   type="number"
                   name="quantity"
+                  id={`product-quantity-${index}`} // Added unique ID for better accessibility
                   value={formData.products[index]?.quantity || ""}
                   onChange={(e) => handleProductChange(index, e)}
-                  className="delivery-receipt-product-input"
+                  className="DR-product-input"
                 />
               </td>
               <td>
                 <input
                   type="text"
                   name="unit"
+                  id={`product-unit-${index}`} // Added unique ID for better accessibility
                   value={formData.products[index]?.unit || ""}
                   onChange={(e) => handleProductChange(index, e)}
-                  className="delivery-receipt-product-input"
+                  className="DR-product-input"
                 />
               </td>
               <td>
                 <input
                   type="number"
                   name="unitPrice"
+                  id={`product-unitPrice-${index}`} // Added unique ID for better accessibility
                   value={formData.products[index]?.unitPrice || ""}
                   onChange={(e) => handleProductChange(index, e)}
-                  className="delivery-receipt-product-input"
+                  className="DR-product-input"
                 />
               </td>
               <td>
                 <input
                   type="number"
                   name="totalAmount"
+                  id={`product-totalAmount-${index}`} // Added unique ID for better accessibility
                   value={formData.products[index]?.totalAmount || ""}
                   readOnly
-                  className="delivery-receipt-product-input"
+                  className="DR-product-input"
                 />
               </td>
             </tr>
@@ -341,41 +275,61 @@ const DR = () => {
         </tbody>
       </table>
 
-      <button onClick={addRow} className="delivery-receipt-add-row-btn">
+      <button onClick={addRow} className="DR-add-row-btn">
         เพิ่มแถว
       </button>
 
-      <div className="delivery-receipt-form-row">
-        <div className="delivery-receipt-form-column">
+      {/* Remarks and Approval */}
+      <div className="DR-form-row">
+        <div className="DR-form-column">
+          <label htmlFor="remarks">หมายเหตุ:</label>
+          <input
+            type="text"
+            id="remarks"
+            value={formData.remarks}
+            onChange={handleInputChange}
+            className="DR-form-input"
+          />
+        </div>
+      </div>
+
+      <div className="DR-form-row">
+        <div className="DR-form-column">
           <label htmlFor="approver">ผู้อนุมัติ:</label>
           <input
             type="text"
             id="approver"
             value={formData.approver}
             onChange={handleInputChange}
-            className="delivery-receipt-form-input"
+            className="DR-form-input"
           />
         </div>
-        <div className="delivery-receipt-form-column">
+        <div className="DR-form-column">
           <label htmlFor="approvalDate">วันที่อนุมัติ:</label>
           <input
             type="date"
             id="approvalDate"
             value={formData.approvalDate}
             onChange={handleInputChange}
-            className="delivery-receipt-form-input"
+            className="DR-form-input"
+          />
+        </div>
+        <div className="DR-form-column">
+          <label htmlFor="receiver">ผู้รับพัสดุ:</label>
+          <input
+            type="text"
+            id="receiver"
+            value={formData.receiver}
+            onChange={handleInputChange}
+            className="DR-form-input"
           />
         </div>
       </div>
-      
-      <div className="delivery-receipt-buttons">
-        <button type="button" className="delivery-receipt-edit-request-btn">
-          แก้ไขคำขอ
-        </button>
-        <button type="button" className="delivery-receipt-submit-request-btn" onClick={handleSubmit}>
-          ส่งคำขอ
-        </button>
-      </div>
+
+      {/* Submit Button */}
+      <button onClick={handleSubmit} className="DR-submit-btn">
+        บันทึกข้อมูล
+      </button>
     </div>
   );
 };

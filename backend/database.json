@@ -37,18 +37,167 @@
       "role": "Procurement Officer"
     }
   ],
+  "purchase_orders": [
+    {
+      "idPO": "PO123",
+      "datePO": "2025-03-13",
+      "employeeName": "John Doe",
+      "employeePosition": "Procurement Officer",
+      "department": "IT",
+      "section": "Procurement",
+      "detail": "Request for printer purchase",
+      "products": [
+        {
+          "item": "Printer",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 50000
+        }
+      ],
+      "totalAmount": "50000",
+      "discount": "500",
+      "vat": "5000",
+      "netAmount": "55000",
+      "payment": "55000",
+      "notes": "Urgent Purchase"
+    },
+    {
+      "idPO": "PO124",
+      "datePO": "2025-03-14",
+      "employeeName": "Jane Smith",
+      "employeePosition": "Finance Officer",
+      "department": "Finance",
+      "section": "Accounts",
+      "detail": "Request for laptops",
+      "products": [
+        {
+          "item": "Laptop",
+          "quantity": 5,
+          "unit": "pcs",
+          "unitPrice": 15000,
+          "totalAmount": 75000
+        }
+      ],
+      "totalAmount": "75000",
+      "discount": "2000",
+      "vat": "7500",
+      "netAmount": "79500",
+      "payment": "79500",
+      "notes": "Urgent purchase for IT team"
+    },
+    {
+      "id": 1743337983212,
+      "idPO": "dadad",
+      "datePO": "2025-03-25",
+      "employeeName": "adadadad",
+      "employeePosition": "adad",
+      "department": "dadada",
+      "section": "ada",
+      "detail": "dadadada",
+      "products": [
+        {
+          "item": "98",
+          "unit": "97",
+          "quantity": "79789",
+          "totalAmount": 630253311,
+          "unitPrice": "7899"
+        }
+      ],
+      "totalAmount": "dad",
+      "discount": "dad",
+      "vat": "adada",
+      "netAmount": "ad",
+      "payment": "dad",
+      "notes": "adad",
+      "status": "Pending"
+    }
+  ],
   "purchase_requests": [
     {
       "id": 1742299694676,
-      "user_id": "11",
-      "dept": "hh",
-      "position": "gg",
-      "subject": "hh",
-      "list": "ff",
-      "quantity": 10,
-      "counting_unit": "10",
-      "unit_price": 50,
-      "total_amount": 1000,
+      "datePR": "2025-03-30",
+      "employeeName": "John Doe",
+      "employeePosition": "Procurement Officer",
+      "department": "IT",
+      "section": "Procurement",
+      "detail": "Request for printer",
+      "remark": "Urgent request",
+      "approver": "Jane Smith",
+      "staff": "Jack Brown",
+      "dateApproval": "2025-03-31",
+      "dateApproval2": "2025-04-01",
+      "products": [
+        {
+          "item": "Printer",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 50000
+        },
+        {
+          "item": "Paper",
+          "quantity": 50,
+          "unit": "packs",
+          "unitPrice": 200,
+          "totalAmount": 10000
+        }
+      ]
+    },
+    {
+      "id": 1743336072049,
+      "user_id": 1,
+      "dept": "Procurement",
+      "position": "Procurement Officer",
+      "subject": "Printer and Paper Supplies",
+      "list": [
+        "Printer",
+        "Paper"
+      ],
+      "quantity": [
+        10,
+        50
+      ],
+      "counting_unit": [
+        "pcs",
+        "packs"
+      ],
+      "unit_price": [
+        5000,
+        200
+      ],
+      "total_amount": [
+        50000,
+        10000
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": 1743336072050,
+      "user_id": 2,
+      "dept": "Finance",
+      "position": "Finance Officer",
+      "subject": "Laptops and Accessories",
+      "list": [
+        "Laptop",
+        "Mouse"
+      ],
+      "quantity": [
+        5,
+        5
+      ],
+      "counting_unit": [
+        "pcs",
+        "pcs"
+      ],
+      "unit_price": [
+        15000,
+        500
+      ],
+      "total_amount": [
+        75000,
+        2500
+      ],
       "status": "Pending"
     }
   ],
@@ -60,6 +209,30 @@
       "price": 5000,
       "stock_quantity": 100,
       "remaining_stock": 100
+    },
+    {
+      "product_id": 1743256805093,
+      "name": "Paper",
+      "description": "Paper for printing",
+      "price": 200,
+      "stock_quantity": 500,
+      "remaining_stock": 500
+    },
+    {
+      "product_id": 1743256805094,
+      "name": "Laptop",
+      "description": "High-performance laptop",
+      "price": 15000,
+      "stock_quantity": 50,
+      "remaining_stock": 50
+    },
+    {
+      "product_id": 1743256805095,
+      "name": "Mouse",
+      "description": "Wireless Mouse",
+      "price": 500,
+      "stock_quantity": 100,
+      "remaining_stock": 100
     }
   ],
   "stock_locations": [
@@ -68,6 +241,130 @@
       "product_id": 1743256805092,
       "warehouse_id": 1,
       "quantity": 50
+    },
+    {
+      "stock_id": 1743256805119,
+      "product_id": 1743256805093,
+      "warehouse_id": 1,
+      "quantity": 200
+    },
+    {
+      "stock_id": 1743256805120,
+      "product_id": 1743256805094,
+      "warehouse_id": 2,
+      "quantity": 30
+    },
+    {
+      "stock_id": 1743256805121,
+      "product_id": 1743256805095,
+      "warehouse_id": 2,
+      "quantity": 80
     }
+  ],
+  "invoices": [
+    {
+      "idInvoice": "INV12345",
+      "dateInvoice": "2025-03-15",
+      "purchaseOrderId": "PO123",
+      "totalAmount": "55000",
+      "paidAmount": "55000",
+      "balanceAmount": "0",
+      "paymentMethod": "Bank Transfer",
+      "paymentDate": "2025-03-15"
+    },
+    {
+      "idInvoice": "INV12346",
+      "dateInvoice": "2025-03-16",
+      "purchaseOrderId": "PO124",
+      "totalAmount": "79500",
+      "paidAmount": "79500",
+      "balanceAmount": "0",
+      "paymentMethod": "Credit Card",
+      "paymentDate": "2025-03-16"
+    }
+  ],
+  "requisition_forms": [
+    {
+      "id": "RF123",
+      "date": "2025-03-13",
+      "employeeName": "John Doe",
+      "department": "IT",
+      "products": [
+        {
+          "item": "Printer",
+          "quantity": 2,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 10000
+        }
+      ],
+      "totalAmount": "10000",
+      "status": "Approved",
+      "approver": "Jane Smith"
+    }
+  ],
+  "shipping_notes": [
+    {
+      "idShippingNote": "SN123",
+      "date": "2025-03-14",
+      "purchaseOrderId": "PO123",
+      "shippedBy": "Logistics Company",
+      "shipmentDate": "2025-03-14",
+      "deliveryDate": "2025-03-16",
+      "trackingNumber": "TRK123456"
+    },
+    {
+      "idShippingNote": "SN124",
+      "date": "2025-03-15",
+      "purchaseOrderId": "PO124",
+      "shippedBy": "Logistics Company",
+      "shipmentDate": "2025-03-15",
+      "deliveryDate": "2025-03-17",
+      "trackingNumber": "TRK123457"
+    }
+  ],
+  "delivery_receipts": [
+    {
+      "idDR": "12345",
+      "drNo": "DR001",
+      "dateDR": "2025-03-30",
+      "employeeName": "John Doe",
+      "employeePosition": "Manager",
+      "department": "Sales",
+      "section": "A",
+      "products": [
+        {
+          "item": "Product 1",
+          "quantity": 2,
+          "unit": "piece",
+          "unitPrice": 100
+        }
+      ],
+      "totalAmount": 200,
+      "discount": 10,
+      "vat": 15,
+      "netAmount": 205,
+      "payment": "Paid",
+      "notes": "Delivered on time",
+      "purchaseRecord": "PO001",
+      "receiveGoods": true,
+      "returnDamagedGoods": false,
+      "checkGoods": true,
+      "approver": "Jane Doe",
+      "approvalDate": "2025-03-28",
+      "approvalDate2": "2025-03-29",
+      "goodsDetails": "Goods are in good condition",
+      "dueDate": "2025-04-05",
+      "deliveryDate": "2025-03-30",
+      "checkGoodsDetail": "No issues",
+      "receiveGoodsDate": "2025-03-30",
+      "additionalDetails": "N/A",
+      "remarks": "Urgent delivery",
+      "senderName": "Alice",
+      "senderPosition": "Warehouse",
+      "receiverName": "Bob",
+      "receiverPosition": "Client"
+    }
+    
   ]
 }
