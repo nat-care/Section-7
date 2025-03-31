@@ -350,6 +350,36 @@
       "approvalDate": "2025-03-27",
       "approvalDate2": "2025-03-11",
       "status": "Pending"
+    },
+    {
+      "id": 1743439069465,
+      "idDR": "65465",
+      "drNo": "4646",
+      "dateDR": "2025-03-20",
+      "employeePosition": "6446",
+      "EmployeeID": "464",
+      "department": "46",
+      "products": [
+        {
+          "item": "464",
+          "quantity": "4646",
+          "totalAmount": "21585316.00",
+          "unit": "4646",
+          "unitPrice": "4646"
+        }
+      ],
+      "goodsDetails": "4646",
+      "dueDate": "2025-03-14",
+      "deliveryDate": "2025-03-12",
+      "checkGoodsDetail": "4646",
+      "receiveGoodsDate": "2025-03-29",
+      "additionalDetails": "4646",
+      "remarks": "4646",
+      "sender": "4646",
+      "receiver": "64646",
+      "approvalDate": "2025-03-27",
+      "approvalDate2": "2025-03-11",
+      "status": "Pending"
     }
   ]
 }
