@@ -111,6 +111,32 @@
       "payment": "dad",
       "notes": "adad",
       "status": "Pending"
+    },
+    {
+      "id": 1743393710074,
+      "idPO": "646",
+      "datePO": "2025-03-04",
+      "employeeName": "46",
+      "employeePosition": "46",
+      "department": "464",
+      "section": "46",
+      "detail": "646",
+      "products": [
+        {
+          "item": "646",
+          "quantity": "64",
+          "totalAmount": 2944,
+          "unit": "64",
+          "unitPrice": "46"
+        }
+      ],
+      "totalAmount": "464",
+      "discount": "646",
+      "vat": "46",
+      "netAmount": "46",
+      "payment": "464646",
+      "notes": "4646",
+      "status": "Pending"
     }
   ],
   "purchase_requests": [
@@ -199,6 +225,29 @@
         2500
       ],
       "status": "Pending"
+    },
+    {
+      "id": 1743393694434,
+      "user_id": 1,
+      "dept": "646",
+      "position": "464",
+      "subject": "46",
+      "list": [
+        "6464"
+      ],
+      "quantity": [
+        "6464"
+      ],
+      "counting_unit": [
+        "64"
+      ],
+      "unit_price": [
+        "646"
+      ],
+      "total_amount": [
+        "4175744.00"
+      ],
+      "status": "Pending"
     }
   ],
   "products": [
@@ -263,27 +312,65 @@
   ],
   "invoices": [
     {
-      "idInvoice": "INV12345",
-      "dateInvoice": "2025-03-15",
-      "purchaseOrderId": "PO123",
-      "totalAmount": "55000",
-      "paidAmount": "55000",
-      "balanceAmount": "0",
-      "paymentMethod": "Bank Transfer",
-      "paymentDate": "2025-03-15"
+      "id": 1743392001301,
+      "idIV": "474",
+      "companyThatMustPay": "474",
+      "detail": "7474",
+      "products": [
+        {
+          "item": "474",
+          "quantity": "74",
+          "unit": "7474",
+          "unitPrice": "747",
+          "totalAmount": 5476
+        }
+      ],
+      "totalAmount": "747",
+      "discount": "47",
+      "vat": "474",
+      "netAmount": "747",
+      "payment": "474",
+      "notes": "7474",
+      "companyName": "7474",
+      "companyAddress": "7",
+      "companyAddress2": "74",
+      "taxID": "7474",
+      "email1": "474",
+      "email2": "74",
+      "penalty": "747",
+      "approver": "47",
+      "staff": "474",
+      "dateApproval": "2025-03-19",
+      "dateApproval2": "2025-03-18",
+      "status": "Pending"
     },
     {
-      "idInvoice": "INV12346",
-      "dateInvoice": "2025-03-16",
-      "purchaseOrderId": "PO124",
-      "totalAmount": "79500",
-      "paidAmount": "79500",
-      "balanceAmount": "0",
-      "paymentMethod": "Credit Card",
-      "paymentDate": "2025-03-16"
+      "id": 1743393676426,
+      "idIV": "dad",
+      "companyThatMustPay": "46",
+      "detail": "4646",
+      "products": [],
+      "totalAmount": "646",
+      "discount": "46",
+      "vat": "46",
+      "netAmount": "464",
+      "payment": "46464",
+      "notes": "464",
+      "companyName": "464",
+      "companyAddress": "646",
+      "companyAddress2": "464",
+      "taxID": "464646",
+      "email1": "46",
+      "email2": "646",
+      "penalty": "464",
+      "approver": "4646",
+      "staff": "64",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "status": "Pending"
     }
   ],
-  "requisition_forms": [
+  "requisitions": [
     {
       "id": "RF123",
       "date": "2025-03-13",
@@ -301,6 +388,33 @@
       "totalAmount": "10000",
       "status": "Approved",
       "approver": "Jane Smith"
+    },
+    {
+      "id": 1743395069490,
+      "idRF": "dada",
+      "dateRF": "2025-03-12",
+      "employeeName": "ada",
+      "employeeId": "dad",
+      "senderName": "5245",
+      "detail": "4545",
+      "products": [
+        {
+          "item": "4545",
+          "quantity": "545",
+          "totalAmount": "2725.00",
+          "unit": "454",
+          "unitPrice": "5"
+        }
+      ],
+      "totalAmount": "",
+      "notes": "4545",
+      "approver": "454",
+      "approverStaff": "545",
+      "inventoryStaff": "45",
+      "dateApproval": "2025-03-28",
+      "dateApproval2": "2025-03-28",
+      "dateApproval3": "2025-03-10",
+      "status": "Pending"
     }
   ],
   "shipping_notes": [
@@ -321,6 +435,34 @@
       "shipmentDate": "2025-03-15",
       "deliveryDate": "2025-03-17",
       "trackingNumber": "TRK123457"
+    },
+    {
+      "id": 1743394343506,
+      "idSN": "dad",
+      "dateSN": "2025-03-03",
+      "employeeName": "dad",
+      "employeePosition": "adad",
+      "senderName": "adad",
+      "detail": "adad",
+      "products": [
+        {
+          "item": "564",
+          "quantity": "56456",
+          "unit": "456",
+          "unitPrice": "456",
+          "totalAmount": 25743936
+        }
+      ],
+      "totalAmount": "",
+      "notes": "",
+      "sender": "4646",
+      "reciver": "46",
+      "dateApproval": "2025-03-13",
+      "dateApproval2": "2025-03-11",
+      "parcelNumber": "4646",
+      "comments": "4646",
+      "transportCompany": "456",
+      "status": "Shipped"
     }
   ],
   "delivery_receipts": [
@@ -365,6 +507,5 @@
       "receiverName": "Bob",
       "receiverPosition": "Client"
     }
-    
   ]
 }

@@ -1,14 +1,10 @@
 import React, { useState } from "react";
+import "./IV.css";
 
 const IV = () => {
-  const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idIV: "", // Changed to idIV
-    dateIV: "", // Changed to dateIV
-    employeeName: "",
-    employeePosition: "",
-    department: "",
-    section: "",
+    idIV: "",
+    companyThatMustPay: "", // Changed section to companyThatMustPay
     detail: "",
     products: [],
     totalAmount: "",
@@ -17,10 +13,27 @@ const IV = () => {
     netAmount: "",
     payment: "",
     notes: "",
+    companyName: "", // Added
+    companyAddress: "", // Added
+    companyAddress2: "", // Added
+    taxID: "", // Added
+    email1: "", // Added
+    email2: "", // Added
+    penalty: "", // Added
+    approver: "", // Added
+    staff: "", // Added
+    dateApproval: "", // Added
+    dateApproval2: "", // Added
   });
 
   const addRow = () => {
-    setRows([...rows, rows.length + 1]);
+    setFormData((prevData) => ({
+      ...prevData,
+      products: [
+        ...prevData.products,
+        { item: "", quantity: "", unit: "", unitPrice: "", totalAmount: "" },
+      ],
+    }));
   };
 
   const handleInputChange = (e) => {
@@ -33,23 +46,49 @@ const IV = () => {
 
   const handleProductChange = (index, e) => {
     const { name, value } = e.target;
-    const updatedProducts = [...formData.products];
-    updatedProducts[index] = { ...updatedProducts[index], [name]: value };
-    setFormData((prevData) => ({
-      ...prevData,
-      products: updatedProducts,
-    }));
+    setFormData((prevData) => {
+      const updatedProducts = [...prevData.products];
+      updatedProducts[index] = {
+        ...updatedProducts[index],
+        [name]: value,
+        totalAmount:
+          name === "quantity" || name === "unitPrice"
+            ? Number(updatedProducts[index].quantity || 0) *
+              Number(updatedProducts[index].unitPrice || 0)
+            : updatedProducts[index].totalAmount,
+      };
+      return { ...prevData, products: updatedProducts };
+    });
   };
 
   const handleSubmit = async () => {
+    // Check for missing required fields
+    const requiredFields = [
+      'idIV',
+      'companyThatMustPay',
+      'detail',
+      'totalAmount',
+      'vat',
+      'netAmount',
+      'payment'
+    ];
+  
+    for (let field of requiredFields) {
+      if (!formData[field]) {
+        alert(`Missing required field: ${field}`);
+        return;
+      }
+    }
+  
     try {
-      const response = await fetch("http://localhost:5000/api/invoice", {
-        method: "POST", // or "PUT" depending on your API
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await fetch("http://localhost:3000/invoices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
+  
+      console.log("Response Status:", response.status);
+      console.log("Response Body:", await response.json());
   
       if (response.ok) {
         console.log("Form Data sent to the server successfully.");
@@ -61,126 +100,167 @@ const IV = () => {
       console.error("Error:", error);
     }
   };
+  
 
   return (
-    <div className="invoice">
-      <h2>ใบแจ้งหนี้ (Invoice)</h2>
+    <div className="invoice-page">
+      <h2 className="invoice-page__title">ใบแจ้งหนี้ (Invoice)</h2>
 
       {/* Form Section */}
-      <label htmlFor="">ผู้ส่งใบแจ้งหนี้</label>
-      <div className="row">
-        <div className="column">
-          <label htmlFor="id-IV">รหัสอ้างอิง</label>
+      <label htmlFor="" className="invoice-page__label">
+        ผู้ส่งใบแจ้งหนี้
+      </label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="idIV" className="invoice-page__input-label">
+            รหัสอ้างอิง
+          </label>
           <input
             type="text"
-            id="id-IV" // Changed id to id-IV
+            id="idIV"
+            className="invoice-page__input"
             value={formData.idIV}
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
-          <label htmlFor="companyName">ชื่อบริษัท</label>
+        <div className="invoice-page__column">
+          <label htmlFor="companyName" className="invoice-page__input-label">
+            ชื่อบริษัท
+          </label>
           <input
             type="text"
-            id="companyName" // Changed id to companyName
+            id="companyName"
+            className="invoice-page__input"
             value={formData.companyName}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="companyAddress">ที่อยู่ของบริษัท</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="companyAddress" className="invoice-page__input-label">
+            ที่อยู่ของบริษัท
+          </label>
           <input
             type="text"
-            id="companyAddress" // Changed id to companyAddress
+            id="companyAddress"
+            className="invoice-page__input"
             value={formData.companyAddress}
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
-          <label htmlFor="employee-position">อีเมล:</label>
+        <div className="invoice-page__column">
+          <label htmlFor="email1" className="invoice-page__input-label">
+            อีเมล:
+          </label>
           <input
-            type="text"
-            id="employee-position"
-            value={formData.employeePosition}
+            type="email"
+            id="email1"
+            className="invoice-page__input"
+            value={formData.email1}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <label htmlFor="">ชำระเงินหนี้</label>
+      <label htmlFor="" className="invoice-page__label">
+        ชำระเงินหนี้
+      </label>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="department">รหัสอ้างอิง:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="department" className="invoice-page__input-label">
+            รหัสอ้างอิง:
+          </label>
           <input
             type="text"
             id="department"
+            className="invoice-page__input"
             value={formData.department}
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
-          <label htmlFor="section">ชื่อบริษัทที่ต้องชำระเงิน:</label>
+        <div className="invoice-page__column">
+          <label
+            htmlFor="companyThatMustPay"
+            className="invoice-page__input-label"
+          >
+            ชื่อบริษัทที่ต้องชำระเงิน:
+          </label>
           <input
             type="text"
-            id="section"
-            value={formData.section}
+            id="companyThatMustPay"
+            className="invoice-page__input"
+            value={formData.companyThatMustPay}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="detail">ที่อยู่ของบริษัท:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label
+            htmlFor="companyAddress2"
+            className="invoice-page__input-label"
+          >
+            ที่อยู่ของบริษัท:
+          </label>
+          <input
+            type="text"
+            id="companyAddress2"
+            className="invoice-page__input"
+            value={formData.companyAddress2}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="invoice-page__column">
+          <label htmlFor="email2" className="invoice-page__input-label">
+            อีเมล:
+          </label>
+          <input
+            type="text"
+            id="email2"
+            className="invoice-page__input"
+            value={formData.email2}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="taxID" className="invoice-page__input-label">
+            Tax ID:
+          </label>
+          <input
+            type="text"
+            id="taxID"
+            className="invoice-page__input"
+            value={formData.taxID}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="detail" className="invoice-page__input-label">
+            เรื่องรายละเอียด:
+          </label>
           <input
             type="text"
             id="detail"
+            className="invoice-page__input"
             value={formData.detail}
             onChange={handleInputChange}
           />
         </div>
-
-        <div className="column">
-          <label htmlFor="section">อีเมล:</label>
-          <input
-            type="text"
-            id="section"
-            value={formData.section}
-            onChange={handleInputChange}
-          />
-        </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="taxID">Tax ID:</label> {/* Changed detail to taxID */}
-          <input
-            type="text"
-            id="taxID" // Changed detail to taxID
-            value={formData.taxID} // Changed to taxID
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="column">
-          <label htmlFor="detail">เรื่องรายละเอียด:</label>
-          <input
-            type="text"
-            id="detail"
-            value={formData.detail}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
-
-      <h3>โปรดกรอกข้อมูลสินค้า</h3>
-      <table id="productTable">
+      <h3 className="invoice-page__section-title">โปรดกรอกข้อมูลสินค้า</h3>
+      <table id="productTable" className="invoice-page__table">
         <thead>
           <tr>
             <th>ลำดับ</th>
@@ -192,13 +272,14 @@ const IV = () => {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, index) => (
+          {formData.products.map((row, index) => (
             <tr key={index}>
-              <td>{row}</td>
+              <td>{index + 1}</td>
               <td>
                 <input
                   type="text"
                   name="item"
+                  className="invoice-page__product-input"
                   value={formData.products[index]?.item || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
@@ -207,6 +288,7 @@ const IV = () => {
                 <input
                   type="number"
                   name="quantity"
+                  className="invoice-page__product-input"
                   value={formData.products[index]?.quantity || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
@@ -215,6 +297,7 @@ const IV = () => {
                 <input
                   type="text"
                   name="unit"
+                  className="invoice-page__product-input"
                   value={formData.products[index]?.unit || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
@@ -223,6 +306,7 @@ const IV = () => {
                 <input
                   type="number"
                   name="unitPrice"
+                  className="invoice-page__product-input"
                   value={formData.products[index]?.unitPrice || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
@@ -231,6 +315,7 @@ const IV = () => {
                 <input
                   type="number"
                   name="totalAmount"
+                  className="invoice-page__product-input"
                   value={formData.products[index]?.totalAmount || ""}
                   readOnly
                 />
@@ -241,141 +326,174 @@ const IV = () => {
       </table>
 
       {/* Add Row Button */}
-      <button onClick={addRow} id="addRowBtn">
+      <button onClick={addRow} className="invoice-page__button" id="addRowBtn">
         เพิ่มแถว
       </button>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="totalAmount">จำนวนเงิน:</label> {/* Changed detail to totalAmount */}
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="totalAmount" className="invoice-page__input-label">
+            จำนวนเงิน:
+          </label>
           <input
             type="text"
-            id="totalAmount" // Changed detail to totalAmount
-            value={formData.totalAmount} // Changed to totalAmount
+            id="totalAmount"
+            className="invoice-page__input"
+            value={formData.totalAmount}
             onChange={handleInputChange}
           />
         </div>
 
-        <div className="column">
-          <label htmlFor="discount">ส่วนลด:</label>
+        <div className="invoice-page__column">
+          <label htmlFor="discount" className="invoice-page__input-label">
+            ส่วนลด:
+          </label>
           <input
             type="text"
-            id="discount" // Changed section to discount
-            value={formData.discount} // Changed to discount
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="column">
-          <label htmlFor="vat">ภาษีมูลค่าเพิ่ม :</label> {/* Changed detail to vat */}
-          <input
-            type="text"
-            id="vat" // Changed detail to vat
-            value={formData.vat} // Changed to vat
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="column">
-          <label htmlFor="netAmount">รวมเงินทั้งสุทธิ:</label> {/* Changed section to netAmount */}
-          <input
-            type="text"
-            id="netAmount" // Changed section to netAmount
-            value={formData.netAmount} // Changed to netAmount
+            id="discount"
+            className="invoice-page__input"
+            value={formData.discount}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="payment">การชำระเงิน:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="vat" className="invoice-page__input-label">
+            ภาษีมูลค่าเพิ่ม :
+          </label>
+          <input
+            type="text"
+            id="vat"
+            className="invoice-page__input"
+            value={formData.vat}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="invoice-page__column">
+          <label htmlFor="netAmount" className="invoice-page__input-label">
+            รวมเงินทั้งสุทธิ:
+          </label>
+          <input
+            type="text"
+            id="netAmount"
+            className="invoice-page__input"
+            value={formData.netAmount}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="payment" className="invoice-page__input-label">
+            การชำระเงิน:
+          </label>
           <input
             type="text"
             id="payment"
+            className="invoice-page__input"
             value={formData.payment}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="notes">หมายเหตุ:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="notes" className="invoice-page__input-label">
+            หมายเหตุ:
+          </label>
           <input
             type="text"
             id="notes"
+            className="invoice-page__input"
             value={formData.notes}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="penalty">ค่าปรับหรือดอกเบี้ยในกรณีชำระล่าช้า:</label> {/* Changed notes to penalty */}
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="penalty" className="invoice-page__input-label">
+            ค่าปรับ:
+          </label>
           <input
             type="text"
-            id="penalty" // Changed notes to penalty
-            value={formData.penalty} // Changed to penalty
+            id="penalty"
+            className="invoice-page__input"
+            value={formData.penalty}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="approver">ผู้มีอำนาจออกใบแจ้งหนี้:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="approver" className="invoice-page__input-label">
+            ผู้อนุมัติ:
+          </label>
           <input
             type="text"
             id="approver"
+            className="invoice-page__input"
             value={formData.approver}
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
-          <label htmlFor="staff">ตราประทับบริษัท:</label>
+        <div className="invoice-page__column">
+          <label htmlFor="staff" className="invoice-page__input-label">
+            เจ้าหน้าที่:
+          </label>
           <input
             type="text"
             id="staff"
+            className="invoice-page__input"
             value={formData.staff}
             onChange={handleInputChange}
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="date-approval">วันที่:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="dateApproval" className="invoice-page__input-label">
+            วันที่อนุมัติ:
+          </label>
           <input
             type="date"
-            id="date-approval"
+            id="dateApproval"
+            className="invoice-page__input"
             value={formData.dateApproval}
             onChange={handleInputChange}
           />
         </div>
-        <div className="column">
-          <label htmlFor="date-approval2">วันที่:</label>
-          <input
-            type="date"
-            id="date-approval2"
-            value={formData.dateApproval2}
-            onChange={handleInputChange}
-          />
+
+        <div className="invoice-page__column">
+          <div className="invoice-page__column">
+            <label
+              htmlFor="dateApproval2"
+              className="invoice-page__input-label"
+            >
+              วันที่อนุมัติ:
+            </label>
+            <input
+              type="date"
+              id="dateApproval2"
+              className="invoice-page__input"
+              value={formData.dateApproval2}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Action Buttons (แก้ไขคำขอ and ส่งคำขอ) */}
-      <div className="buttons">
-        <button type="button" id="editRequestBtn">
-          แก้ไขคำขอ
-        </button>
-        <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
-          ส่งคำขอ
-        </button>
-      </div>
+      <button onClick={handleSubmit} className="invoice-page__submit-button">
+        บันทึกข้อมูล
+      </button>
     </div>
   );
 };

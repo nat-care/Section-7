@@ -19,7 +19,7 @@ function loadDatabase() {
         stock_locations: [], //คลังสินค้า
         purchase_requisitions: [], // Added
         shipping_notes: [], // Added
-        requisition_forms: [], // Added
+        requisitions: [], // Added
         invoices: [], // Added
         purchase_orders: [] // Added missing purchase_orders
     };
@@ -231,29 +231,57 @@ app.get('/delivery-receipts', (req, res) => {
 
 app.post('/shipping-notes', (req, res) => {
     const { 
-        user_id, 
-        po_id, 
-        shipping_date, 
-        shipping_company, 
-        tracking_number, 
-        items 
+        idSN, 
+        dateSN, 
+        employeeName, 
+        employeePosition, 
+        senderName, 
+        detail, 
+        products, 
+        totalAmount, 
+        notes, 
+        sender, 
+        reciver, 
+        dateApproval, 
+        dateApproval2, 
+        parcelNumber, 
+        transportCompany,
+        comments 
     } = req.body;
 
-    if (!user_id || !po_id || !shipping_date || !shipping_company || !tracking_number || !items) {
+    // Validate required fields
+    if (!idSN || !dateSN || !employeeName || !senderName || !products || products.length === 0) {
         return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Validate product details
+    const invalidProduct = products.find(product => !product.item || !product.quantity || !product.unit || !product.unitPrice);
+    if (invalidProduct) {
+        return res.status(400).json({ message: "Invalid product details" });
     }
 
     const db = loadDatabase();
     const newSN = {
         id: Date.now(),
-        user_id,
-        po_id,
-        shipping_date,
-        shipping_company,
-        tracking_number,
-        items,
+        idSN,
+        dateSN,
+        employeeName,
+        employeePosition,
+        senderName,
+        detail,
+        products,
+        totalAmount,
+        notes,
+        sender,
+        reciver,
+        dateApproval,
+        dateApproval2,
+        parcelNumber,
+        comments,
+        transportCompany,
         status: "Shipped"
     };
+
     db.shipping_notes.push(newSN);
     saveDatabase(db);
     res.status(200).json(newSN);
@@ -267,77 +295,148 @@ app.get('/shipping-notes', (req, res) => {
 
 // ** API สำหรับ Requisition Forms **
 
-app.post('/requisition-forms', (req, res) => {
+// POST: Create a new Requisition Form
+app.post('/requisitions', (req, res) => {
     const { 
-        user_id, 
-        dept, 
-        items, 
-        requested_by, 
-        reason 
+        idRF, 
+        dateRF, 
+        employeeName, 
+        employeeId, 
+        senderName, 
+        detail, 
+        products, 
+        totalAmount, 
+        notes, 
+        approver, 
+        approverStaff, 
+        inventoryStaff, 
+        dateApproval, 
+        dateApproval2, 
+        dateApproval3 
     } = req.body;
 
-    if (!user_id || !dept || !items || !requested_by || !reason) {
+    // Validate required fields
+    if (!idRF || !dateRF || !employeeName || !employeeId || !products || products.length === 0) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
     const db = loadDatabase();
+
+    // Create a new requisition form object
     const newRF = {
         id: Date.now(),
-        user_id,
-        dept,
-        items,
-        requested_by,
-        reason,
+        idRF,
+        dateRF,
+        employeeName,
+        employeeId,
+        senderName,
+        detail,
+        products,
+        totalAmount,
+        notes,
+        approver,
+        approverStaff,
+        inventoryStaff,
+        dateApproval,
+        dateApproval2,
+        dateApproval3,
         status: "Pending"
     };
-    db.requisition_forms.push(newRF);
+
+    // Save the new form to the database
+    db.requisitions.push(newRF);
     saveDatabase(db);
+
+    // Return the created requisition form as a response
     res.status(200).json(newRF);
 });
 
 // GET: Retrieve all Requisition Forms
-app.get('/requisition-forms', (req, res) => {
+app.get('/requisitions', (req, res) => {
     const db = loadDatabase();
-    res.json(db.requisition_forms);
+    res.json(db.requisitions);
 });
 
 // ** API สำหรับ Invoices **
 
+// POST: Create a new Invoice
 app.post('/invoices', (req, res) => {
+    console.log('Received request body:', req.body);  
     const { 
-        po_id, 
-        invoice_number, 
-        date, 
-        total_amount, 
-        payment_status, 
-        notes 
+        idIV, 
+        companyThatMustPay, 
+        detail, 
+        products, 
+        totalAmount, 
+        discount, 
+        vat, 
+        netAmount, 
+        payment, 
+        notes, 
+        companyName, 
+        companyAddress, 
+        companyAddress2, 
+        taxID, 
+        email1, 
+        email2, 
+        penalty, 
+        approver, 
+        staff, 
+        dateApproval, 
+        dateApproval2 
     } = req.body;
 
-    if (!po_id || !invoice_number || !date || !total_amount || !payment_status) {
+    // Check for required fields
+    if (!idIV ||  !companyThatMustPay || !totalAmount || !payment) {
         return res.status(400).json({ message: "Missing required fields" });
     }
 
     const db = loadDatabase();
     const newInvoice = {
         id: Date.now(),
-        po_id,
-        invoice_number,
-        date,
-        total_amount,
-        payment_status,
+        idIV,
+        companyThatMustPay,
+        detail,
+        products,
+        totalAmount,
+        discount,
+        vat,
+        netAmount,
+        payment,
         notes,
-        status: "Pending"
+        companyName,
+        companyAddress,
+        companyAddress2,
+        taxID,
+        email1,
+        email2,
+        penalty,
+        approver,
+        staff,
+        dateApproval,
+        dateApproval2,
+        status: "Pending" // Default status is "Pending"
     };
+
     db.invoices.push(newInvoice);
     saveDatabase(db);
-    res.status(200).json(newInvoice);
+    
+    // Respond with the newly created invoice
+    res.status(201).json(newInvoice); // 201 for successful creation
 });
 
 // GET: Retrieve all Invoices
 app.get('/invoices', (req, res) => {
     const db = loadDatabase();
+    
+    // If no invoices are found
+    if (!db.invoices || db.invoices.length === 0) {
+        return res.status(404).json({ message: "No invoices found" });
+    }
+
     res.json(db.invoices);
 });
+
 
 // ** API สำหรับ Purchase Orders (PO) **
 

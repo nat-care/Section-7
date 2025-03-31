@@ -1,0 +1,157 @@
+/* General styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Ensures padding and borders don't affect dimensions */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff; /* White background for the page */
+  height: 100%; /* Ensure the body takes full height */
+  overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.invoice-page {
+  padding: 20px;
+  max-width: 800px; /* Adjusted max-width */
+  margin: 0 auto;
+  background-color: #fff;
+  color: #000;
+  min-height: 100vh; /* Ensure content takes full height of the screen */
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.invoice-page__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #000;
+}
+
+.invoice-page__label {
+  font-size: 1rem;
+  margin-top: 15px;
+  font-weight: bold;
+  display: block;
+  color: #000;
+}
+
+.invoice-page__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.invoice-page__column {
+  flex: 1;
+  min-width: 180px;
+}
+
+.invoice-page__input-label {
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  display: block;
+  color: #000;
+}
+
+.invoice-page__input {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #858383;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  background-color: #fff;
+  color: #000;
+}
+
+.invoice-page__input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+.invoice-page__section-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.invoice-page__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+.invoice-page__table th,
+.invoice-page__table td {
+  padding: 10px;
+  border: 1px solid #000;
+  text-align: center;
+  color: #000;
+}
+
+.invoice-page__table th {
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
+}
+
+.invoice-page__product-input {
+  width: 100%;
+  padding: 4px;
+  font-size: 0.8rem;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+}
+
+.invoice-page__button {
+  background-color: #fff;
+  color: #000;
+  padding: 8px 15px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.invoice-page__button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.invoice-page__submit-button {
+  background-color: #fff;
+  color: #000;
+  padding: 12px 25px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.invoice-page__submit-button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .invoice-page__row {
+    flex-direction: column;
+  }
+}

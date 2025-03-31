@@ -1,26 +1,25 @@
 import React, { useState } from "react";
+import "./SN.css"; 
 
 const SN = () => {
   const [rows, setRows] = useState([1]); // Initial row
   const [formData, setFormData] = useState({
-    idSN: "",  // Changed from idPO to idSN
-    dateSN: "", // Changed from datePO to dateSN
+    idSN: "",
+    dateSN: "",
     employeeName: "",
     employeePosition: "",
-    department: "",
-    section: "",
+    senderName: "",
     detail: "",
     products: [],
     totalAmount: "",
-    discount: "",
-    vat: "",
-    netAmount: "",
-    payment: "",
     notes: "",
-    approver: "",
-    staff: "",
+    sender: "",
+    reciver: "",
     dateApproval: "",
     dateApproval2: "",
+    parcelNumber: "",
+    comments: "",
+    transportCompany: "",
   });
 
   const addRow = () => {
@@ -39,6 +38,13 @@ const SN = () => {
     const { name, value } = e.target;
     const updatedProducts = [...formData.products];
     updatedProducts[index] = { ...updatedProducts[index], [name]: value };
+
+    // Calculate totalAmount for the product
+    if (updatedProducts[index].quantity && updatedProducts[index].unitPrice) {
+      updatedProducts[index].totalAmount =
+        updatedProducts[index].quantity * updatedProducts[index].unitPrice;
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       products: updatedProducts,
@@ -46,85 +52,110 @@ const SN = () => {
   };
 
   const handleSubmit = () => {
-    console.log("Form Data:", formData);
-    alert("ส่งคำขอเรียบร้อย!");
+    if (!formData.idSN || !formData.dateSN || !formData.employeeName) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
+      return;
+    }
+
+    // Send the form data to the server via POST request
+    fetch("http://localhost:3000/shipping-notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Form Data Submitted:", data);
+        alert("ส่งคำขอเรียบร้อย!");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("เกิดข้อผิดพลาดในการส่งคำขอ");
+      });
   };
 
   return (
-    <div className="shipping-note">
-      <h2>ใบส่งพัสดุ  Shipping Note</h2>
+    <div className="invoice-page">
+      <h2 className="invoice-page__title">ใบส่งพัสดุ  Shipping Note</h2>
 
-      {/* Form Section */}
-      <div className="row">
-        <div className="column">
-          <label htmlFor="idSN">ID-SN/NO:</label> {/* Changed from idPO to idSN */}
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="idSN" className="invoice-page__input-label">ID-SN/NO:</label>
           <input
             type="text"
-            id="idSN"  // Changed from idPO to idSN
+            id="idSN"
             value={formData.idSN}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
 
-        <div className="column">
-          <label htmlFor="dateSN">วันที่:</label> {/* Changed from datePO to dateSN */}
+        <div className="invoice-page__column">
+          <label htmlFor="dateSN" className="invoice-page__input-label">วันที่:</label>
           <input
             type="date"
-            id="dateSN"  // Changed from datePO to dateSN
+            id="dateSN"
             value={formData.dateSN}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="employeeName">ชื่อพนักงานผู้รับ:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="employeeName" className="invoice-page__input-label">ชื่อพนักงานผู้รับ:</label>
           <input
             type="text"
             id="employeeName"
             value={formData.employeeName}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
 
-        <div className="column">
-          <label htmlFor="employeePosition">รหัสพนักงาน:</label>
+        <div className="invoice-page__column">
+          <label htmlFor="employeePosition" className="invoice-page__input-label">รหัสพนักงาน:</label>
           <input
             type="text"
             id="employeePosition"
             value={formData.employeePosition}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="department">ชื่อผู้ส่ง:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="senderName" className="invoice-page__input-label">ชื่อผู้ส่ง:</label>
           <input
             type="text"
-            id="department"
-            value={formData.department}
+            id="senderName"
+            value={formData.senderName}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="detail">เรื่องรายละเอียด:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="detail" className="invoice-page__input-label">เรื่องรายละเอียด:</label>
           <input
             type="text"
             id="detail"
             value={formData.detail}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <h3>โปรดกรอกข้อมูลสินค้า</h3>
-      <table id="productTable">
+      <h3 className="invoice-page__section-title">โปรดกรอกข้อมูลสินค้า</h3>
+      <table className="invoice-page__table">
         <thead>
           <tr>
             <th>ลำดับ</th>
@@ -145,6 +176,7 @@ const SN = () => {
                   name="item"
                   value={formData.products[index]?.item || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="invoice-page__product-input"
                 />
               </td>
               <td>
@@ -153,6 +185,7 @@ const SN = () => {
                   name="quantity"
                   value={formData.products[index]?.quantity || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="invoice-page__product-input"
                 />
               </td>
               <td>
@@ -161,6 +194,7 @@ const SN = () => {
                   name="unit"
                   value={formData.products[index]?.unit || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="invoice-page__product-input"
                 />
               </td>
               <td>
@@ -169,6 +203,7 @@ const SN = () => {
                   name="unitPrice"
                   value={formData.products[index]?.unitPrice || ""}
                   onChange={(e) => handleProductChange(index, e)}
+                  className="invoice-page__product-input"
                 />
               </td>
               <td>
@@ -177,6 +212,7 @@ const SN = () => {
                   name="totalAmount"
                   value={formData.products[index]?.totalAmount || ""}
                   readOnly
+                  className="invoice-page__product-input"
                 />
               </td>
             </tr>
@@ -184,95 +220,100 @@ const SN = () => {
         </tbody>
       </table>
 
-      {/* Add Row Button */}
-      <button onClick={addRow} id="addRowBtn">
+      <button onClick={addRow} className="invoice-page__button">
         เพิ่มแถว
       </button>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="notes">บริษัทขนส่ง:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="transportCompany" className="invoice-page__input-label">บริษัทขนส่ง:</label>
           <input
             type="text"
-            id="notes"
-            value={formData.notes}
+            id="transportCompany"
+            value={formData.transportCompany}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="parcelNumber">หมายเลขพัสดุ:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="parcelNumber" className="invoice-page__input-label">หมายเลขพัสดุ:</label>
           <input
             type="text"
             id="parcelNumber"
-            value={formData.notes}
+            value={formData.parcelNumber}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="comments">หมายเหตุ:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="comments" className="invoice-page__input-label">หมายเหตุ:</label>
           <input
             type="text"
             id="comments"
-            value={formData.notes}
+            value={formData.comments}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="approver">ผู้ส่งพัสดุ:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="sender" className="invoice-page__input-label">ผู้ส่งพัสดุ:</label>
           <input
             type="text"
-            id="approver"
-            value={formData.approver}
+            id="sender"
+            value={formData.sender}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
-        <div className="column">
-          <label htmlFor="staff">ผู้รับพัสดุ:</label>
+        <div className="invoice-page__column">
+          <label htmlFor="reciver" className="invoice-page__input-label">ผู้รับพัสดุ:</label>
           <input
             type="text"
-            id="staff"
-            value={formData.staff}
+            id="reciver"
+            value={formData.reciver}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      <div className="row">
-        <div className="column">
-          <label htmlFor="dateApproval">วันที่:</label>
+      <div className="invoice-page__row">
+        <div className="invoice-page__column">
+          <label htmlFor="dateApproval" className="invoice-page__input-label">วันที่:</label>
           <input
             type="date"
             id="dateApproval"
             value={formData.dateApproval}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
-        <div className="column">
-          <label htmlFor="dateApproval2">วันที่:</label>
+        <div className="invoice-page__column">
+          <label htmlFor="dateApproval2" className="invoice-page__input-label">วันที่:</label>
           <input
             type="date"
             id="dateApproval2"
             value={formData.dateApproval2}
             onChange={handleInputChange}
+            className="invoice-page__input"
           />
         </div>
       </div>
 
-      {/* Action Buttons (แก้ไขคำขอ and ส่งคำขอ) */}
-      <div className="buttons">
-        <button type="button" id="editRequestBtn">
+      <div className="invoice-page__buttons">
+        <button type="button" className="invoice-page__button">
           แก้ไขคำขอ
         </button>
-        <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
+        <button type="button" className="invoice-page__submit-button" onClick={handleSubmit}>
           ส่งคำขอ
         </button>
       </div>
