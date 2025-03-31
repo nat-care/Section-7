@@ -86,32 +86,41 @@ app.get('/purchase-requests', (req, res) => {
 
 app.post('/purchase-requests', (req, res) => {
     const { 
-        user_id,
-        dept, 
-        position, 
-        subject,  
-        list, 
-        quantity, 
-        counting_unit, 
-        unit_price,
-        total_amount } = req.body;
+        idPR,
+        datePR,
+        employeeName,
+        employeePosition,
+        department,
+        section,
+        detail,
+        remark,
+        approver,
+        staff,
+        dateApproval,
+        dateApproval2,
+        products,
+        } = req.body;
     console.log("Received Purchase Request:", req.body);
-    if (!user_id || !dept || !position || !subject || !list || !quantity || !counting_unit || !unit_price || !total_amount) {
+    if (!idPR || !datePR || !employeeName || !employeePosition || !department || !section || !detail || !products) {
       return res.status(400).json({ message: "ข้อมูลไม่ครบถ้วน" });
     }
 
     const db = loadDatabase();
     const newRequest = {
         id: Date.now(),
-        user_id,
-        dept,                   
-        position,               
-        subject,                
-        list,                   
-        quantity,               
-        counting_unit,          
-        unit_price,             
-        total_amount,           
+        idPR,
+        datePR,
+        employeeName,
+        employeePosition,
+        department,
+        section,
+        detail,
+        remark,
+        approver,
+        staff,
+        dateApproval,
+        dateApproval2,
+        products,           
         status: "Pending"       
     };
     db.purchase_requests.push(newRequest);

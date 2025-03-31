@@ -17,7 +17,7 @@ const pages = [
   },
   {
     id: "PR0223981",
-    text: "ใบรับวัสดุ",
+    text: "ใบรับพัสดุ",
     engText: "Delivery Receipt",
     path: "/form/dr",
   },
@@ -29,7 +29,7 @@ const pages = [
   },
   {
     id: "PR5429881",
-    text: "ใบกำกับภาษี",
+    text: "ใบกำกับแจ้งหนี้",
     engText: "Invoice",
     path: "/form/iv",
   },

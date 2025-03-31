@@ -71,17 +71,23 @@ const PR = () => {
     };
 
     const handleSubmit = async () => {
-        console.log('Sending data:', {
-            user_id: 1,
-            dept: formData.department,
-            position: formData.employeePosition,
-            subject: formData.detail,
-            list: formData.products.map(product => product.item),
-            quantity: formData.products.map(product => product.quantity),
-            counting_unit: formData.products.map(product => product.unit),
-            unit_price: formData.products.map(product => product.unitPrice),
-            total_amount: formData.products.map(product => product.totalAmount)
-        });
+        const requestData = {
+            idPR: formData.idPR,
+            datePR: formData.datePR,
+            employeeName: formData.employeeName,
+            employeePosition: formData.employeePosition,
+            department: formData.department,
+            section: formData.section,
+            detail: formData.detail,
+            remark: formData.remark,
+            approver: formData.approver,
+            staff: formData.staff,
+            dateApproval: formData.dateApproval,
+            dateApproval2: formData.dateApproval2,
+            products: formData.products // ส่ง products เป็น object array ตาม API
+        };
+    
+        console.log('Sending data:', requestData);
     
         try {
             const response = await fetch('http://localhost:3000/purchase-requests', {
@@ -89,17 +95,7 @@ const PR = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    user_id: 1, 
-                    dept: formData.department,
-                    position: formData.employeePosition,
-                    subject: formData.detail,
-                    list: formData.products.map(product => product.item),
-                    quantity: formData.products.map(product => product.quantity),
-                    counting_unit: formData.products.map(product => product.unit),
-                    unit_price: formData.products.map(product => product.unitPrice),
-                    total_amount: formData.products.map(product => product.totalAmount)
-                })
+                body: JSON.stringify(requestData)
             });
     
             if (response.ok) {
@@ -114,6 +110,7 @@ const PR = () => {
             alert('Error submitting request');
         }
     };
+    
     
 
     const renderDatePicker = (id, selectedDate, onChange) => (
