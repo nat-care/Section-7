@@ -7,8 +7,9 @@ const DR = () => {
     idDR: "",
     drNo: "", // DR No.
     dateDR: "", // Date
-    employeeName: "",
     employeePosition: "", // Employee Position
+    EmployeeID: "",
+    department: "", // Department
     products: [], // Array of product objects
     goodsDetails: "", // ตามสินค้า
     dueDate: "", // วันที่ครบกำหนด
@@ -17,9 +18,10 @@ const DR = () => {
     receiveGoodsDate: "", // ได้รับสินค้า
     additionalDetails: "", // เรื่องรายละเอียด
     remarks: "", // หมายเหตุ
-    approver: "", // ผู้อนุมัติ
+    sender: "",   // ผู้ส่งพัสดุ
+    receiver: "", //  ผู้รับพัสดุ
     approvalDate: "", // วันที่อนุมัติ
-    receiver: "", // ผู้รับพัสดุ
+    approvalDate2: "", // วันที่อนุมัติ (ผู้รับพัสดุ)
   });
 
   const addRow = () => {
@@ -66,7 +68,6 @@ const DR = () => {
     if (
       !formData.idDR ||
       !formData.dateDR ||
-      !formData.employeeName ||
       !formData.products ||
       formData.products.length === 0 ||
       formData.products.some(
@@ -140,11 +141,34 @@ const DR = () => {
           />
         </div>
         <div className="DR-form-column">
-          <label htmlFor="employeePosition">ตำแหน่งพนักงาน:</label>
+          <label htmlFor="EmployeeID">รหัสพนักงาน:</label>
+          <input
+            type="text"
+            id="EmployeeID"
+            value={formData.EmployeeID}
+            onChange={handleInputChange}
+            className="DR-form-input"
+          />
+        </div>
+      </div>
+
+      <div className="DR-form-row">
+        <div className="DR-form-column">
+          <label htmlFor="employeePosition">ตำแหน่ง</label>
           <input
             type="text"
             id="employeePosition"
             value={formData.employeePosition}
+            onChange={handleInputChange}
+            className="DR-form-input"
+          />
+        </div>
+        <div className="DR-form-column">
+          <label htmlFor="department">แผนก</label>
+          <input
+            type="text"
+            id="department"
+            value={formData.department}
             onChange={handleInputChange}
             className="DR-form-input"
           />
@@ -295,10 +319,10 @@ const DR = () => {
 
       <div className="DR-form-row">
         <div className="DR-form-column">
-          <label htmlFor="approver">ผู้อนุมัติ:</label>
+          <label htmlFor="sender">ผู้ส่งพัสดุ:</label>
           <input
             type="text"
-            id="approver"
+            id="sender"
             value={formData.approver}
             onChange={handleInputChange}
             className="DR-form-input"
@@ -314,12 +338,26 @@ const DR = () => {
             className="DR-form-input"
           />
         </div>
+       
+      </div>
+
+      <div className="DR-form-row">
         <div className="DR-form-column">
           <label htmlFor="receiver">ผู้รับพัสดุ:</label>
           <input
             type="text"
             id="receiver"
             value={formData.receiver}
+            onChange={handleInputChange}
+            className="DR-form-input"
+          />
+        </div>
+        <div className="DR-form-column">
+          <label htmlFor="approvalDate2">วันที่อนุมัติ:</label>
+          <input
+            type="date"
+            id="approvalDate2"
+            value={formData.approvalDate2}
             onChange={handleInputChange}
             className="DR-form-input"
           />

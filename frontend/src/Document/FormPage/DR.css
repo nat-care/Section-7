@@ -1,130 +1,147 @@
-/* DR.css */
+/* General styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .DR-page {
-    font-family: Arial, sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .DR-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 30px;
-  }
-  
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  color: #000;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.DR-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #000;
+}
+
+/* Form Section */
+.DR-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.DR-form-column {
+  flex: 1;
+  min-width: 180px;
+}
+
+.DR-form-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #858383;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  background-color: #fff;
+  color: #000;
+}
+
+.DR-form-input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+/* Text inputs */
+.DR-text-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.9rem;
+  border: 1px solid #858383;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  background-color: #fff;
+  color: #000;
+}
+
+.DR-text-input:focus {
+  border-color: #000;
+  outline: none;
+}
+
+/* Product Table */
+.DR-product-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.DR-product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+.DR-product-table th,
+.DR-product-table td {
+  padding: 10px;
+  border: 1px solid #000;
+  text-align: center;
+  color: #000;
+}
+
+.DR-product-table th {
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
+}
+
+.DR-product-input {
+  width: 100%;
+  padding: 4px;
+  font-size: 0.8rem;
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Button Styles */
+.DR-add-row-btn,
+.DR-submit-btn {
+  background-color: #fff;
+  color: #000;
+  padding: 8px 15px;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 12px;
+}
+
+.DR-add-row-btn:hover,
+.DR-submit-btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .DR-form-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .DR-form-column {
-    flex: 1;
-    margin-right: 20px;
-  }
-  
-  .DR-form-column:last-child {
-    margin-right: 0;
-  }
-  
-  .DR-form-input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .DR-checkbox-label {
-    display: block;
-    font-weight: bold;
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .DR-checkbox-group {
-    display: flex;
     flex-direction: column;
-    gap: 10px;
   }
-  
-  .DR-text-input {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  .DR-product-title {
-    font-size: 1.5rem;
-    margin-top: 30px;
-    margin-bottom: 20px;
-  }
-  
-  .DR-product-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-  }
-  
-  .DR-product-table th,
-  .DR-product-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  .DR-product-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .DR-add-row-btn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .DR-add-row-btn:hover {
-    background-color: #45a049;
-  }
-  
-  .DR-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-  }
-  
-  .DR-edit-request-btn,
-  .DR-submit-request-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .DR-edit-request-btn {
-    background-color: #f0ad4e;
-  }
-  
-  .DR-submit-request-btn {
-    background-color: #5bc0de;
-  }
-  
-  .DR-edit-request-btn:hover {
-    background-color: #ec971f;
-  }
-  
-  .DR-submit-request-btn:hover {
-    background-color: #31b0d5;
-  }
-  
+}
