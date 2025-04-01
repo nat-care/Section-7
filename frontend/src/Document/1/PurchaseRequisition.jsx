@@ -1,35 +1,53 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import "./PurchaseRequisition.css";
 import html2pdf from "html2pdf.js";
 
 const PurchaseRequisition = () => {
   const documentRef = useRef();
-
-  // กำหนดข้อมูลใน state ให้ครบทุก field
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    prNo: "PO12345",
-    date: "2025-03-26",
-    desiredDate: "2025-04-01",
-    department: "IT",
-    position: "Manager",
-    subject: "Purchase Order for Laptops",
-    items: [
-      { id: 1, description: "Laptop", quantity: 5, unit: "pcs", unitPrice: 20000, total: 100000 },
-      { id: 2, description: "Monitor", quantity: 3, unit: "pcs", unitPrice: 5000, total: 15000 },
-      { id: 3, description: "Keyboard", quantity: 10, unit: "pcs", unitPrice: 300, total: 3000 }
-    ],
-    note: "Please process this order as soon as possible.",
-    approvalSignature: "John Doe",
-    approvalDate: "2025-03-25",
-    purchasingSignature: "Jane Smith",
-    purchasingDate: "2025-03-26"
+    idPR: "",
+    datePR: "",
+    employeeName: "",
+    employeePosition: "",
+    department: "",
+    section: "",
+    detail: "",
+    remark: "",
+    approver: "",
+    staff: "",
+    dateApproval: "",
+    dateApproval2: "",
+    products: [],
   });
+
+  useEffect(() => {
+    if (location.state?.receiptData) {
+      setFormData((prevState) => ({
+        ...prevState,
+        ...location.state.receiptData,
+        products: Array.isArray(location.state.receiptData.products)
+          ? location.state.receiptData.products
+          : [],
+        datePR: location.state.receiptData.datePR
+          ? new Date(location.state.receiptData.datePR).toLocaleDateString()
+          : "",
+        dateApproval: location.state.receiptData.dateApproval
+          ? new Date(location.state.receiptData.dateApproval).toLocaleDateString()
+          : "",
+        dateApproval2: location.state.receiptData.dateApproval2
+          ? new Date(location.state.receiptData.dateApproval2).toLocaleDateString()
+          : "",
+      }));
+    }
+  }, [location.state]);
 
   // ฟังก์ชันสำหรับพิมพ์เป็น PDF (ผ่าน react-to-print)
   const handlePrint = useReactToPrint({
     content: () => documentRef.current,
-    documentTitle: "Purchase Document"
+    documentTitle: "Purchase Document",
   });
 
   // ฟังก์ชันสร้าง PDF ด้วย html2pdf
@@ -40,7 +58,7 @@ const PurchaseRequisition = () => {
       filename: "purchase_document.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
     };
     html2pdf().set(opt).from(element).save();
   };
@@ -49,23 +67,21 @@ const PurchaseRequisition = () => {
     <div className="purchase-requisition-container">
       {/* เอกสารใบจัดซื้อ */}
       <div className="purchase-requisition-document" ref={documentRef}>
-        <h2 style={{ textAlign: 'center', marginTop: '0' }}>ใบจัดซื้อ</h2>
+        <h2 style={{ textAlign: "center", marginTop: "0" }}>ใบจัดขอจัดซื้อ</h2>
 
         {/* ส่วนหัวของเอกสาร */}
         <div className="purchase-requisition-header">
           <div className="header-right">
-            <p>PR.NO: {formData.prNo}</p>
-            <p>วันที่: {formData.date}</p>
+            <p>PR.NO: {formData.idPR}</p>
+            <p>วันที่: {formData.datePR}</p>
           </div>
         </div>
 
         {/* ส่วนรายละเอียด */}
         <div className="purchase-requisition-section">
-          <p>วันที่ต้องการใช้: {formData.desiredDate}</p>
-          <p>
-            แผนก: {formData.department} ตำแหน่ง: {formData.position}
-          </p>
-          <p>เรื่อง: {formData.subject}</p>
+          <p>ชื่อผู้ขอซื้อ: {formData.employeeName}</p>
+          <p>แผนก: {formData.section} ตำแหน่ง: {formData.department}</p>
+          <p>เรื่อง: {formData.detail}</p>
         </div>
 
         {/* ตารางรายการสินค้า */}
@@ -81,35 +97,41 @@ const PurchaseRequisition = () => {
             </tr>
           </thead>
           <tbody>
-            {formData.items.map((item, index) => (
-              <tr key={item.id}>
-                <td>{index + 1}</td>
-                <td>{item.description}</td>
-                <td>{item.quantity}</td>
-                <td>{item.unit}</td>
-                <td>{item.unitPrice}</td>
-                <td>{item.total}</td>
+            {formData.products?.length > 0 ? (
+              formData.products.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.item}</td>
+                  <td>{item.quantity}</td>
+                  <td>{item.unit}</td>
+                  <td>{item.unitPrice}</td>
+                  <td>{item.totalAmount}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" style={{ textAlign: "center" }}>ไม่มีรายการสินค้า</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
 
         {/* หมายเหตุ */}
         <div className="purchase-requisition-section">
-          <p>หมายเหตุ: {formData.note}</p>
+          <p>หมายเหตุ: {formData.remark}</p>
         </div>
 
         {/* ลายเซ็น */}
         <div className="purchase-requisition-signature">
           <div className="signature-block">
             <p>ผู้อนุมัติฝ่ายจัดซื้อ</p>
-            <div className="signature-line">{formData.approvalSignature}</div>
-            <p>วันที่: {formData.approvalDate}</p>
+            <div className="signature-line">{formData.approver}</div>
+            <p>วันที่: {formData.dateApproval}</p>
           </div>
           <div className="signature-block">
             <p>เจ้าหน้าที่ฝ่ายจัดซื้อ</p>
-            <div className="signature-line">{formData.purchasingSignature}</div>
-            <p>วันที่: {formData.purchasingDate}</p>
+            <div className="signature-line">{formData.staff}</div>
+            <p>วันที่: {formData.dateApproval2}</p>
           </div>
         </div>
       </div>

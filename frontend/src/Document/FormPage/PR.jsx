@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker'; 
 import "react-datepicker/dist/react-datepicker.css"; 
 import './PR.css';
 
 const PR = () => {
     const [rows, setRows] = useState([1]); 
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         idPR: '',
         datePR: '',
@@ -102,6 +104,7 @@ const PR = () => {
                 const result = await response.json();
                 console.log('Purchase Request Submitted:', result);
                 alert('ส่งคำขอเรียบร้อย!');
+                navigate("/purchase", { state: { receiptData: formData } });
             } else {
                 alert('Error submitting request');
             }
