@@ -1,54 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Invoice.css';
-import html2pdf from 'html2pdf.js';
+import axios from 'axios';
 
 const Invoice = () => {
-  // กำหนดข้อมูลใบแจ้งหนี้ใน state
-  const [invoiceData, setInvoiceData] = useState({
-    issuer: {
-      ref: "12345",
-      company: "บริษัท ABC จำกัด",
-      address: "123 ถนน XYZ, แขวง ABC, เขต DEF, กรุงเทพมหานคร",
-      email: "example@company.com",
-    },
-    payer: {
-      ref: "67890",
-      company: "บริษัท DEF จำกัด",
-      address: "456 ถนน ABC, แขวง DEF, เขต GHI, กรุงเทพมหานคร",
-      email: "customer@company.com",
-      taxId: "123-456-7890",
-    },
-    details: "รายละเอียดการขายสินค้า/บริการ: จำหน่ายสินค้า Office Supplies และบริการดูแลระบบ",
-    items: [
-      { id: 1, description: "สินค้า A", quantity: 10, unit: "ชิ้น", unitPrice: 500, total: 5000 },
-      { id: 2, description: "สินค้า B", quantity: 5, unit: "ชิ้น", unitPrice: 800, total: 4000 },
-    ],
-    discount: 0.01, // 1%
-    vat: 0.07, // 7%
-    // คำนวณยอดรวม ตัวอย่างคำนวณอย่างง่าย:
-    subtotal: 9000,
-    discountAmount: 90, // 9000 * 0.01
-    vatAmount: 623, // (9000 - 90) * 0.07 ≈ 623
-    total: 9533, // 9000 - 90 + 623
-    signatures: {
-      issuerSignature: "นายสมชาย ใจดี",
-      issuerDate: "2025-03-26",
-      payerSignature: "นางสาวสมปอง พอใจ",
-      payerDate: "2025-03-27",
-    },
-  });
+  const [invoiceData, setInvoiceData] = useState(null);
 
-  const generatePDF = () => {
-    const element = document.getElementById('invoice-content');
-    const opt = {
-      margin: 0.5,
-      filename: 'invoice.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
+  // ฟังก์ชันสำหรับฟอร์แมตตัวเลขให้มีคอมม่าและแสดงทศนิยม 2 ตำแหน่ง
+  const formatCurrency = (num) => {
+    return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
+
+  useEffect(() => {
+    const fetchLatestInvoice = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/invoices/latest");
+        const data = response.data;
+
+        const subtotal = data.products.reduce(
+          (sum, p) => sum + Number(p.totalAmount || 0),
+          0
+        );
+        const discountRate = parseFloat(data.discount || 0) / 100;
+        const vatRate = 0.07; // บังคับภาษี 7%
+        const discountAmount = subtotal * discountRate;
+        const vatAmount = (subtotal - discountAmount) * vatRate;
+        const total = subtotal - discountAmount + vatAmount;
+
+        setInvoiceData({
+          issuer: {
+            ref: data.idIV,
+            company: data.companyName,
+            address: data.companyAddress,
+            email: data.email1,
+          },
+          payer: {
+            ref: data.department,
+            company: data.companyThatMustPay,
+            address: data.companyAddress2,
+            email: data.email2,
+            taxId: data.taxID,
+          },
+          details: data.detail,
+          items: data.products.map((p, i) => ({
+            id: i + 1,
+            description: p.item,
+            quantity: parseFloat(p.quantity),
+            unit: p.unit,
+            unitPrice: parseFloat(p.unitPrice),
+            total: parseFloat(p.totalAmount),
+          })),
+          discount: discountRate,
+          vat: vatRate,
+          subtotal,
+          discountAmount,
+          vatAmount,
+          total,
+          signatures: {
+            issuerSignature: data.approver,
+            issuerDate: data.dateApproval,
+            payerSignature: data.staff,
+            payerDate: data.dateApproval2,
+          },
+        });
+      } catch (error) {
+        console.error("Error fetching latest invoice:", error);
+      }
+    };
+
+    fetchLatestInvoice();
+  }, []);
+
+  // ฟังก์ชันสำหรับเรียกหน้าต่างพิมพ์
+  const printInvoice = () => {
+    window.print();
+  };
+
+  if (!invoiceData) {
+    return <p>กำลังโหลดข้อมูลใบแจ้งหนี้...</p>;
+  }
 
   return (
     <div className="invoice-container">
@@ -96,21 +125,21 @@ const Invoice = () => {
                 <td>{item.description}</td>
                 <td>{item.quantity}</td>
                 <td>{item.unit}</td>
-                <td>{item.unitPrice} บาท</td>
-                <td>{item.total} บาท</td>
+                <td>{formatCurrency(item.unitPrice)} บาท</td>
+                <td>{formatCurrency(item.total)} บาท</td>
               </tr>
             ))}
             <tr>
               <td colSpan="5">ส่วนลด {invoiceData.discount * 100}%</td>
-              <td>- {invoiceData.discountAmount} บาท</td>
+              <td>- {formatCurrency(invoiceData.discountAmount)} บาท</td>
             </tr>
             <tr>
-              <td colSpan="5">ภาษีมูลค่าเพิ่ม {invoiceData.vat * 100}%</td>
-              <td>{invoiceData.vatAmount} บาท</td>
+              <td colSpan="5">ภาษีมูลค่าเพิ่ม 7%</td>
+              <td>{formatCurrency(invoiceData.vatAmount)} บาท</td>
             </tr>
             <tr>
-              <td colSpan="5">รวมสุทธิ</td>
-              <td>{invoiceData.total} บาท</td>
+              <td colSpan="5"><strong>รวมสุทธิ</strong></td>
+              <td><strong>{formatCurrency(invoiceData.total)} บาท</strong></td>
             </tr>
           </tbody>
         </table>
@@ -122,16 +151,15 @@ const Invoice = () => {
             <p>วันที่: {invoiceData.signatures.issuerDate}</p>
           </div>
           <div className="signature">
-            <p>ผู้ชำระหนี้</p>
+            <p>ผู้อนุมัติ</p>
             <p>{invoiceData.signatures.payerSignature}</p>
             <p>วันที่: {invoiceData.signatures.payerDate}</p>
           </div>
         </div>
       </div>
 
-      {/* ปุ่มบันทึกเป็น PDF */}
-      <div className="pdf-button-container">
-        <button onClick={generatePDF} className="pdf-button">บันทึกเป็น PDF</button>
+      <div className="print-button-container">
+        <button onClick={printInvoice} className="print-button">พิมพ์ใบแจ้งหนี้</button>
       </div>
     </div>
   );

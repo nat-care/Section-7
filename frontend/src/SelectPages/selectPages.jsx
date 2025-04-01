@@ -35,9 +35,15 @@ const pages = [
   },
   {
     id: "PR1234567",
-    text: "ฟอร์มเบิกวัสดุ",
+    text: "ฟอร์มเบิกพัสดุ",
     engText: "Requisition Form",
     path: "/form/rf",
+  },
+  {
+    id: "PR1234357",
+    text: "ใบแจ้งชำระเงิน",
+    engText: "Payment Form",
+    path: "/form/pm",
   },
 ];
 
