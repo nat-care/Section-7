@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { checkAndCreatePR,canCreatePO } from './stockUtils';
 import DatePicker from 'react-datepicker'; 
 import "react-datepicker/dist/react-datepicker.css"; 
 import './PR.css';
@@ -73,6 +74,15 @@ const PR = () => {
     };
 
     const handleSubmit = async () => {
+        for (const product of formData.products) {
+            await checkAndCreatePR(product.item); // ตรวจสอบและสร้าง PR อัตโนมัติ
+    
+            const isAllowed = await canCreatePO(product.item, product.quantity);
+            if (!isAllowed) {
+                alert(`ไม่สามารถจัดทำใบสั่งซื้อสินค้าสำหรับ ${product.item} ได้ เพราะเกินระดับสูงสุดในคลัง`);
+                return;
+            }
+        }
         const requestData = {
             idPR: formData.idPR,
             datePR: formData.datePR,
