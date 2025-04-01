@@ -1,30 +1,36 @@
-import React, { useState, useRef } from 'react';
-import './RequisitionForm.css';
-import html2pdf from 'html2pdf.js';
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import "./RequisitionForm.css";
+import html2pdf from "html2pdf.js";
 
 const RequisitionForm = () => {
   const formRef = useRef();
-
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    rpNo: '____',
-    date: '____',
-    requesterName: '____',
-    employeeCode: '____',
-    senderName: '____',
-    reason: '____',
-    items: [{ id: 1, description: '', quantity: '', unit: '', unitPrice: '', total: '' }],
-    remarks: '__________',
-    //////////////////////////////////
-    requesterSignature: '',
-    requesterDate: '',
-    approverSignature: '',
-    approverDate: '',
-    warehouseSignature: '',
-    warehouseDate: '',
+    idRF: "",
+    dateRF: "",
+    employeeName: "",
+    employeeId: "",
+    senderName: "",
+    detail: "",
+    products: [],
+    notes: "",
+    approver: "",
+    approverStaff: "",
+    inventoryStaff: "",
+    dateApproval: "",
+    dateApproval2: "",
+    dateApproval3: "",
   });
 
+  useEffect(() => {
+    if (location.state && location.state.receiptData) {
+      setFormData(location.state.receiptData);
+    }
+  }, [location.state]);
+
   const generatePDF = () => {
-    html2pdf().from(formRef.current).save('RequisitionForm.pdf');
+    html2pdf().from(formRef.current).save("RequisitionForm.pdf");
   };
 
   return (
@@ -36,21 +42,21 @@ const RequisitionForm = () => {
           <div className="requisition-right-align">
             <div className="requisition-rowNO">
               <span className="requisition-label">RP.NO:</span>
-              <span className="requisition-value">{formData.rpNo}</span>
+              <span className="requisition-value">{formData.idRF}</span>
             </div>
             <div className="requisition-rowData">
               <span className="requisition-label">วันที่:</span>
-              <span className="requisition-value">{formData.date}</span>
+              <span className="requisition-value">{formData.dateRF}</span>
             </div>
           </div>
 
           <div className="requisition-rowName">
             <span className="requisition-label">ชื่อผู้เบิก:</span>
-            <span className="requisition-value">{formData.requesterName}</span>
+            <span className="requisition-value">{formData.employeeName}</span>
           </div>
           <div className="requisition-rownumber">
             <span className="requisition-label">รหัสพนักงาน:</span>
-            <span className="requisition-value">{formData.employeeCode}</span>
+            <span className="requisition-value">{formData.employeeId}</span>
           </div>
           <div className="requisition-rowNameS">
             <span className="requisition-label">ชื่อผู้ส่ง:</span>
@@ -58,7 +64,7 @@ const RequisitionForm = () => {
           </div>
           <div className="requisition-rowway">
             <span className="requisition-label">เหตุผลการเบิก:</span>
-            <span className="requisition-value">{formData.reason}</span>
+            <span className="requisition-value">{formData.notes}</span>
           </div>
         </div>
 
@@ -75,14 +81,14 @@ const RequisitionForm = () => {
             </tr>
           </thead>
           <tbody>
-            {formData.items.map((item, index) => (
-              <tr key={item.id}>
+            {formData.products?.map((product, index) => (
+              <tr key={index}>
                 <td>{index + 1}</td>
-                <td>{item.description}</td>
-                <td>{item.quantity}</td>
-                <td>{item.unit}</td>
-                <td>{item.unitPrice}</td>
-                <td>{item.total}</td>
+                <td>{product.item}</td>
+                <td>{product.quantity}</td>
+                <td>{product.unit}</td>
+                <td>{product.unitPrice}</td>
+                <td>{product.totalAmount}</td>
               </tr>
             ))}
           </tbody>
@@ -90,39 +96,47 @@ const RequisitionForm = () => {
 
         <div className="requisition-remarks-section">
           <span className="requisition-label">หมายเหตุ:</span>
-          <span className="requisition-value">{formData.remarks}</span>
+          <span className="requisition-value">{formData.notes}</span>
         </div>
 
         <div className="requisition-signatures">
           <div className="requisition-signature-block">
             <span className="requisition-label">ผู้ขอเบิก</span>
             <br />
-            <span className="requisition-value">{formData.requesterSignature || '______________________'}</span>
+            <span className="requisition-value">
+              {formData.approver || "______________________"}
+            </span>
             <br />
             <span className="requisition-label">วันที่</span>
-            <span className="requisition-value">______________________</span>
+            <span className="requisition-value">{formData.dateApproval}</span>
           </div>
           <div className="requisition-signature-block">
             <span className="requisition-label">หัวหน้าฝ่าย / ผู้อนุมัติ</span>
             <br />
-            <span className="requisition-value">{formData.approverSignature || '______________________'}</span>
+            <span className="requisition-value">
+              {formData.approverStaff || "______________________"}
+            </span>
             <br />
             <span className="requisition-label">วันที่</span>
-            <span className="requisition-value">______________________</span>
+            <span className="requisition-value">{formData.dateApproval2}</span>
           </div>
           <div className="requisition-signature-block">
             <span className="requisition-label">เจ้าหน้าที่คลัง</span>
             <br />
-            <span className="requisition-value">{formData.warehouseSignature || '______________________'}</span>
+            <span className="requisition-value">
+              {formData.inventoryStaff || "______________________"}
+            </span>
             <br />
             <span className="requisition-label">วันที่</span>
-            <span className="requisition-value">______________________</span>
+            <span className="requisition-value">{formData.dateApproval3}</span>
           </div>
         </div>
       </div>
 
       <div className="requisition-pdf-button-container">
-        <button className="requisition-pdf-button" onClick={generatePDF}>บันทึกเป็น PDF</button>
+        <button className="requisition-pdf-button" onClick={generatePDF}>
+          บันทึกเป็น PDF
+        </button>
       </div>
     </div>
   );

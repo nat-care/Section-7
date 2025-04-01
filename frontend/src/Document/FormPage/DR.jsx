@@ -1,8 +1,10 @@
-import React, { useState } from "react"; 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./DR.css";
 
 const DR = () => {
   const [rows, setRows] = useState([1]); // Initial row
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     idDR: "",
     drNo: "", // DR No.
@@ -18,11 +20,12 @@ const DR = () => {
     receiveGoodsDate: "", // ได้รับสินค้า
     additionalDetails: "", // เรื่องรายละเอียด
     remarks: "", // หมายเหตุ
-    sender: "",   // ผู้ส่งพัสดุ
+    sender: "", // ผู้ส่งพัสดุ
     receiver: "", //  ผู้รับพัสดุ
     approvalDate: "", // วันที่อนุมัติ
     approvalDate2: "", // วันที่อนุมัติ (ผู้รับพัสดุ)
   });
+
 
   const addRow = () => {
     setRows([...rows, rows.length + 1]);
@@ -63,37 +66,31 @@ const DR = () => {
 
   const handleSubmit = () => {
     console.log(formData); // Log the form data for debugging
-  
+
     // Your existing validation logic
     if (
       !formData.idDR ||
       !formData.dateDR ||
-      !formData.products ||
-      formData.products.length === 0 ||
+      !formData.products.length ||
       formData.products.some(
         (product) =>
-          !product.item ||
-          !product.quantity ||
-          !product.unit ||
-          !product.unitPrice
+          !product.item || !product.quantity || !product.unit || !product.unitPrice
       )
     ) {
       alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
       return;
     }
   
-    // Continue with the POST request
     fetch("http://localhost:3000/delivery-receipts", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Form Data Submitted:", data);
         alert("ส่งข้อมูลเรียบร้อย!");
+        navigate("/delivery-receipts", { state: { receiptData: formData } });
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -338,7 +335,6 @@ const DR = () => {
             className="DR-form-input"
           />
         </div>
-       
       </div>
 
       <div className="DR-form-row">

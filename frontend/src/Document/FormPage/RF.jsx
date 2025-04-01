@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RF.css";
 
 const RF = () => {
   const [rows, setRows] = useState([1]); // Initial row
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     idRF: "", 
     dateRF: "", 
@@ -66,7 +68,6 @@ const RF = () => {
       return;
     }
 
-    // Send the form data to the server via POST request
     fetch("http://localhost:3000/requisitions", {
       method: "POST",
       headers: {
@@ -78,6 +79,7 @@ const RF = () => {
       .then((data) => {
         console.log("Form Data Submitted:", data);
         alert("ส่งคำขอเรียบร้อย!");
+        navigate("/requisition-forms", { state: { receiptData: formData } });
       })
       .catch((error) => {
         console.error("Error:", error);
