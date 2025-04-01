@@ -465,6 +465,19 @@ app.get("/invoices", (req, res) => {
   res.json(db.invoices);
 });
 
+// GET: Retrieve latest invoice
+app.get("/invoices/latest", (req, res) => {
+  const db = loadDatabase();
+  const invoices = db.invoices;
+
+  if (!invoices || invoices.length === 0) {
+    return res.status(404).json({ message: "No invoices found" });
+  }
+
+  const latestInvoice = invoices[invoices.length - 1];
+  res.json(latestInvoice);
+});
+
 // ** API สำหรับ Purchase Orders (PO) **
 
 app.post("/purchase-orders", (req, res) => {
@@ -545,6 +558,57 @@ app.get("/purchase-orders", (req, res) => {
   const db = loadDatabase();
   res.json(db.purchase_orders);
 });
+
+// PATCH: อัปเดตยอดค้างชำระของ Invoice
+// PATCH: อัปเดตยอดค้างชำระของ Invoice โดยใช้ idIV
+app.patch("/invoices/:idIV", (req, res) => {
+  const { paymentAmount } = req.body;
+  
+  if (!paymentAmount) {
+    return res.status(400).json({ message: "Missing payment amount" });
+  }
+
+  const db = loadDatabase();
+  const idIVParam = req.params.idIV.trim(); // ลบช่องว่างจาก URL
+  // เพิ่ม console.log เพื่อตรวจสอบค่า
+  console.log("idIVParam:", idIVParam);
+  console.log("Invoice IDs in DB:", db.invoices.map(inv => inv.idIV.trim()));
+
+  // ค้นหา index ของ invoice โดยใช้ idIV ที่ถูก trim
+  const invoiceIndex = db.invoices.findIndex(
+    inv => inv.idIV.trim() === idIVParam
+  );
+  if (invoiceIndex === -1) {
+    return res.status(404).json({ message: "Invoice not found" });
+  }
+
+  const invoice = db.invoices[invoiceIndex];
+  const currentOutstanding = parseFloat(invoice.totalAmount);
+  const payment = parseFloat(paymentAmount);
+
+  if (isNaN(payment) || payment <= 0) {
+    return res.status(400).json({ message: "Invalid payment amount" });
+  }
+  if (payment > currentOutstanding) {
+    return res.status(400).json({ message: "Payment amount exceeds outstanding balance" });
+  }
+
+  const newOutstanding = currentOutstanding - payment;
+
+  if (newOutstanding === 0) {
+    // ถ้ายอดคงเหลือเป็น 0 ให้ลบใบแจ้งหนี้ออกจากฐานข้อมูล
+    db.invoices.splice(invoiceIndex, 1);
+    saveDatabase(db);
+    return res.json({ message: "Invoice fully paid and deleted" });
+  } else {
+    // อัปเดตยอดค้างชำระในใบแจ้งหนี้
+    invoice.totalAmount = newOutstanding.toString();
+    saveDatabase(db);
+    return res.json(invoice);
+  }
+});
+
+
 
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {
