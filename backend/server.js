@@ -609,6 +609,16 @@ app.patch("/invoices/:idIV", (req, res) => {
   }
 });
 
+app.get('/api/products/:id', async (req, res) => {
+  const productId = req.params.id;
+  const product = await db.getProductById(productId);
+  if (product) {
+      res.json(product);
+  } else {
+      res.status(404).json({ error: 'Product not found' });
+  }
+});
+
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
