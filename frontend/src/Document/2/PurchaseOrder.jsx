@@ -1,30 +1,78 @@
-import React, { useState } from "react";
-import "./PurchaseOrder.css";  // Import the updated CSS file
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
+import "./PurchaseOrder.css";
 import html2pdf from 'html2pdf.js';
 
 const PurchaseOrder = () => {
+  const documentRef = useRef();
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    prno: "PO12345",
-    date: "25 มีนาคม 2565",
-    requiredDate: "30 มีนาคม 2565",
-    department: "IT",
-    position: "Manager",
-    subject: "Purchase of Laptops",
-    items: [
-      { id: 1, description: "Laptop", quantity: 5, unit: "pcs", pricePerUnit: 15000, total: 75000 },
-      { id: 2, description: "Mouse", quantity: 10, unit: "pcs", pricePerUnit: 500, total: 5000 }
-    ],
+    idPO: "",
+    datePO: "",
+    employeeName: "",
+    employeePosition: "",
+    department: "",
+    section: "",
+    detail: "",
+    approver: "",
+    purchaser: "",
+    auditor: "",
+    dateApproval: "",
+    dateApproval2: "",
+    dateApproval3: "",
+    products: [],
+    totalAmount: 0,
     discount: 0,
-    vat: 0.07,
-    totalAmount: 80000,
-    paymentConditions: "ชำระเงินก่อนรับสินค้า",
-    approverSignature: "",
-    purchaserSignature: "",
-    inspectorSignature: "",
+    vat: 7,
+    netAmount: 0,
+    payment: "",
+    notes: "",
+  });
+  
+  // ฟังก์ชันแปลงรูปแบบวันที่
+const formatDate = (date) => {
+  if (!date) return ""; // ถ้าไม่มีค่าให้คืน string ว่าง
+  const parsedDate = new Date(date);
+  
+  if (isNaN(parsedDate.getTime())) {
+    console.error("Invalid date format:", date);
+    return ""; 
+  }
+
+  return parsedDate.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+};
+
+// ใช้ useEffect เพื่อรับค่า location.state.receiptData
+useEffect(() => {
+  if (location.state?.receiptData) {
+    setFormData((prevState) => ({
+      ...prevState,
+      ...location.state.receiptData,
+      products: Array.isArray(location.state.receiptData.products)
+        ? location.state.receiptData.products
+        : [],
+      datePO: formatDate(location.state.receiptData.datePO),
+      dateApproval: formatDate(location.state.receiptData.dateApproval),
+      dateApproval2: formatDate(location.state.receiptData.dateApproval2),
+      dateApproval3: formatDate(location.state.receiptData.dateApproval3),
+    }));
+  }
+}, [location.state]);
+
+
+  
+// ฟังก์ชันสำหรับพิมพ์เป็น PDF (ผ่าน react-to-print)
+  const handlePrint = useReactToPrint({
+    content: () => documentRef.current,
+    documentTitle: "Purchase Document",
   });
 
-  const vatAmount = Math.round((formData.totalAmount - formData.discount) * formData.vat);
-  const totalWithVat = Math.round(formData.totalAmount - formData.discount + vatAmount);
+  // ฟังก์ชันสร้าง PDF ด้วย html2pdf
 
   const generatePDF = () => {
     const element = document.getElementById('purchase-order-content');
@@ -47,31 +95,26 @@ const PurchaseOrder = () => {
         <div className="purchase-order-details">
           <div className="purchase-order-header">
             <div className="header-right">
-              <p>PR.NO: ______________________</p>
-              <p>วันที่: ______________________</p>
+              <p>PR.NO:{formData.idPO}</p>
+              <p>วันที่:{formData.datePO}</p>
             </div>
           </div>
-          
+
           <div className="purchase-order-row">
-            <div className="purchase-order-column">
-              <span className="label">วันที่ต้องการใช้: </span>
-              <span className="value">{formData.requiredDate}</span>
-            </div>
-            <div className="purchase-order-column">
-              <span className="label">แผนก: </span>
-              <span className="value">{formData.department}</span>
-            </div>
-          </div>
-          <div className="purchase-order-row">
-            <div className="purchase-order-column">
-              <span className="label">ตำแหน่ง: </span>
-              <span className="value">{formData.position}</span>
-            </div>
-            <div className="purchase-order-column">
-              <span className="label">เรื่อง: </span>
-              <span className="value">{formData.subject}</span>
-            </div>
-          </div>
+  <div className="purchase-order-column">
+    <span className="label">แผนก:</span> <span className="value">{formData.section}</span>
+  </div>
+  <div className="purchase-order-column">
+    <span className="label">ชื่อพนักงาน:</span> <span className="value">{formData.employeeName}</span>
+  </div>
+  <div className="purchase-order-column">
+    <span className="label">ตำแหน่ง:</span> <span className="value">{formData.department}</span>
+  </div>
+  <div className="purchase-order-column">
+    <span className="label">เรื่อง:</span> <span className="value">{formData.detail}</span>
+  </div>
+</div>
+
         </div>
 
         {/* ตารางสินค้า */}
@@ -86,13 +129,13 @@ const PurchaseOrder = () => {
             </tr>
           </thead>
           <tbody>
-            {formData.items.map((item, index) => (
+            {formData.products.map((product, index) => (
               <tr key={index}>
-                <td>{item.id}</td>
-                <td>{item.description}</td>
-                <td>{item.quantity}</td>
-                <td>{item.unit}</td>
-                <td>{item.total}</td>
+                <td>{index + 1}</td>
+                <td>{product.item}</td>
+                <td>{product.quantity}</td>
+                <td>{product.unit}</td>
+                <td>{product.totalAmount}</td>
               </tr>
             ))}
 
@@ -104,7 +147,7 @@ const PurchaseOrder = () => {
 
             <tr>
               <td colSpan="4" className="summary-label">ภาษีมูลค่าเพิ่ม 7%:</td>
-              <td className="summary-value">{vatAmount}</td>
+              <td className="summary-value">{formData.vat}</td>
             </tr>
 
             <tr>
@@ -114,55 +157,38 @@ const PurchaseOrder = () => {
 
             <tr>
               <td colSpan="4" className="summary-label">รวมเป็นเงินทั้งสิ้น:</td>
-              <td className="summary-value">{totalWithVat}</td>
+              <td className="summary-value">{formData.netAmount}</td>
             </tr>
           </tbody>
         </table>
 
-        {/* เงื่อนไขการชำระเงิน */}
-        <div className="purchase-order-payment-conditions">
-          <div className="purchase-order-payment-option">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินก่อนรับสินค้า"} readOnly />
-            <span>ชำระเงินก่อนรับสินค้า</span>
-          </div>
-          <div className="purchase-order-payment-option">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินหลังได้รับสินค้า"} readOnly />
-            <span>ชำระเงินหลังได้รับสินค้า</span>
-          </div>
-          <div className="purchase-order-payment-option">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินแบบเครดิต"} readOnly />
-            <span>ชำระเงินแบบเครดิต</span>
-          </div>
-          <div className="purchase-order-payment-option">
-            <input type="checkbox" checked={formData.paymentConditions === "ชำระเงินเป็นงวดตามสัญญา"} readOnly />
-            <span>ชำระเงินเป็นงวดตามสัญญา</span>
-          </div>
+        {/* หมายเหตุ */}
+        <div className="purchase-order-remark">
+          <span className="label">หมายเหตุ:</span>
+          <p>{formData.payment}</p>
         </div>
 
         {/* ลงชื่อ */}
         <div className="purchase-order-signatures">
-          <div className="purchase-order-signature">
-            <span className="label">ผู้มีอำนาจ</span>
-            <br />
-            <span className="value">______________________</span>
-            <br />
-            <div className="date">วันที่ ______________________</div>
-          </div>
-          <div className="purchase-order-signature">
-            <span className="label">ผู้จัดซื้อ</span>
-            <br />
-            <span className="value">______________________</span>
-            <br />
-            <div className="date">วันที่ ______________________</div>
-          </div>
-          <div className="purchase-order-signature">
-            <span className="label">ผู้ตรวจสอบ</span>
-            <br />
-            <span className="value">______________________</span>
-            <br />
-            <div className="date">วันที่ ______________________</div>
-          </div>
-        </div>
+  <div className="purchase-order-signature">
+    <span className="label">ผู้มีอำนาจ</span>
+    <span className="value">{formData.approver}</span>
+    <div className="date">วันที่ {formData.dateApproval}</div>
+  </div>
+  
+  <div className="purchase-order-signature">
+    <span className="label">ผู้จัดซื้อ</span>
+    <span className="value">{formData.purchaser}</span>
+    <div className="date">วันที่ {formData.dateApproval2}</div>
+  </div>
+  
+  <div className="purchase-order-signature">
+    <span className="label">ผู้ตรวจสอบ</span>
+    <span className="value">{formData.auditor}</span>
+    <div className="date">วันที่ {formData.dateApproval3}</div>
+  </div>
+</div>
+
       </div>
 
       {/* ปุ่ม PDF ข้างนอกกรอบ */}

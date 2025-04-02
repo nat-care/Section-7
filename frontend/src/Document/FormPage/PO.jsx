@@ -9,7 +9,7 @@ const PO = () => {
   const [rows, setRows] = useState([1]); // เริ่มต้น 1 แถว
   const [formData, setFormData] = useState({
     idPO: "",
-    datePO: "", 
+    datePO: "",
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -18,12 +18,10 @@ const PO = () => {
     approver: "",
     purchaser: "",
     auditor: "",
-    dateApproval: "", 
+    dateApproval: "",
     dateApproval2: "",
     dateApproval3: "",
-    products: [
-      { item: "", quantity: 0, unit: "", unitPrice: 0, totalAmount: 0 },
-    ],
+    products: [],
     totalAmount: 0,
     discount: 0,
     vat: 7,
@@ -118,11 +116,32 @@ const PO = () => {
   };
   
   const handleSubmit = () => {
-    if (!formData.idPO || !formData.datePO || !formData.employeeName) {
+    // ตรวจสอบฟิลด์ที่ขาดหาย
+    if (
+      !formData.idPO ||
+      !formData.datePO ||
+      !formData.employeeName ||
+      !formData.employeePosition ||
+      !formData.department ||
+      !formData.section ||
+      !formData.detail ||
+      !formData.approver ||
+      !formData.purchaser ||
+      !formData.auditor ||
+      !formData.dateApproval ||
+      !formData.dateApproval2 ||
+      !formData.dateApproval3 ||
+      !formData.products ||
+      formData.products.some(
+        (product) => !product.item || !product.quantity || !product.unit || !product.unitPrice
+      )
+    ) {
       alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
       return;
     }
-
+  
+    console.log("Form Data Before Submit:", formData); // เพิ่มการตรวจสอบข้อมูล
+  
     fetch("http://localhost:3000/purchase-orders", {
       method: "POST",
       headers: {
@@ -134,23 +153,25 @@ const PO = () => {
       .then((data) => {
         console.log("Form Data Submitted:", data);
         alert("ส่งคำขอเรียบร้อย!");
-        navigate("/purchase-orders", { state: { orderData: formData } });
+        navigate("/purchase-orders", {
+          state: { receiptData: data }, // ส่งข้อมูลไปยังหน้าใหม่
+        });
       })
       .catch((error) => {
         console.error("Error:", error);
         alert("เกิดข้อผิดพลาดในการส่งคำขอ");
       });
   };
-
-
-  const renderDatePicker = (id, selectedDate, onChange) => (
+      const renderDatePicker = (id, selectedDate, onChange) => (
     <DatePicker
+      id={id} // เพิ่ม id
       selected={selectedDate ? new Date(selectedDate) : null}
       onChange={onChange}
       dateFormat="yyyy-MM-dd"
       className="date-picker"
     />
   );
+  
 
   return (
     <div className="po-purchase-requisition">
@@ -390,25 +411,25 @@ const PO = () => {
       </div>
 
       <div className="row">
-        <div className="column">
-          <label htmlFor="date-approval">วันที่อนุมัติ 1:</label>
-          {renderDatePicker("date-approval", formData.dateApproval, (date) =>
-            setFormData({ ...formData, dateApproval: date })
-          )}
-        </div>
-        <div className="column">
-          <label htmlFor="date-approval2">วันที่อนุมัติ 2:</label>
-          {renderDatePicker("date-approval2", formData.dateApproval2, (date) =>
-            setFormData({ ...formData, dateApproval2: date })
-          )}
-        </div>
-        <div className="column">
-          <label htmlFor="date-approval3">วันที่อนุมัติ 3:</label>
-          {renderDatePicker("date-approval3", formData.dateApproval3, (date) =>
-            setFormData({ ...formData, dateApproval3: date })
-          )}
-        </div>
-      </div>
+  <div className="column">
+    <label htmlFor="date-approval">วันที่อนุมัติ 1:</label>
+    {renderDatePicker("date-approval", formData.dateApproval, (date) =>
+      setFormData({ ...formData, dateApproval: date })
+    )}
+  </div>
+  <div className="column">
+    <label htmlFor="date-approval2">วันที่อนุมัติ 2:</label>
+    {renderDatePicker("date-approval2", formData.dateApproval2, (date) =>
+      setFormData({ ...formData, dateApproval2: date })
+    )}
+  </div>
+  <div className="column">
+    <label htmlFor="date-approval3">วันที่อนุมัติ 3:</label>
+    {renderDatePicker("date-approval3", formData.dateApproval3, (date) =>
+      setFormData({ ...formData, dateApproval3: date })
+    )}
+  </div>
+</div>
 
       <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
         ส่งคำขอ
