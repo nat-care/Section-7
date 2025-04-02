@@ -480,7 +480,7 @@ app.get("/invoices/latest", (req, res) => {
 });
 
 // ** API สำหรับ Purchase Orders (PO) **
-//ใบสั่งซื้อ
+
 app.post("/purchase-orders", (req, res) => {
   const {
     idPO,
