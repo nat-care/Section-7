@@ -480,7 +480,7 @@ app.get("/invoices/latest", (req, res) => {
 });
 
 // ** API สำหรับ Purchase Orders (PO) **
-
+//ใบสั่งซื้อ
 app.post("/purchase-orders", (req, res) => {
   const {
     idPO,
@@ -490,6 +490,12 @@ app.post("/purchase-orders", (req, res) => {
     department,
     section,
     detail,
+    approver,
+    purchaser,
+    auditor,
+    dateApproval,
+    dateApproval2,
+    dateApproval3,
     products,
     totalAmount,
     discount,
@@ -497,15 +503,11 @@ app.post("/purchase-orders", (req, res) => {
     netAmount,
     payment,
     notes,
-    approver,
-    dateApprover,
-    staff,
-    dateStaff,
-    auditor,
-    dateAuditor,
   } = req.body;
+  
   console.log("Received Purchase Order:", req.body);
 
+  // เช็คว่ามีข้อมูลที่จำเป็นหรือไม่
   if (
     !idPO ||
     !datePO ||
@@ -514,6 +516,12 @@ app.post("/purchase-orders", (req, res) => {
     !department ||
     !section ||
     !detail ||
+    !approver ||
+    !purchaser ||
+    !auditor ||
+    !dateApproval ||
+    !dateApproval2 ||
+    !dateApproval3 ||
     !products ||
     !totalAmount ||
     !discount ||
@@ -534,6 +542,12 @@ app.post("/purchase-orders", (req, res) => {
     department,
     section,
     detail,
+    approver,
+    purchaser,
+    auditor,
+    dateApproval,
+    dateApproval2,
+    dateApproval3,
     products,
     totalAmount,
     discount,
@@ -541,14 +555,9 @@ app.post("/purchase-orders", (req, res) => {
     netAmount,
     payment,
     notes,
-    approver,
-    dateApprover,
-    staff,
-    dateStaff,
-    auditor,
-    dateAuditor,
     status: "Pending",
   };
+
   db.purchase_orders.push(newPO);
   saveDatabase(db);
   res.status(200).json(newPO);
