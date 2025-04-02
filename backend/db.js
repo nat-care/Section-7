@@ -96,17 +96,16 @@ function addStockLocation(product_id, warehouse_id, quantity) {
     console.log("เพิ่มตำแหน่งสินค้าในคลัง:", newStockLocation);
     db.stock_locations.push(newStockLocation);
 
-    // อัปเดตสินค้าคงเหลือ
-    updateRemainingStock(product_id);
+    // อัปเดตสินค้าคงเหลือ โดยส่ง db เข้าไป
+    updateRemainingStock(db, product_id);
 
-    saveDatabase(db);
+    saveDatabase(db); // บันทึกข้อมูลหลังจากอัปเดต remaining_stock แล้ว
     return newStockLocation;
 }
 
 // **ฟังก์ชันคำนวณสินค้าคงเหลือ (updateRemainingStock)**
 // ฟังก์ชันคำนวณสินค้าคงเหลือของสินค้า
-function updateRemainingStock(product_id) {
-    const db = loadDatabase();
+function updateRemainingStock(db, product_id) {
     let remainingStock = 0;
 
     // คำนวณสินค้าคงเหลือจาก stock_locations
@@ -120,19 +119,18 @@ function updateRemainingStock(product_id) {
     const product = db.products.find(p => p.product_id === product_id);
     if (product) {
         product.remaining_stock = remainingStock;
-        saveDatabase(db);  // บันทึกข้อมูลใหม่
+        saveDatabase(db);
     }
 }
 
 // **ทดสอบการใช้งาน**
 // เพิ่มสินค้า
-const newProduct = addProduct("เครื่องพิมพ์", "เครื่องพิมพ์ขาวดำ", 5000, 100);
+const newProduct = addProduct("คอมพิวเตอร์", "3800RAM", 5000, 100);
 console.log("เพิ่มสินค้าใหม่:", newProduct);
 
-// เพิ่มตำแหน่งสินค้าในคลัง
-const newStockLocation = addStockLocation(newProduct.product_id, 1, 50);  // เพิ่มสินค้าที่คลัง 1 จำนวน 50 ตัว
-console.log("เพิ่มตำแหน่งสินค้าในคลัง:", newStockLocation);
-
-// แสดงฐานข้อมูลหลังจากการเพิ่มข้อมูล
+const newStockLocation1 = addStockLocation(newProduct.product_id, 1, 50);
+console.log("เพิ่มสินค้าที่คลัง 1:", newStockLocation1);
+const newStockLocation2 = addStockLocation(newProduct.product_id, 2, 30);
+console.log("เพิ่มสินค้าที่คลัง 2:", newStockLocation2);
 console.log("ฐานข้อมูลที่อัปเดต:", loadDatabase());
 

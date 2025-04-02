@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./IV.css";
 
 const IV = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     idIV: "",
-    companyThatMustPay: "", // Changed section to companyThatMustPay
+    companyThatMustPay: "",
     detail: "",
     products: [],
     totalAmount: "",
@@ -13,18 +17,57 @@ const IV = () => {
     netAmount: "",
     payment: "",
     notes: "",
-    companyName: "", // Added
-    companyAddress: "", // Added
-    companyAddress2: "", // Added
-    taxID: "", // Added
-    email1: "", // Added
-    email2: "", // Added
-    penalty: "", // Added
-    approver: "", // Added
-    staff: "", // Added
-    dateApproval: "", // Added
-    dateApproval2: "", // Added
+    companyName: "",
+    companyAddress: "",
+    companyAddress2: "",
+    taxID: "",
+    email1: "",
+    email2: "",
+    penalty: "",
+    approver: "",
+    staff: "",
+    dateApproval: "",
+    dateApproval2: "",
   });
+
+  // เพิ่มฟังก์ชันคำนวณยอดรวม, ส่วนลด, ภาษี, และยอดสุทธิ
+  const calculateTotals = () => {
+    // 1) รวม totalAmount ของสินค้าทุกชิ้น
+    const sumOfLineItems = formData.products.reduce((acc, product) => {
+      // product.totalAmount อาจเป็น string หรือ undefined ต้องแน่ใจว่าเป็นตัวเลข
+      const itemTotal = parseFloat(product.totalAmount) || 0;
+      return acc + itemTotal;
+    }, 0);
+
+    // 2) parse discount ให้เป็นตัวเลข
+    const discountValue = parseFloat(formData.discount) || 0;
+
+    // 3) คำนวณยอดหลังหักส่วนลด
+    const discounted = sumOfLineItems - discountValue;
+
+    // ป้องกันไม่ให้ติดลบ ถ้าไม่ต้องการให้ส่วนลดมากกว่ายอดรวม
+    // const discounted = Math.max(sumOfLineItems - discountValue, 0);
+
+    // 4) คำนวณ VAT 7%
+    const vatValue = discounted * 0.07;
+
+    // 5) สรุปยอดสุทธิ
+    const netValue = discounted + vatValue;
+
+    // 6) อัปเดตค่าใน formData
+    setFormData((prevData) => ({
+      ...prevData,
+      totalAmount: sumOfLineItems.toFixed(2),
+      vat: vatValue.toFixed(2),
+      netAmount: netValue.toFixed(2),
+    }));
+  };
+
+  // ใช้ useEffect เรียก calculateTotals ทุกครั้งที่ products หรือ discount เปลี่ยน
+  useEffect(() => {
+    calculateTotals();
+    // eslint-disable-next-line
+  }, [formData.products, formData.discount]);
 
   const addRow = () => {
     setFormData((prevData) => ({
@@ -48,51 +91,60 @@ const IV = () => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const updatedProducts = [...prevData.products];
+
+      // แปลงค่า quantity และ unitPrice เป็นตัวเลขก่อนคำนวณ
+      const newQuantity =
+        name === "quantity" ? parseFloat(value) || 0 : parseFloat(updatedProducts[index].quantity) || 0;
+      const newUnitPrice =
+        name === "unitPrice" ? parseFloat(value) || 0 : parseFloat(updatedProducts[index].unitPrice) || 0;
+
+      // ถ้าเปลี่ยน quantity หรือ unitPrice ให้คำนวณ totalAmount ใหม่
       updatedProducts[index] = {
         ...updatedProducts[index],
         [name]: value,
         totalAmount:
           name === "quantity" || name === "unitPrice"
-            ? Number(updatedProducts[index].quantity || 0) *
-              Number(updatedProducts[index].unitPrice || 0)
+            ? (newQuantity * newUnitPrice).toFixed(2)
             : updatedProducts[index].totalAmount,
       };
+
       return { ...prevData, products: updatedProducts };
     });
   };
 
   const handleSubmit = async () => {
-    // Check for missing required fields
+    // ตรวจสอบฟิลด์ที่จำเป็น
     const requiredFields = [
-      'idIV',
-      'companyThatMustPay',
-      'detail',
-      'totalAmount',
-      'vat',
-      'netAmount',
-      'payment'
+      "idIV",
+      "companyThatMustPay",
+      "detail",
+      "totalAmount",
+      "vat",
+      "netAmount",
+      "payment",
     ];
-  
+
     for (let field of requiredFields) {
       if (!formData[field]) {
         alert(`Missing required field: ${field}`);
         return;
       }
     }
-  
+
     try {
       const response = await fetch("http://localhost:3000/invoices", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
+
       console.log("Response Status:", response.status);
       console.log("Response Body:", await response.json());
-  
+
       if (response.ok) {
         console.log("Form Data sent to the server successfully.");
         alert("ส่งคำขอเรียบร้อย!");
+        navigate("/invoices");
       } else {
         console.error("Error sending form data:", response.statusText);
       }
@@ -100,13 +152,12 @@ const IV = () => {
       console.error("Error:", error);
     }
   };
-  
 
   return (
     <div className="invoice-page">
       <h2 className="invoice-page__title">ใบแจ้งหนี้ (Invoice)</h2>
 
-      {/* Form Section */}
+      {/* ฟอร์มข้อมูลทั่วไป */}
       <label htmlFor="" className="invoice-page__label">
         ผู้ส่งใบแจ้งหนี้
       </label>
@@ -280,7 +331,7 @@ const IV = () => {
                   type="text"
                   name="item"
                   className="invoice-page__product-input"
-                  value={formData.products[index]?.item || ""}
+                  value={row.item || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
               </td>
@@ -289,7 +340,7 @@ const IV = () => {
                   type="number"
                   name="quantity"
                   className="invoice-page__product-input"
-                  value={formData.products[index]?.quantity || ""}
+                  value={row.quantity || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
               </td>
@@ -298,7 +349,7 @@ const IV = () => {
                   type="text"
                   name="unit"
                   className="invoice-page__product-input"
-                  value={formData.products[index]?.unit || ""}
+                  value={row.unit || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
               </td>
@@ -307,7 +358,7 @@ const IV = () => {
                   type="number"
                   name="unitPrice"
                   className="invoice-page__product-input"
-                  value={formData.products[index]?.unitPrice || ""}
+                  value={row.unitPrice || ""}
                   onChange={(e) => handleProductChange(index, e)}
                 />
               </td>
@@ -316,7 +367,7 @@ const IV = () => {
                   type="number"
                   name="totalAmount"
                   className="invoice-page__product-input"
-                  value={formData.products[index]?.totalAmount || ""}
+                  value={row.totalAmount || ""}
                   readOnly
                 />
               </td>
@@ -333,7 +384,7 @@ const IV = () => {
       <div className="invoice-page__row">
         <div className="invoice-page__column">
           <label htmlFor="totalAmount" className="invoice-page__input-label">
-            จำนวนเงิน:
+            จำนวนเงิน (รวม):
           </label>
           <input
             type="text"
@@ -341,6 +392,7 @@ const IV = () => {
             className="invoice-page__input"
             value={formData.totalAmount}
             onChange={handleInputChange}
+            readOnly // อ่านอย่างเดียว
           />
         </div>
 
@@ -349,7 +401,7 @@ const IV = () => {
             ส่วนลด:
           </label>
           <input
-            type="text"
+            type="number"
             id="discount"
             className="invoice-page__input"
             value={formData.discount}
@@ -361,7 +413,7 @@ const IV = () => {
       <div className="invoice-page__row">
         <div className="invoice-page__column">
           <label htmlFor="vat" className="invoice-page__input-label">
-            ภาษีมูลค่าเพิ่ม :
+            ภาษีมูลค่าเพิ่ม (7%):
           </label>
           <input
             type="text"
@@ -369,12 +421,13 @@ const IV = () => {
             className="invoice-page__input"
             value={formData.vat}
             onChange={handleInputChange}
+            readOnly // อ่านอย่างเดียว
           />
         </div>
 
         <div className="invoice-page__column">
           <label htmlFor="netAmount" className="invoice-page__input-label">
-            รวมเงินทั้งสุทธิ:
+            รวมเงินทั้งสิ้น (สุทธิ):
           </label>
           <input
             type="text"
@@ -382,22 +435,27 @@ const IV = () => {
             className="invoice-page__input"
             value={formData.netAmount}
             onChange={handleInputChange}
+            readOnly // อ่านอย่างเดียว
           />
         </div>
       </div>
 
+      {/* เปลี่ยนการชำระเงินเป็น select */}
       <div className="invoice-page__row">
         <div className="invoice-page__column">
           <label htmlFor="payment" className="invoice-page__input-label">
             การชำระเงิน:
           </label>
-          <input
-            type="text"
+          <select
             id="payment"
             className="invoice-page__input"
             value={formData.payment}
             onChange={handleInputChange}
-          />
+          >
+            <option value="">-- เลือกการชำระ --</option>
+            <option value="จ่ายเต็ม">จ่ายเต็ม</option>
+            <option value="แบ่งชำระ">แบ่งชำระ</option>
+          </select>
         </div>
       </div>
 
@@ -473,21 +531,16 @@ const IV = () => {
         </div>
 
         <div className="invoice-page__column">
-          <div className="invoice-page__column">
-            <label
-              htmlFor="dateApproval2"
-              className="invoice-page__input-label"
-            >
-              วันที่อนุมัติ:
-            </label>
-            <input
-              type="date"
-              id="dateApproval2"
-              className="invoice-page__input"
-              value={formData.dateApproval2}
-              onChange={handleInputChange}
-            />
-          </div>
+          <label htmlFor="dateApproval2" className="invoice-page__input-label">
+            วันที่อนุมัติ:
+          </label>
+          <input
+            type="date"
+            id="dateApproval2"
+            className="invoice-page__input"
+            value={formData.dateApproval2}
+            onChange={handleInputChange}
+          />
         </div>
       </div>
 
