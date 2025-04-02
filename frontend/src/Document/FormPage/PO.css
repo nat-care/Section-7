@@ -51,6 +51,7 @@
     font-size: 14px;
     color: #444;
     margin-bottom: 6px;
+   
 }
 
 /* Input Styling */
@@ -197,4 +198,70 @@
     .po-purchase-requisition th, .po-purchase-requisition td {
         padding: 10px;
     }
+
+   
 }
+
+/* ทำให้ทั้งแถวมีการจัดเรียงในลักษณะแนวนอน */
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  /* ทำให้คอลัมน์ในแถวมีการจัดเรียงให้อยู่ในขนาดเดียวกัน */
+  .column {
+    width: 32%; /* กำหนดขนาดแต่ละคอลัมน์ */
+  }
+  
+  /* ปรับขนาดของ label และ input ให้อยู่ในแนวเดียวกัน */
+  label {
+    display: block;
+    margin-bottom: 8px; /* ระยะห่างระหว่าง label และ input */
+    font-size: 14px;
+  }
+  
+  input {
+    width: 100%; /* ให้ input ขยายเต็มคอลัมน์ */
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box; /* ป้องกันการ overflow ของขนาด input */
+  }
+  
+  /* ปรับการแสดงผลของ DatePicker ให้อยู่ในขนาดที่เหมาะสม */
+  .date-picker {
+    width: 100%; /* ทำให้ DatePicker ขยายเต็มคอลัมน์ */
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .po-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+   
+    
+  }
+  
+  .po-column {
+    width: 48%; /* ให้ขนาดของคอลัมน์พอดี */
+    
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* ปรับมุมให้โค้ง */
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* ให้กรอบไม่เกินขอบของช่องกรอก */
+    appearance: none; /* ปิดปุ่ม dropdown ในบางเบราว์เซอร์ */
+    cursor: pointer; /* เพิ่มเคอร์เซอร์แบบมือ */
+    color: #000;
+  }
+  /* ปรับปุ่มตกแต่งในบางเบราว์เซอร์ */
+  select::-ms-expand {
+    display: none; /* ซ่อนปุ่ม dropdown ใน IE */
+  }

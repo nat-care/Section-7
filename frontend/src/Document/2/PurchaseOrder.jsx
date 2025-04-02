@@ -101,14 +101,17 @@ const PurchaseOrder = () => {
               <td colSpan="4" className="summary-label">รวมเป็นเงิน:</td>
               <td className="summary-value">{formData.totalAmount}</td>
             </tr>
-            <tr>
-              <td colSpan="4" className="summary-label">ส่วนลด:</td>
-              <td className="summary-value">{formData.discount}</td>
-            </tr>
+
             <tr>
               <td colSpan="4" className="summary-label">ภาษีมูลค่าเพิ่ม 7%:</td>
               <td className="summary-value">{vatAmount}</td>
             </tr>
+
+            <tr>
+              <td colSpan="4" className="summary-label">ส่วนลด:</td>
+              <td className="summary-value">{formData.discount}</td>
+            </tr>
+
             <tr>
               <td colSpan="4" className="summary-label">รวมเป็นเงินทั้งสิ้น:</td>
               <td className="summary-value">{totalWithVat}</td>

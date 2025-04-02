@@ -67,7 +67,7 @@ const PurchaseRequisition = () => {
     <div className="purchase-requisition-container">
       {/* เอกสารใบจัดซื้อ */}
       <div className="purchase-requisition-document" ref={documentRef}>
-        <h2 style={{ textAlign: "center", marginTop: "0" }}>ใบจัดขอจัดซื้อ</h2>
+        <h2 style={{ textAlign: "center", marginTop: "0" }}>ใบจัดขอจัดซื้อสินค้า</h2>
 
         {/* ส่วนหัวของเอกสาร */}
         <div className="purchase-requisition-header">
