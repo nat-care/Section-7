@@ -119,7 +119,6 @@ function updateRemainingStock(db, product_id) {
     const product = db.products.find(p => p.product_id === product_id);
     if (product) {
         product.remaining_stock = remainingStock;
-        saveDatabase(db);
     }
 }
 

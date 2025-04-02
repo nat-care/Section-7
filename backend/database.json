@@ -220,38 +220,52 @@
       "remaining_stock": 50
     },
     {
-      "product_id": 1743256805095,
-      "name": "Mouse",
-      "description": "Wireless Mouse",
-      "price": 500,
+      "product_id": 1743591193091,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
       "stock_quantity": 100,
       "remaining_stock": 100
-    }
-  ],
-  "stock_locations": [
-    {
-      "stock_id": 1743256805118,
-      "product_id": 1743256805092,
-      "warehouse_id": 1,
-      "quantity": 50
     },
     {
-      "stock_id": 1743256805119,
-      "product_id": 1743256805093,
-      "warehouse_id": 1,
-      "quantity": 200
+      "product_id": 1743596040478,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
     },
     {
-      "stock_id": 1743256805120,
-      "product_id": 1743256805094,
-      "warehouse_id": 2,
-      "quantity": 30
+      "product_id": 1743596058426,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
     },
     {
-      "stock_id": 1743256805121,
-      "product_id": 1743256805095,
-      "warehouse_id": 2,
-      "quantity": 80
+      "product_id": 1743596225132,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
+    },
+    {
+      "product_id": 1743596654871,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
+    },
+    {
+      "product_id": 1743596778154,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
     }
   ],
   "invoices": [
