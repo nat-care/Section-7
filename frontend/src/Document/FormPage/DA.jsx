@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DA.css'; // สไตล์สำหรับหน้า DA
+import NavbarWK from "../../../NavbarWoker/navbarWorker";
 
 const DA = () => {
     const navigate = useNavigate();
@@ -96,41 +97,44 @@ const DA = () => {
     };
 
     return (
-        <div className="document-approvals">
-            <h2>APP001 รายการอนุมัติเอกสาร (Document Approvals)</h2>
+        <div>
+            <NavbarWK />
+            <div className="document-approvals">
+                <h2>APP001 รายการอนุมัติเอกสาร (Document Approvals)</h2>
 
-            <table className="document-table">
-                <thead>
-                    <tr>
-                        <th>เอกสาร ID</th>
-                        <th>ชื่อเอกสาร</th>
-                        <th>สถานะ</th>
-                        <th>ดูใบเสร็จ</th>
-                        <th>การอนุมัติ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {documents.map((doc) => (
-                        <tr key={doc.id}>
-                            <td>{doc.id}</td>
-                            <td>{doc.name}</td>
-                            <td>{doc.status}</td>
-                            <td>
-                                <button
-                                    className="view-btn"
-                                    onClick={() => handleViewReceipt(doc)}
-                                >
-                                    ดูใบเสร็จ
-                                </button>
-                            </td>
-                            <td>
-                                <button onClick={() => handleApprove(doc)} className="approve-btn">อนุมัติ</button>
-                                <button onClick={() => handleReject(doc)} className="reject-btn">ปฏิเสธ</button>
-                            </td>
+                <table className="document-table">
+                    <thead>
+                        <tr>
+                            <th>เอกสาร ID</th>
+                            <th>ชื่อเอกสาร</th>
+                            <th>สถานะ</th>
+                            <th>ดูใบเสร็จ</th>
+                            <th>การอนุมัติ</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {documents.map((doc) => (
+                            <tr key={doc.id}>
+                                <td>{doc.id}</td>
+                                <td>{doc.name}</td>
+                                <td>{doc.status}</td>
+                                <td>
+                                    <button
+                                        className="view-btn"
+                                        onClick={() => handleViewReceipt(doc)}
+                                    >
+                                        ดูใบเสร็จ
+                                    </button>
+                                </td>
+                                <td>
+                                    <button onClick={() => handleApprove(doc)} className="approve-btn">อนุมัติ</button>
+                                    <button onClick={() => handleReject(doc)} className="reject-btn">ปฏิเสธ</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

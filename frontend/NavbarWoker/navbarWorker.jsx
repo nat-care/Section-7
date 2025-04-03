@@ -1,9 +1,8 @@
-// Navbar.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./navbar.css";
+import "./navbarWorker.css";
 
-const Navbar = () => {
+const NavbarWK = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -11,19 +10,14 @@ const Navbar = () => {
     setOpen(!open);
   };
 
-  const goToCardList = () => {
-    navigate("/cardlist");
-    setOpen(false);
-  };
-
-  const goToProcurement = () => {
-    navigate("/procurement");
+  const goToSelectPages = () => {
+    navigate("/selectpages"); // ➕ เพิ่มเส้นทางไปยังหน้า selectPages
     setOpen(false);
   };
 
   const handleLogout = () => {
-    localStorage.clear(); // เคลียร์ข้อมูล session
-    navigate("/");        // กลับหน้า login หรือหน้าแรก
+    localStorage.clear(); // ล้าง session
+    navigate("/");        // กลับหน้า login
   };
 
   return (
@@ -36,11 +30,8 @@ const Navbar = () => {
 
       {open && (
         <div className="dropdown-menu">
-          <div className="dropdown-item" onClick={goToCardList}>
-            ตรวจสอบสิทธิ
-          </div>
-          <div className="dropdown-item" onClick={goToProcurement}>
-            หน้าเอกสาร
+          <div className="dropdown-item" onClick={goToSelectPages}>
+            กลับหน้าเลือกฟอร์ม
           </div>
           <div className="dropdown-item" onClick={handleLogout}>
             ออกจากระบบ
@@ -51,4 +42,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarWK;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // ไม่ต้องใช�
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./PO.css";
-
+import NavbarWK from "../../../NavbarWoker/navbarWorker";
 const PO = () => {
   const navigate = useNavigate();
   const [rows, setRows] = useState([1]);
@@ -63,32 +63,32 @@ const PO = () => {
     fetchPoFromPR();
   }, []);
 
-//เพิมรายการสินค้า
+  //เพิมรายการสินค้า
   useEffect(() => {
     if (!formData.name) return;
-  
+
     const fetchPRDetail = async () => {
       try {
         const res = await fetch("http://localhost:3000/purchase-requests");
         const data = await res.json();
         const selectedPR = data.find((pr) => pr.name === formData.name);
-  
+
         if (selectedPR) {
           const { products, detail } = selectedPR;
-  
+
           const updatedProducts = products.map((p) => ({
             ...p,
             quantity: Number(p.quantity),
             unitPrice: Number(p.unitPrice),
             totalAmount: Number(p.totalAmount),
           }));
-  
+
           const { newTotalAmount, newNetAmount } = calculateTotals(
             updatedProducts,
             formData.discount,
             formData.vat
           );
-  
+
           setFormData((prev) => ({
             ...prev,
             detail: detail || prev.detail,
@@ -101,7 +101,7 @@ const PO = () => {
         console.error("Error loading PR detail:", error);
       }
     };
-  
+
     fetchPRDetail();
   }, [formData.name]);
 
@@ -231,240 +231,243 @@ const PO = () => {
   };
 
   return (
-    <div className="po-purchase-requisition">
-      <h2>การจัดทำใบสั่งซื้อ (Purchase Order - PO)</h2>
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="name">รหัสใบสั่งซื้อ (PO):</label>
-          <select id="name" value={formData.name} onChange={handleInputChange}>
-            <option value="">-- เลือกรายการ PR เพื่อออก PO --</option>
-            {poNames.map((name, index) => (
-              <option key={index} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
+    <>
+      <NavbarWK />
+      <div className="po-purchase-requisition">
+        <h2>การจัดทำใบสั่งซื้อ (Purchase Order - PO)</h2>
+        <div className="po-row">
+          <div className="po-column">
+            <label htmlFor="name">รหัสใบสั่งซื้อ (PO):</label>
+            <select id="name" value={formData.name} onChange={handleInputChange}>
+              <option value="">-- เลือกรายการ PR เพื่อออก PO --</option>
+              {poNames.map((name, index) => (
+                <option key={index} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="po-column">
+            <label htmlFor="date">วันที่:</label>
+            <input
+              type="date"
+              id="date"
+              value={formData.date}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-        <div className="po-column">
-          <label htmlFor="date">วันที่:</label>
-          <input
-            type="date"
-            id="date"
-            value={formData.date}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
 
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="employeeName">ชื่อพนักงาน:</label>
-          <input
-            type="text"
-            id="employeeName"
-            value={formData.employeeName}
-            onChange={handleInputChange}
-          />
+        <div className="po-row">
+          <div className="po-column">
+            <label htmlFor="employeeName">ชื่อพนักงาน:</label>
+            <input
+              type="text"
+              id="employeeName"
+              value={formData.employeeName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="po-column">
+            <label htmlFor="employeePosition">ตำแหน่งพนักงาน:</label>
+            <input
+              type="text"
+              id="employeePosition"
+              value={formData.employeePosition}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-        <div className="po-column">
-          <label htmlFor="employeePosition">ตำแหน่งพนักงาน:</label>
-          <input
-            type="text"
-            id="employeePosition"
-            value={formData.employeePosition}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
 
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="department">ฝ่ายงานที่:</label>
-          <input
-            type="text"
-            id="department"
-            value={formData.department}
-            onChange={handleInputChange}
-          />
+        <div className="po-row">
+          <div className="po-column">
+            <label htmlFor="department">ฝ่ายงานที่:</label>
+            <input
+              type="text"
+              id="department"
+              value={formData.department}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="po-column">
+            <label htmlFor="section">แผนก:</label>
+            <input
+              type="text"
+              id="section"
+              value={formData.section}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-        <div className="po-column">
-          <label htmlFor="section">แผนก:</label>
-          <input
-            type="text"
-            id="section"
-            value={formData.section}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
 
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="detail">เรื่องรายละเอียด:</label>
-          <input
-            type="text"
-            id="detail"
-            value={formData.detail}
-            onChange={handleInputChange}
-          />
+        <div className="po-row">
+          <div className="po-column">
+            <label htmlFor="detail">เรื่องรายละเอียด:</label>
+            <input
+              type="text"
+              id="detail"
+              value={formData.detail}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-      </div>
 
-      <h3>รายการสินค้า</h3>
-      <table id="po-productTable">
-        <thead>
-          <tr>
-            <th>ลำดับ</th>
-            <th>รายการ</th>
-            <th>จำนวน</th>
-            <th>หน่วยนับ</th>
-            <th>ราคาต่อหน่วย</th>
-            <th>จำนวนเงิน</th>
-          </tr>
-        </thead>
-        <tbody>
-          {formData.products.map((product, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>
-                <input
-                  type="text"
-                  name="item"
-                  value={product.item}
-                  onChange={(e) => handleProductChange(index, e)}
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  name="quantity"
-                  value={product.quantity}
-                  onChange={(e) => handleProductChange(index, e)}
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="unit"
-                  value={product.unit}
-                  onChange={(e) => handleProductChange(index, e)}
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  name="unitPrice"
-                  value={product.unitPrice}
-                  onChange={(e) => handleProductChange(index, e)}
-                />
-              </td>
-              <td>
-                <input
-                  type="number"
-                  name="totalAmount"
-                  value={product.totalAmount}
-                  readOnly
-                />
-              </td>
+        <h3>รายการสินค้า</h3>
+        <table id="po-productTable">
+          <thead>
+            <tr>
+              <th>ลำดับ</th>
+              <th>รายการ</th>
+              <th>จำนวน</th>
+              <th>หน่วยนับ</th>
+              <th>ราคาต่อหน่วย</th>
+              <th>จำนวนเงิน</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {formData.products.map((product, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>
+                  <input
+                    type="text"
+                    name="item"
+                    value={product.item}
+                    onChange={(e) => handleProductChange(index, e)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={product.quantity}
+                    onChange={(e) => handleProductChange(index, e)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="unit"
+                    value={product.unit}
+                    onChange={(e) => handleProductChange(index, e)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="unitPrice"
+                    value={product.unitPrice}
+                    onChange={(e) => handleProductChange(index, e)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    name="totalAmount"
+                    value={product.totalAmount}
+                    readOnly
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      <button onClick={addRow} id="po-addRowBtn">
-        เพิ่มแถว
-      </button>
+        <button onClick={addRow} id="po-addRowBtn">
+          เพิ่มแถว
+        </button>
 
-      <h3>ข้อมูลการชำระเงิน</h3>
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="totalAmount">จำนวนเงิน:</label>
-          <input
-            type="text"
-            id="totalAmount"
-            value={formData.totalAmount}
-            readOnly
-          />
+        <h3>ข้อมูลการชำระเงิน</h3>
+        <div className="po-row">
+          <div className="po-column">
+            <label htmlFor="totalAmount">จำนวนเงิน:</label>
+            <input
+              type="text"
+              id="totalAmount"
+              value={formData.totalAmount}
+              readOnly
+            />
+          </div>
+          <div className="po-column">
+            <label htmlFor="vat">เงินรวมภาษีมูลค่าเพิ่ม 7 % :</label>
+            <input
+              type="number"
+              id="vat"
+              value={formData.vat}
+              onChange={handleInputChange}
+            />
+          </div>
         </div>
-        <div className="po-column">
-          <label htmlFor="vat">เงินรวมภาษีมูลค่าเพิ่ม 7 % :</label>
-          <input
-            type="number"
-            id="vat"
-            value={formData.vat}
-            onChange={handleInputChange}
-          />
+
+        <div className="po-row">
+
+          <div className="po-column">
+            <label htmlFor="netAmount">รวมเงินทั้งสุทธิ:</label>
+            <input
+              type="text"
+              id="netAmount"
+              value={formData.netAmount}
+              readOnly
+            />
+          </div>
         </div>
+
+        <div className="po-row">
+          <div className="po-column">
+            <label htmlFor="payment">การชำระเงิน:</label>
+            <select
+              id="payment"
+              value={formData.payment}
+              onChange={handleInputChange}
+            >
+              <option value="ชำระเงินก่อนรับสินค้า">ชำระเงินก่อนรับสินค้า</option>
+              <option value="ชำระเงินหลังได้รับสินค้า">
+                ชำระเงินหลังได้รับสินค้า
+              </option>
+              <option value="ชำระเงินแบบเครดิต">ชำระเงินแบบเครดิต</option>
+              <option value="ชำระเงินเป็นงวดตามสัญญา">
+                ชำระเงินเป็นงวดตามสัญญา
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="column">
+            <label htmlFor="approver">ผู้มีอำนาจ:</label>
+            <input
+              type="text"
+              id="approver"
+              value={formData.approver}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="column">
+            <label htmlFor="purchaser">ผู้จัดซื้อ:</label>
+            <input
+              type="text"
+              id="purchaser"
+              value={formData.purchaser}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="column">
+            <label htmlFor="auditor">ผู้ตรวจสอบ:</label>
+            <input
+              type="text"
+              id="auditor"
+              value={formData.auditor}
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
+          ส่งคำขอ
+        </button>
       </div>
-
-      <div className="po-row">
-
-        <div className="po-column">
-          <label htmlFor="netAmount">รวมเงินทั้งสุทธิ:</label>
-          <input
-            type="text"
-            id="netAmount"
-            value={formData.netAmount}
-            readOnly
-          />
-        </div>
-      </div>
-
-      <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="payment">การชำระเงิน:</label>
-          <select
-            id="payment"
-            value={formData.payment}
-            onChange={handleInputChange}
-          >
-            <option value="ชำระเงินก่อนรับสินค้า">ชำระเงินก่อนรับสินค้า</option>
-            <option value="ชำระเงินหลังได้รับสินค้า">
-              ชำระเงินหลังได้รับสินค้า
-            </option>
-            <option value="ชำระเงินแบบเครดิต">ชำระเงินแบบเครดิต</option>
-            <option value="ชำระเงินเป็นงวดตามสัญญา">
-              ชำระเงินเป็นงวดตามสัญญา
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="column">
-          <label htmlFor="approver">ผู้มีอำนาจ:</label>
-          <input
-            type="text"
-            id="approver"
-            value={formData.approver}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="column">
-          <label htmlFor="purchaser">ผู้จัดซื้อ:</label>
-          <input
-            type="text"
-            id="purchaser"
-            value={formData.purchaser}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="column">
-          <label htmlFor="auditor">ผู้ตรวจสอบ:</label>
-          <input
-            type="text"
-            id="auditor"
-            value={formData.auditor}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
-
-      <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
-        ส่งคำขอ
-      </button>
-    </div>
+    </>
   );
 };
 

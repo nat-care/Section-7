@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./selectPages.css";
+import NavbarWK from "../../NavbarWoker/navbarWorker";
 
 // แผนผังหน้าและบทบาทที่เข้าถึงได้
 const pages = [
@@ -90,22 +91,25 @@ const SelectPages = () => {
   }, [navigate]);
 
   return (
-    <div className="select-container">
-      <h2 className="title">หัวข้อเอกสาร</h2>
-      <div className="list-container">
-        {allowedPages.map((page, index) => (
-          <div
-            key={index}
-            className="list-item"
-            onClick={() => navigate(page.path)}
-            style={{ cursor: "pointer" }}
-          >
-            <span className="arrow">▶</span>
-            <span className="text">
-              {page.id} {page.text} ({page.engText})
-            </span>
-          </div>
-        ))}
+    <div>
+      <NavbarWK />
+      <div className="select-container">
+        <h2 className="title">หัวข้อเอกสาร</h2>
+        <div className="list-container">
+          {allowedPages.map((page, index) => (
+            <div
+              key={index}
+              className="list-item"
+              onClick={() => navigate(page.path)}
+              style={{ cursor: "pointer" }}
+            >
+              <span className="arrow">▶</span>
+              <span className="text">
+                {page.id} {page.text} ({page.engText})
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

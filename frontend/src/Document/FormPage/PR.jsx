@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './PR.css';
+import NavbarWK from "../../../NavbarWoker/navbarWorker";
 
 const PR = () => {
     const navigate = useNavigate();
@@ -173,6 +174,8 @@ const PR = () => {
     );
 
     return (
+        <>
+        <NavbarWK/>
         <div className="purchase-requisition">
             <h2>การจัดทำใบขอซื้อ (Purchase Requisition - PR)</h2>
 
@@ -238,7 +241,7 @@ const PR = () => {
                                     name="item"
                                     value={formData.products[index]?.item || ''}
                                     onChange={(e) => handleProductChange(index, e)}
-                                >
+                                    >
                                     <option value="">เลือกสินค้า</option> {/* เพิ่ม option สำหรับกรณีที่ยังไม่ได้เลือก */}
                                     {products.map((product, idx) => (
                                         <option key={idx} value={product.name}>
@@ -253,7 +256,7 @@ const PR = () => {
                                     name="quantity"
                                     value={formData.products[index]?.quantity || ''}
                                     onChange={(e) => handleProductChange(index, e)}
-                                />
+                                    />
                             </td>
                             <td>
                                 <input
@@ -261,7 +264,7 @@ const PR = () => {
                                     name="unit"
                                     value={formData.products[index]?.unit || ''}
                                     readOnly
-                                />
+                                    />
                             </td>
                             <td>
                                 <input
@@ -269,7 +272,7 @@ const PR = () => {
                                     name="unitPrice"
                                     value={formData.products[index]?.unitPrice || ''}
                                     readOnly
-                                />
+                                    />
                             </td>
                             <td>
                                 <input
@@ -277,7 +280,7 @@ const PR = () => {
                                     name="totalAmount"
                                     value={formData.products[index]?.totalAmount || ''}
                                     readOnly
-                                />
+                                    />
                             </td>
                             <td>
                                 {/* ปุ่มลบ */}
@@ -323,6 +326,7 @@ const PR = () => {
                 <button onClick={handleSubmit}>ส่งคำขอ</button>
             </div>
         </div>
+                    </>
     );
 };
 
