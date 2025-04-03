@@ -60,7 +60,10 @@ const App = () => {
         <Route path="/form/rf" element={<RF />} />
         <Route path="/form/pm" element={<PM />} />
         <Route path="/form/payment-list" element={<PaymentList />} />
-        
+        <Route path="/receipt/pr/:id" element={<PurchaseRequisition />} />
+        <Route path="/receipt/po/:id" element={<PurchaseOrder />} />
+
+
       </Routes>
     </Router>
   );

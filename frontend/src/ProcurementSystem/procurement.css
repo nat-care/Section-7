@@ -119,3 +119,19 @@ body {
 .back-button:hover {
   background-color: #555;
 }
+
+/* Header Row */
+.list-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e0e0e0;
+  border-radius: 12px;
+  padding: 15px 30px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  gap: 40px;
+  color: #333;
+}

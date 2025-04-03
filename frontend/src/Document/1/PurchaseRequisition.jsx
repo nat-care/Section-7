@@ -1,15 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
-import "./PurchaseRequisition.css";
 import html2pdf from "html2pdf.js";
+import "./PurchaseRequisition.css";
 
 const PurchaseRequisition = () => {
+  const { id } = useParams();
   const documentRef = useRef();
-  const location = useLocation();
+
   const [formData, setFormData] = useState({
-    idPR: "",
-    datePR: "",
+    id: "",
+    name: "",
+    date: "",
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -24,38 +26,49 @@ const PurchaseRequisition = () => {
   });
 
   useEffect(() => {
-    if (location.state?.receiptData) {
-      setFormData((prevState) => ({
-        ...prevState,
-        ...location.state.receiptData,
-        products: Array.isArray(location.state.receiptData.products)
-          ? location.state.receiptData.products
-          : [],
-        datePR: location.state.receiptData.datePR
-          ? new Date(location.state.receiptData.datePR).toLocaleDateString()
-          : "",
-        dateApproval: location.state.receiptData.dateApproval
-          ? new Date(location.state.receiptData.dateApproval).toLocaleDateString()
-          : "",
-        dateApproval2: location.state.receiptData.dateApproval2
-          ? new Date(location.state.receiptData.dateApproval2).toLocaleDateString()
-          : "",
-      }));
-    }
-  }, [location.state]);
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/purchase-requests");
+        const data = await res.json();
+        const found = data.find((doc) => String(doc.id) === id);
+        if (found) {
+          setFormData({
+            ...found,
+            id: found.id,
+            name: found.name,
+            date: found.date,
+            products: Array.isArray(found.products) ? found.products : [],
+          });
+        }
+      } catch (err) {
+        console.error("โหลดข้อมูลล้มเหลว:", err);
+      }
+    };
 
-  // ฟังก์ชันสำหรับพิมพ์เป็น PDF (ผ่าน react-to-print)
+    fetchData();
+  }, [id]);
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+    if (isNaN(date)) return "";
+    return date.toLocaleDateString("th-TH", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   const handlePrint = useReactToPrint({
     content: () => documentRef.current,
-    documentTitle: "Purchase Document",
+    documentTitle: "Purchase Requisition",
   });
 
-  // ฟังก์ชันสร้าง PDF ด้วย html2pdf
   const generatePDF = () => {
     const element = documentRef.current;
     const opt = {
       margin: 0.5,
-      filename: "purchase_document.pdf",
+      filename: "purchase_requisition.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
@@ -65,26 +78,22 @@ const PurchaseRequisition = () => {
 
   return (
     <div className="purchase-requisition-container">
-      {/* เอกสารใบจัดซื้อ */}
       <div className="purchase-requisition-document" ref={documentRef}>
-        <h2 style={{ textAlign: "center", marginTop: "0" }}>ใบจัดขอจัดซื้อสินค้า</h2>
+        <h2 style={{ textAlign: "center", marginTop: "0" }}>ใบขอจัดซื้อสินค้า</h2>
 
-        {/* ส่วนหัวของเอกสาร */}
         <div className="purchase-requisition-header">
           <div className="header-right">
-            <p>PR.NO: {formData.idPR}</p>
-            <p>วันที่: {formData.datePR}</p>
+            <p>PR.NO: {formData.name}</p>
+            <p>วันที่: {formatDate(formData.date)}</p>
           </div>
         </div>
 
-        {/* ส่วนรายละเอียด */}
         <div className="purchase-requisition-section">
           <p>ชื่อผู้ขอซื้อ: {formData.employeeName}</p>
           <p>แผนก: {formData.section} ตำแหน่ง: {formData.department}</p>
           <p>เรื่อง: {formData.detail}</p>
         </div>
 
-        {/* ตารางรายการสินค้า */}
         <table className="purchase-requisition-table">
           <thead>
             <tr>
@@ -97,7 +106,7 @@ const PurchaseRequisition = () => {
             </tr>
           </thead>
           <tbody>
-            {formData.products?.length > 0 ? (
+            {formData.products.length > 0 ? (
               formData.products.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -116,27 +125,24 @@ const PurchaseRequisition = () => {
           </tbody>
         </table>
 
-        {/* หมายเหตุ */}
         <div className="purchase-requisition-section">
           <p>หมายเหตุ: {formData.remark}</p>
         </div>
 
-        {/* ลายเซ็น */}
         <div className="purchase-requisition-signature">
           <div className="signature-block">
             <p>ผู้อนุมัติฝ่ายจัดซื้อ</p>
             <div className="signature-line">{formData.approver}</div>
-            <p>วันที่: {formData.dateApproval}</p>
+            <p>วันที่: {formatDate(formData.dateApproval)}</p>
           </div>
           <div className="signature-block">
             <p>เจ้าหน้าที่ฝ่ายจัดซื้อ</p>
             <div className="signature-line">{formData.staff}</div>
-            <p>วันที่: {formData.dateApproval2}</p>
+            <p>วันที่: {formatDate(formData.dateApproval2)}</p>
           </div>
         </div>
       </div>
 
-      {/* ปุ่มพิมพ์เป็น PDF (นอกกรอบของเอกสาร) */}
       <div className="purchase-requisition-pdf-button-container">
         <button onClick={generatePDF} className="purchase-requisition-pdf-button">
           บันทึกเป็น PDF
