@@ -36,6 +36,7 @@ const DA = () => {
                 ];
 
                 setDocuments(allDocuments);
+                checkAndCreatePurchaseRequests(setDocuments);
             } catch (error) {
                 console.error("Error fetching documents:", error);
             } finally {
