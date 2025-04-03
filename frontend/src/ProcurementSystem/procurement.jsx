@@ -16,7 +16,7 @@ const ProcurementSystem = () => {
       return;
     }
 
-    fetch("http://localhost:3000/purchase_requests")
+    fetch("http://localhost:3000/purchase-requests")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -33,19 +33,21 @@ const ProcurementSystem = () => {
   }, [navigate]);
 
   const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case "approved":
         return "green";
       case "pending":
         return "orange";
-      default:
+      case "rejected":
         return "red";
+      default:
+        return "gray";
     }
   };
 
   return (
     <>
-      <Navbar /> {/* ✅ เพิ่ม Navbar ด้านบน */}
+      <Navbar />
       <div className="container">
         <div className="box">
           <h2 className="title">Warehouse Procurement System</h2>
@@ -53,21 +55,25 @@ const ProcurementSystem = () => {
             <p>ไม่มีข้อมูลใบขอซื้อ</p>
           ) : (
             <div>
+              <div className="list-header">
+                <span className="text-id">ID</span>
+                <span className="text-code">รหัสเอกสาร</span>
+                <span className="text-description">รายละเอียด</span>
+                <span className="text-status">สถานะ</span>
+              </div>
               {data.map((item, index) => (
                 <div key={index} className="list-item">
                   <span className="text-id">{item.id}</span>
-                  <span className="text-code">{item.subject}</span>
-                  <span className="text-description">{item.list}</span>
+                  <span className="text-code">{item.name}</span>
+                  <span className="text-description">{item.detail || "ไม่มีรายละเอียด"}</span>
                   <div
                     className={`status-circle ${getStatusColor(item.status)}`}
+                    title={item.status}
                   />
                 </div>
               ))}
             </div>
           )}
-          <div className="button-container">
-            <button className="back-button">ยืนยัน</button>
-          </div>
         </div>
       </div>
     </>

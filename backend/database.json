@@ -67,7 +67,7 @@
   "purchase_requests": [
     {
       "id": 1743691763296,
-      "name": "66044013",
+      "name": "ใบขอซื้อ - 66044013",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -88,11 +88,12 @@
           "totalAmount": "200.00"
         }
       ],
-      "status": "Pending"
+      "status": "Approved",
+      "type": "Purchase Request"
     },
     {
       "id": "1743699138565",
-      "name": "1",
+      "name": "ใบขอซื้อ - 1",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -120,7 +121,8 @@
           "totalAmount": "300000.00"
         }
       ],
-      "status": "Pending"
+      "status": "Approved",
+      "type": "Purchase Request"
     },
     {
       "id": "1743699966449",
