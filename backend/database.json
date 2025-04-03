@@ -354,6 +354,14 @@
       "price": 5000,
       "stock_quantity": 100,
       "remaining_stock": 80
+    },
+    {
+      "product_id": 1743676476818,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
     }
   ],
   "stock_locations": [
@@ -440,11 +448,18 @@
       "product_id": 1743670834063,
       "warehouse_id": 2,
       "quantity": 30
+    },
+    {
+      "stock_id": 1743676476826,
+      "product_id": 1743676476818,
+      "warehouse_id": 1,
+      "quantity": 50
+    },
+    {
+      "stock_id": 1743676476834,
+      "product_id": 1743676476818,
+      "warehouse_id": 2,
+      "quantity": 30
     }
-  ],
-  "purchase_requisitions": [],
-  "shipping_notes": [],
-  "requisitions": [],
-  "invoices": [],
-  "purchase_orders": []
+  ]
 }
