@@ -310,9 +310,9 @@ const SN = () => {
       </div>
 
       <div className="invoice-page__buttons">
-        <button type="button" className="invoice-page__button">
+        {/* <button type="button" className="invoice-page__button">
           แก้ไขคำขอ
-        </button>
+        </button> */}
         <button type="button" className="invoice-page__submit-button" onClick={handleSubmit}>
           ส่งคำขอ
         </button>

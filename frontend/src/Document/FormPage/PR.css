@@ -1,7 +1,10 @@
 /* General body styling for .purchase-requisition */
 .purchase-requisition {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
+    background: transparent;
+    color: whitesmoke;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
     margin: 0;
     padding: 20px;
     box-sizing: border-box;
@@ -11,7 +14,7 @@
     justify-content: flex-start;
     overflow-y: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 /* Title styling for headings */

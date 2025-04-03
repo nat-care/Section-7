@@ -323,6 +323,56 @@
         }
       ],
       "status": "Pending"
+    },
+    {
+      "id": "1743716882561",
+      "name": "PR-คีย์บอร์ด",
+      "date": "2025-04-03",
+      "employeeName": "Auto System",
+      "employeePosition": "System",
+      "department": "Procurement",
+      "section": "Auto-Gen",
+      "detail": "Auto-generated PR for คีย์บอร์ด",
+      "remark": "",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "คีย์บอร์ด",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 800,
+          "totalAmount": "8000.00"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743716882566",
+      "name": "PR-คีย์บอร์ด",
+      "date": "2025-04-03",
+      "employeeName": "Auto System",
+      "employeePosition": "System",
+      "department": "Procurement",
+      "section": "Auto-Gen",
+      "detail": "Auto-generated PR for คีย์บอร์ด",
+      "remark": "",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "คีย์บอร์ด",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 800,
+          "totalAmount": "8000.00"
+        }
+      ],
+      "status": "Pending"
     }
   ],
   "quotations": [],
