@@ -21,7 +21,7 @@ import PO from "./Document/FormPage/PO";
 import DR from "./Document/FormPage/DR";
 import SN from "./Document/FormPage/SN";
 import IV from "./Document/FormPage/IV";
-
+import DA from './Document/FormPage/DA'; // ตัวอย่างการเชื่อมโยงหน้า Document Approvals
 import RF from "./Document/FormPage/RF";
 import PM from "./Document/paymentForm/PM";
 import PaymentList from "./Document/paymentForm/PaymentList";
@@ -54,7 +54,7 @@ const App = () => {
         <Route path="/form/dr" element={<DR />} />
         <Route path="/form/sn" element={<SN />} />
         <Route path="/form/iv" element={<IV />} />
-
+        <Route path="/approvals" element={<DA />} />
         <Route path="/form/rf" element={<RF />} />
         <Route path="/form/pm" element={<PM />} />
         <Route path="/form/payment-list" element={<PaymentList />} />

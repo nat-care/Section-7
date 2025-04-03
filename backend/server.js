@@ -701,6 +701,13 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
+// ใน backend API (Node.js example)
+app.post("/documents/approve", (req, res) => {
+  const { documentId, status } = req.body;
+  // ค้นหาเอกสารในฐานข้อมูลแล้วอัปเดตสถานะ
+  // ส่งคำตอบกลับเมื่ออัปเดตสำเร็จ
+});
+
 
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {

@@ -1,0 +1,84 @@
+/* ตั้งค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+/* กำหนดสไตล์สำหรับหน้า Document Approvals */
+.document-approvals {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.document-approvals h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* สไตล์สำหรับตารางเอกสาร */
+.document-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.document-table th, .document-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.document-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.document-table td {
+    background-color: #f9f9f9;
+}
+
+/* สไตล์สำหรับปุ่มอนุมัติและปฏิเสธ */
+button {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.approve-btn {
+    background-color: #28a745;
+    color: white;
+    margin-right: 10px;
+}
+
+.approve-btn:hover {
+    background-color: #218838;
+}
+
+.reject-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #c82333;
+}
+
+/* สไตล์สำหรับปุ่มเมื่อไม่ได้กด */
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
