@@ -119,8 +119,12 @@
           "unitPrice": 5000,
           "totalAmount": "300000.00"
         }
+<<<<<<< HEAD
       ],
       "status": "Pending"
+=======
+      ]
+>>>>>>> 0c700e585215481538ee64f6ea3d4d86e5657095
     },
     {
       "id": "1743699966449",
@@ -242,6 +246,15 @@
       "stock_quantity": 100,
       "remaining_stock": 100,
       "unit": "packs"
+    },
+    {
+      "product_id": 1743256805094,
+      "name": "คีย์บอร์ด",
+      "description": "คีย์บอร์ดสำหรับคอมพิวเตอร์",
+      "price": 800,
+      "stock_quantity": 50,
+      "remaining_stock": 5,
+      "unit": "pcs"
     }
   ],
   "stock_locations": [

@@ -60,6 +60,13 @@ const pages = [
     path: "/approvals",
     roles: ["Management & Approvers"],
   },
+  {
+    id: "APP002",
+    text: "ประวัติการอนุมัติเอกสาร",
+    engText: "Document Approval History",
+    path: "/approval-history",
+    roles: ["Management & Approvers"],
+  },
 ];
 
 const SelectPages = () => {
