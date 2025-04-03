@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DA.css'; // สไตล์สำหรับหน้า DA
+<<<<<<< HEAD
 import NavbarWK from "../../../NavbarWoker/navbarWorker";
+=======
+import { checkAndCreatePurchaseRequests } from './PRauto';
+
+>>>>>>> 1ee77683911d43ce76f0e89da5f6abad065153b2
 
 const DA = () => {
     const navigate = useNavigate();
@@ -35,6 +40,7 @@ const DA = () => {
                 ];
 
                 setDocuments(allDocuments);
+                checkAndCreatePurchaseRequests(setDocuments);
             } catch (error) {
                 console.error("Error fetching documents:", error);
             } finally {

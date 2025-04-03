@@ -6,8 +6,8 @@ const DocumentApprovalHistory = () => {
 
   // ดึงข้อมูลจาก API หรือฐานข้อมูล
   useEffect(() => {
-    // ตัวอย่างฟังก์ชันการดึงข้อมูลจาก API
-    fetch('/api/document-approvals') // เปลี่ยนเป็น URL ของ API ที่คุณใช้
+    // รดึงข้อมูลจาก API
+    fetch('http://localhost:3000//documents/approve') 
       .then(response => response.json())
       .then(data => setApprovals(data))
       .catch(error => console.error('Error fetching approval data:', error));
