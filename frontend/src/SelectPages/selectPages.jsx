@@ -93,6 +93,7 @@ const SelectPages = () => {
   return (
     <div>
       <NavbarWK />
+      <div className="select-header-bac">
       <div className="select-container">
         <h2 className="title">หัวข้อเอกสาร</h2>
         <div className="list-container">
@@ -108,9 +109,11 @@ const SelectPages = () => {
                 {page.id} {page.text} ({page.engText})
               </span>
             </div>
+            
           ))}
         </div>
-      </div>
+        </div>
+        </div>
     </div>
   );
 };

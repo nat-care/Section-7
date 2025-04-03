@@ -78,56 +78,50 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h1 className="login-logo">logo</h1>
-        <p className="login-system-name">Warehouse Procurement System</p>
-        {!token ? (
-          <>
-            <h4 className="login-input-head-text">Username</h4>
-            <input
-              className="login-input"
-              type="text"
-              placeholder="USER NAME"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <h4 className="login-input-head-text">Password</h4>
-            <input
-              className="login-input"
-              type="password"
-              placeholder="PASSWORD"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button
-              className="login-button"
-              onClick={() => handleLogin(username, password)}
-            >
-              Login
-            </button>
-          </>
-        ) : (
-          <>
-            <p className="login-welcome-message">
-              คุณเข้าสู่ระบบในบทบาท: <strong>{role}</strong>
-            </p>
-            <button className="login-logout-button" onClick={handleLogout}>
-              Logout
-            </button>
-            {role === "Procurement Officer" && (
+    <div className="login">
+      <div className="login-container">
+        <div className="login-box">
+          <h1 className="login-logo">Welcome</h1>
+          <p className="login-system-name">Warehouse Procurement System</p>
+          {!token ? (
+            <>
+              <h4 className="login-input-head-text">Username</h4>
+              <input
+                className="login-input"
+                type="text"
+                placeholder="USER NAME"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <h4 className="login-input-head-text">Password</h4>
+              <input
+                className="login-input"
+                type="password"
+                placeholder="PASSWORD"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <button
-                className="login-purchase-button"
-                onClick={() => navigate("/purchase")}
+                className="login-button"
+                onClick={() => handleLogin(username, password)}
               >
-                ไปที่ฟอร์มใบขอซื้อ
+                Login
               </button>
-            )}
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <p className="login-welcome-message">
+                คุณเข้าสู่ระบบในบทบาท: <strong>{role}</strong>
+              </p>
+              <button className="login-logout-button" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
-};
+}  
 
 export default Login;
