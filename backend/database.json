@@ -67,7 +67,7 @@
   "purchase_requests": [
     {
       "id": 1743691763296,
-      "name": "66044013",
+      "name": "ใบขอซื้อ - 66044013",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -88,12 +88,12 @@
           "totalAmount": "200.00"
         }
       ],
-      "status": "Rejected",
+      "status": "Approved",
       "type": "Purchase Request"
     },
     {
       "id": "1743699138565",
-      "name": "1",
+      "name": "ใบขอซื้อ - 1",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -126,7 +126,7 @@
     },
     {
       "id": "1743699966449",
-      "name": "ใบขอซื้อ - 3",
+      "name": "3",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -147,12 +147,11 @@
           "totalAmount": "25000.00"
         }
       ],
-      "status": "Approved",
-      "type": "Purchase Request"
+      "status": "Pending"
     },
     {
       "id": "1743700200010",
-      "name": "ใบขอซื้อ - ใบขอซื้อ - 5",
+      "name": "5",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -173,12 +172,11 @@
           "totalAmount": "5000.00"
         }
       ],
-      "status": "Rejected",
-      "type": "Purchase Request"
+      "status": "Pending"
     },
     {
       "id": "1743700832045",
-      "name": "ใบขอซื้อ - 7",
+      "name": "7",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -199,8 +197,7 @@
           "totalAmount": "700.00"
         }
       ],
-      "status": "Approved",
-      "type": "Purchase Request"
+      "status": "Pending"
     },
     {
       "id": "1743701059870",
@@ -228,26 +225,76 @@
       "status": "Pending"
     },
     {
-      "id": "1743708216070",
-      "name": "PR-คีย์บอร์ด",
+      "id": "1743708924470",
+      "name": "p1",
       "date": "2025-04-03",
-      "employeeName": "Auto System",
-      "employeePosition": "System",
-      "department": "Procurement",
-      "section": "Auto-Gen",
-      "detail": "Auto-generated PR for คีย์บอร์ด",
-      "remark": "",
-      "approver": "",
-      "staff": "",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "remark": "-",
+      "approver": "Jane",
+      "staff": "John",
       "dateApproval": "",
       "dateApproval2": "",
       "products": [
         {
-          "item": "คีย์บอร์ด",
-          "quantity": 10,
+          "item": "เครื่องพิมพ์",
+          "quantity": "79",
           "unit": "pcs",
-          "unitPrice": 800,
-          "totalAmount": "8000.00"
+          "unitPrice": 5000,
+          "totalAmount": "395000.00"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743709082733",
+      "name": "123456",
+      "date": "2025-04-03",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "remark": "-",
+      "approver": "Jane",
+      "staff": "John",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": "10",
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": "50000.00"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743709674216",
+      "name": "789",
+      "date": "2025-04-03",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "remark": "-",
+      "approver": "Jane",
+      "staff": "John",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": "8",
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": "40000.00"
         }
       ],
       "status": "Pending"
@@ -281,38 +328,6 @@
       "stock_quantity": 50,
       "remaining_stock": 5,
       "unit": "pcs"
-    },
-    {
-      "product_id": 1743708131686,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743708626745,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743708912844,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743709076344,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
     }
   ],
   "stock_locations": [
@@ -321,59 +336,374 @@
       "product_id": 1743668910990,
       "warehouse_id": 1,
       "quantity": 50
+    }
+  ],
+  "shipping_notes": [],
+  "requisitions": [],
+  "invoices": [
+    {
+      "id": 1743708732724,
+      "idIV": "66044013",
+      "companyThatMustPay": "Mika",
+      "detail": "ทดลองส่ง by Nori3",
+      "products": [
+        {
+          "item": "Paper",
+          "quantity": 2,
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": "200.00"
+        }
+      ],
+      "totalAmount": "195",
+      "vat": "7.00",
+      "netAmount": "214.00",
+      "payment": "ชำระเงินก่อนรับสินค้า",
+      "notes": "",
+      "companyName": "UFO COMPANY",
+      "companyAddress": "BKK",
+      "companyAddress2": "BKK",
+      "taxID": "864729",
+      "email1": "ufo@gmail.com",
+      "email2": "mika@gmail.com",
+      "penalty": "",
+      "approver": "Jane",
+      "staff": "John",
+      "dateApproval": "2025-04-04",
+      "dateApproval2": "2025-04-04",
+      "status": "Pending"
     },
     {
-      "stock_id": 1743708131689,
-      "product_id": 1743708131686,
-      "warehouse_id": 1,
-      "quantity": 50
+      "id": 1743710229414,
+      "idIV": "66044013",
+      "companyThatMustPay": "Mika",
+      "detail": "ทดลองส่ง by Nori3",
+      "products": [
+        {
+          "item": "Paper",
+          "quantity": 2,
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": "200.00"
+        }
+      ],
+      "totalAmount": "200.00",
+      "vat": "7.00",
+      "netAmount": "214.00",
+      "payment": "ชำระเงินก่อนรับสินค้า",
+      "notes": "-",
+      "companyName": "UFO COMPANY",
+      "companyAddress": "BKK",
+      "companyAddress2": "2",
+      "taxID": "864729",
+      "email1": "ufo@gmail.com",
+      "email2": "mika@gmail.com",
+      "penalty": "-",
+      "approver": "Jane",
+      "staff": "John",
+      "dateApproval": "2025-04-04",
+      "dateApproval2": "2025-04-04",
+      "status": "Pending"
     },
     {
-      "stock_id": 1743708131689,
-      "product_id": 1743708131686,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743708626748,
-      "product_id": 1743708626745,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743708626748,
-      "product_id": 1743708626745,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743708912847,
-      "product_id": 1743708912844,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743708912847,
-      "product_id": 1743708912844,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743709076346,
-      "product_id": 1743709076344,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743709076347,
-      "product_id": 1743709076344,
-      "warehouse_id": 2,
-      "quantity": 30
+      "id": 1743710499988,
+      "idIV": "123456",
+      "companyThatMustPay": "Mika",
+      "detail": "-",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": "50000.00"
+        }
+      ],
+      "totalAmount": "44000",
+      "vat": "7.00",
+      "netAmount": "53500.00",
+      "payment": "ชำระเงินผ่านบัตรเครดิต",
+      "notes": "-",
+      "companyName": "UFO COMPANY",
+      "companyAddress": "BKK",
+      "companyAddress2": "2",
+      "taxID": "864729",
+      "email1": "ufo@gmail.com",
+      "email2": "mika@gmail.com",
+      "penalty": "-",
+      "approver": "Jane",
+      "staff": "John",
+      "dateApproval": "2025-04-04",
+      "dateApproval2": "2025-04-04",
+      "status": "Pending"
     }
   ],
   "purchase_requisitions": [],
-  "shipping_notes": [],
-  "requisitions": [],
-  "invoices": [],
-  "purchase_orders": []
+  "purchase_orders": [
+    {
+      "id": 1743698336958,
+      "name": "ใบสั่งซื้อ - 66044013",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "ทดลองส่ง by Nori3",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "Paper",
+          "quantity": 2,
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": 200
+        }
+      ],
+      "totalAmount": 200,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 214,
+      "payment": "ชำระเงินก่อนรับสินค้า",
+      "notes": "",
+      "status": "Rejected",
+      "type": "Purchase Order"
+    },
+    {
+      "id": 1743699273189,
+      "name": "ใบสั่งซื้อ - 1",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "ทดลองส่ง by Nori",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "Paper",
+          "quantity": 70,
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": 7000
+        },
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 60,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 300000
+        }
+      ],
+      "totalAmount": 307000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 328490,
+      "payment": "",
+      "notes": "",
+      "status": "Approved",
+      "type": "Purchase Order"
+    },
+    {
+      "id": 1743709105340,
+      "name": "123456",
+      "date": "2025-04-03",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 50000
+        }
+      ],
+      "totalAmount": 50000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 53500,
+      "payment": "",
+      "notes": "",
+      "status": "Pending"
+    },
+    {
+      "id": 1743709106898,
+      "name": "123456",
+      "date": "03/04/2025",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 50000
+        }
+      ],
+      "totalAmount": 50000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 53500,
+      "payment": "",
+      "notes": "",
+      "status": "Pending"
+    },
+    {
+      "id": 1743709106901,
+      "name": "123456",
+      "date": "03/04/2025",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 10,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 50000
+        }
+      ],
+      "totalAmount": 50000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 53500,
+      "payment": "",
+      "notes": "",
+      "status": "Pending"
+    },
+    {
+      "id": 1743709689646,
+      "name": "789",
+      "date": "2025-04-03",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 8,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 40000
+        }
+      ],
+      "totalAmount": 40000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 42800,
+      "payment": "",
+      "notes": "",
+      "status": "Pending"
+    },
+    {
+      "id": 1743709690782,
+      "name": "789",
+      "date": "03/04/2025",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 8,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 40000
+        }
+      ],
+      "totalAmount": 40000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 42800,
+      "payment": "",
+      "notes": "",
+      "status": "Pending"
+    },
+    {
+      "id": 1743709690784,
+      "name": "789",
+      "date": "03/04/2025",
+      "employeeName": "Jin Kim",
+      "employeePosition": "5",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "-",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 8,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 40000
+        }
+      ],
+      "totalAmount": 40000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 42800,
+      "payment": "",
+      "notes": "",
+      "status": "Pending"
+    }
+  ]
 }
