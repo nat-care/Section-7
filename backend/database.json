@@ -119,12 +119,8 @@
           "unitPrice": 5000,
           "totalAmount": "300000.00"
         }
-<<<<<<< HEAD
       ],
       "status": "Pending"
-=======
-      ]
->>>>>>> 0c700e585215481538ee64f6ea3d4d86e5657095
     },
     {
       "id": "1743699966449",
@@ -272,7 +268,7 @@
   "purchase_orders": [
     {
       "id": 1743698336958,
-      "name": "66044013",
+      "name": "ใบสั่งซื้อ - 66044013",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -300,11 +296,12 @@
       "netAmount": 214,
       "payment": "ชำระเงินก่อนรับสินค้า",
       "notes": "",
-      "status": "Pending"
+      "status": "Rejected",
+      "type": "Purchase Order"
     },
     {
       "id": 1743699273189,
-      "name": "1",
+      "name": "ใบสั่งซื้อ - 1",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
@@ -339,7 +336,8 @@
       "netAmount": 328490,
       "payment": "",
       "notes": "",
-      "status": "Pending"
+      "status": "Approved",
+      "type": "Purchase Order"
     }
   ]
 }

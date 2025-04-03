@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DA.css'; // สไตล์สำหรับหน้า DA
-import { checkAndCreatePurchaseRequests } from './autoPR';
 
 const DA = () => {
     const navigate = useNavigate();
@@ -35,7 +34,6 @@ const DA = () => {
                 ];
 
                 setDocuments(allDocuments);
-                checkAndCreatePurchaseRequests(setDocuments);
             } catch (error) {
                 console.error("Error fetching documents:", error);
             } finally {
@@ -57,14 +55,13 @@ const DA = () => {
         try {
             const response = await fetch(endpoint, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedDoc),
             });
 
             if (response.ok) {
                 console.log(`✅ สถานะอัปเดตเป็น ${newStatus} แล้ว`);
+
                 setDocuments((prevDocs) =>
                     prevDocs.map((d) =>
                         d.id === doc.id ? { ...d, status: newStatus } : d
@@ -74,7 +71,7 @@ const DA = () => {
                 console.error("❌ ไม่สามารถอัปเดตสถานะได้");
             }
         } catch (err) {
-            console.error("❌ เกิดข้อผิดพลาดในการเชื่อมต่อ:", err);
+            console.error("❌ เกิดข้อผิดพลาด:", err);
         }
     };
 

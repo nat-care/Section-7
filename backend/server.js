@@ -702,6 +702,73 @@ app.get('/api/products/:id', async (req, res) => {
   }
 });
 
+// POST: สร้าง PR อัตโนมัติจาก backend
+app.post("/auto-purchase-request", (req, res) => {
+  const db = loadDatabase();
+
+  const newPR = {
+    id: Date.now().toString(),
+    name: "Auto-PR-" + Date.now(),
+    date: new Date().toISOString().split("T")[0],
+    employeeName: "System Bot",
+    employeePosition: "Automated",
+    department: "AutoDept",
+    section: "AutoSection",
+    detail: "สร้างโดยระบบอัตโนมัติ",
+    remark: "",
+    approver: "",
+    staff: "",
+    dateApproval: "",
+    dateApproval2: "",
+    products: [
+      {
+        item: "Auto Item",
+        quantity: 1,
+        unit: "pcs",
+        unitPrice: 100,
+        totalAmount: "100.00"
+      }
+    ],
+    status: "Pending"
+  };
+
+  db.purchase_requests.push(newPR);
+  saveDatabase(db);
+  res.status(201).json(newPR);
+});
+
+// ✅ PUT: อัปเดตสถานะของ Purchase Order
+app.put("/purchase-orders/:id", (req, res) => {
+  const db = loadDatabase();
+  const id = parseInt(req.params.id);
+  const index = db.purchase_orders.findIndex((po) => po.id === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Purchase Order not found" });
+  }
+
+  const updatedPO = { ...db.purchase_orders[index], ...req.body };
+  db.purchase_orders[index] = updatedPO;
+  saveDatabase(db);
+  res.json(updatedPO);
+});
+
+// ✅ PUT: อัปเดตสถานะของ Purchase Request
+app.put("/purchase-requests/:id", (req, res) => {
+  const db = loadDatabase();
+  const id = parseInt(req.params.id);
+  const index = db.purchase_requests.findIndex((pr) => parseInt(pr.id) === id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Purchase Request not found" });
+  }
+
+  const updatedPR = { ...db.purchase_requests[index], ...req.body };
+  db.purchase_requests[index] = updatedPR;
+  saveDatabase(db);
+  res.json(updatedPR);
+});
+
 // ใน backend API (Node.js example)
 app.post("/documents/approve", (req, res) => {
   const { documentId, status } = req.body;
