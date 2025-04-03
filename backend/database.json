@@ -112,8 +112,6 @@
           "unitPrice": 100,
           "totalAmount": "4500.00"
         }
-<<<<<<< HEAD
-=======
       ]
     },
     {
@@ -145,7 +143,6 @@
           "unitPrice": 100,
           "totalAmount": "50000.00"
         }
->>>>>>> 0dddfb6a22e5215732ecf89024737fd414b69b62
       ],
       "status": "Pending"
     }
