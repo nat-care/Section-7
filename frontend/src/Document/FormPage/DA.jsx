@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import './DA.css'; // สไตล์สำหรับหน้า DA
-import { checkAndCreatePurchaseRequests } from './autoPR';
+import { checkAndCreatePurchaseRequests } from './PRauto';
 
 const DA = () => {
     const navigate = useNavigate();

@@ -1,3 +1,6 @@
+import { Navigate } from 'react-router-dom';
+
+// ฟังก์ชันตรวจสอบและสร้างใบขอซื้อ
 export const checkAndCreatePurchaseRequests = async (setDocuments) => {
     try {
         // ดึงข้อมูลสินค้า
@@ -27,7 +30,7 @@ export const checkAndCreatePurchaseRequests = async (setDocuments) => {
 };
 
 // ฟังก์ชันสร้างใบขอซื้อ
-const createPurchaseRequest = async (product, setDocuments) => {
+const createPurchaseRequest = async (product, setDocuments, navigate) => {
     try {
         const response = await fetch("http://localhost:3000/purchase-requests", {
             method: "POST",
@@ -52,6 +55,9 @@ const createPurchaseRequest = async (product, setDocuments) => {
                 status: "Pending",
                 type: "Purchase Request"
             }]);
+
+            // ส่งข้อมูลไปยัง DAHistory
+            navigate('/da-history', { state: { document: newPR } });
         } else {
             console.error("Error creating purchase request");
         }
