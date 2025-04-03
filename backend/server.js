@@ -28,21 +28,22 @@ function loadDatabase() {
     saveDatabase(initialDB);
     return initialDB;
   }
+
   const raw = fs.readFileSync(DB_FILE, "utf-8");
   const db = JSON.parse(raw);
-// 🛡️ Ensure all expected properties exist
-if (!db.users) db.users = [];
-if (!db.purchase_requests) db.purchase_requests = [];
-if (!db.quotations) db.quotations = [];
-if (!db.products) db.products = [];
-if (!db.stock_locations) db.stock_locations = [];
-if (!db.purchase_requisitions) db.purchase_requisitions = [];
-if (!db.shipping_notes) db.shipping_notes = [];
-if (!db.requisitions) db.requisitions = [];
-if (!db.invoices) db.invoices = [];
-if (!db.purchase_orders) db.purchase_orders = [];
+  // 🛡️ Ensure all expected properties exist
+  if (!db.users) db.users = [];
+  if (!db.purchase_requests) db.purchase_requests = [];
+  if (!db.quotations) db.quotations = [];
+  if (!db.products) db.products = [];
+  if (!db.stock_locations) db.stock_locations = [];
+  if (!db.purchase_requisitions) db.purchase_requisitions = [];
+  if (!db.shipping_notes) db.shipping_notes = [];
+  if (!db.requisitions) db.requisitions = [];
+  if (!db.invoices) db.invoices = [];
+  if (!db.purchase_orders) db.purchase_orders = [];
 
-return db;
+  return db;
 }
 
 // บันทึกฐานข้อมูล
@@ -50,6 +51,7 @@ function saveDatabase(data) {
   console.log("Saving DB...");
   fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
+
 
 // ** API สำหรับจัดการผู้ใช้ **
 
@@ -123,17 +125,27 @@ app.post("/login", (req, res) => {
   const { username, password } = req.body;
   const db = loadDatabase();
 
-  // ค้นหาผู้ใช้จาก username และ password
+  // ค้นหาผู้ใช้
   const user = db.users.find(
     (u) => u.username === username && u.password === password
   );
 
   if (user) {
-    res.json({ token: `fake-token-${Date.now()}`, role: user.role });
+    const token = `fake-token-${Date.now()}`;
+    res.json({
+      token,
+      role: user.role,
+      id: user.id,
+      fullname: user.fullname || user.username,
+      position: user.position || user.role,
+      department: user.department || "ไม่ระบุ",
+      username: user.username
+    });
   } else {
     res.status(401).json({ message: "Invalid username or password" });
   }
 });
+
 
 // GET: ดึงข้อมูล purchase_requests
 app.get("/purchase-requests", (req, res) => {
@@ -557,7 +569,7 @@ app.post("/purchase-orders", (req, res) => {
     payment,
     notes,
   } = req.body;
-  
+
   console.log("Received Purchase Order:", req.body);
 
   // เช็คว่ามีข้อมูลที่จำเป็นหรือไม่
@@ -626,7 +638,7 @@ app.get("/purchase-orders", (req, res) => {
 // PATCH: อัปเดตยอดค้างชำระของ Invoice โดยใช้ idIV
 app.patch("/invoices/:idIV", (req, res) => {
   const { paymentAmount } = req.body;
-  
+
   if (!paymentAmount) {
     return res.status(400).json({ message: "Missing payment amount" });
   }
@@ -671,13 +683,21 @@ app.patch("/invoices/:idIV", (req, res) => {
   }
 });
 
+app.get("/products", (req, res) => {
+  const db = loadDatabase();
+  res.json(db.products); // ส่งข้อมูลสินค้าทั้งหมด
+});
+
+
 app.get('/api/products/:id', async (req, res) => {
-  const productId = req.params.id;
-  const product = await db.getProductById(productId);
+  const productId = req.params.id;  // ดึง ID ของสินค้า จาก URL
+  const db = loadDatabase();  // โหลดข้อมูลฐานข้อมูล
+  const product = db.products.find((p) => p.product_id == productId);  // ค้นหาสินค้าตาม ID
+
   if (product) {
-      res.json(product);
+    res.json(product);  // ถ้าพบสินค้า ส่งข้อมูลสินค้ากลับมา
   } else {
-      res.status(404).json({ error: 'Product not found' });
+    res.status(404).json({ error: 'Product not found' });  // ถ้าไม่พบสินค้า ส่งข้อความผิดพลาด 404
   }
 });
 

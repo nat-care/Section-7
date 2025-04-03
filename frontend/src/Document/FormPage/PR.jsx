@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { checkAndCreatePR,canCreatePO } from './stockUtils';
-import DatePicker from 'react-datepicker'; 
-import "react-datepicker/dist/react-datepicker.css"; 
+import { checkAndCreatePR, canCreatePO } from './stockUtils';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import './PR.css';
 
 const PR = () => {
-    const [rows, setRows] = useState([1]); 
     const navigate = useNavigate();
+
+    const [rows, setRows] = useState([1]);
+    const [products, setProducts] = useState([]); // เพื่อเก็บข้อมูลสินค้า
     const [formData, setFormData] = useState({
         idPR: '',
-        datePR: '',
+        datePR: new Date(),
         employeeName: '',
         employeePosition: '',
         department: '',
@@ -21,8 +23,39 @@ const PR = () => {
         staff: '',
         dateApproval: '',
         dateApproval2: '',
-        products: [{ item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }] 
+        products: [{ item: '', quantity: '', unit: '', unitPrice: '', totalAmount: '' }]
     });
+
+    // ดึงข้อมูลสินค้าจากฐานข้อมูล
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/products"); // API ที่ดึงข้อมูลสินค้า
+                const data = await response.json();
+                setProducts(data); // เก็บข้อมูลสินค้าใน state
+            } catch (error) {
+                console.error("Error fetching products:", error);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // ดึงข้อมูลผู้ใช้จาก localStorage และตั้งค่า
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            const today = new Date().toISOString().split("T")[0]; // ใช้แค่วันที่
+            setFormData(prev => ({
+                ...prev,
+                datePR: today, // ตั้งค่าวันที่เป็นวันที่ปัจจุบัน
+                employeeName: user.fullname || user.username || '',
+                employeePosition: user.id?.toString() || '',
+                department: user.position || '',
+                section: user.department || ''
+            }));
+        }
+    }, []);
 
     const addRow = () => {
         setRows([...rows, rows.length + 1]);
@@ -33,11 +66,11 @@ const PR = () => {
     };
 
     const deleteRow = (index) => {
-        // Remove the row from the `rows` array
+        // ลบแถวใน rows
         const newRows = rows.filter((_, i) => i !== index);
         setRows(newRows);
 
-        // Remove the corresponding product from the `products` array
+        // ลบแถวใน products และอัปเดต formData
         const newProducts = formData.products.filter((_, i) => i !== index);
         setFormData(prevData => ({
             ...prevData,
@@ -58,13 +91,20 @@ const PR = () => {
         const updatedProducts = [...formData.products];
         updatedProducts[index] = { ...updatedProducts[index], [name]: value };
 
-        // Calculate totalAmount for the product
+        // ค้นหาข้อมูลสินค้าเมื่อเลือกสินค้า
+        const selectedProduct = products.find(p => p.name === updatedProducts[index].item);
+        if (selectedProduct) {
+            updatedProducts[index].unit = selectedProduct.unit || ''; // ตั้งค่าหน่วยนับจากข้อมูลสินค้า
+            updatedProducts[index].unitPrice = selectedProduct.price || ''; // ตั้งค่าราคาต่อหน่วยจากข้อมูลสินค้า
+        }
+
+        // คำนวณ totalAmount
         if (updatedProducts[index].unitPrice && updatedProducts[index].quantity) {
             updatedProducts[index].totalAmount = (
                 parseFloat(updatedProducts[index].unitPrice) * parseFloat(updatedProducts[index].quantity)
             ).toFixed(2);
         } else {
-            updatedProducts[index].totalAmount = ''; 
+            updatedProducts[index].totalAmount = '';
         }
 
         setFormData(prevData => ({
@@ -74,42 +114,17 @@ const PR = () => {
     };
 
     const handleSubmit = async () => {
-        for (const product of formData.products) {
-            await checkAndCreatePR(product.item); // ตรวจสอบและสร้าง PR อัตโนมัติ
-    
-            const isAllowed = await canCreatePO(product.item, product.quantity);
-            if (!isAllowed) {
-                alert(`ไม่สามารถจัดทำใบสั่งซื้อสินค้าสำหรับ ${product.item} ได้ เพราะเกินระดับสูงสุดในคลัง`);
-                return;
-            }
-        }
-        const requestData = {
-            idPR: formData.idPR,
-            datePR: formData.datePR,
-            employeeName: formData.employeeName,
-            employeePosition: formData.employeePosition,
-            department: formData.department,
-            section: formData.section,
-            detail: formData.detail,
-            remark: formData.remark,
-            approver: formData.approver,
-            staff: formData.staff,
-            dateApproval: formData.dateApproval,
-            dateApproval2: formData.dateApproval2,
-            products: formData.products // ส่ง products เป็น object array ตาม API
-        };
-    
+        // ส่งข้อมูลไปยัง API
+        const requestData = { ...formData };
         console.log('Sending data:', requestData);
-    
+
         try {
             const response = await fetch('http://localhost:3000/purchase-requests', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestData)
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
                 console.log('Purchase Request Submitted:', result);
@@ -123,15 +138,14 @@ const PR = () => {
             alert('Error submitting request');
         }
     };
-    
-    
 
     const renderDatePicker = (id, selectedDate, onChange) => (
         <DatePicker
-            selected={selectedDate ? new Date(selectedDate) : null}
-            onChange={onChange}
+            selected={formData.datePR ? new Date(formData.datePR) : null}
+            onChange={() => { }} // ไม่ให้เปลี่ยนแปลงได้
             dateFormat="yyyy-MM-dd"
             className="date-picker"
+            readOnly
         />
     );
 
@@ -139,16 +153,10 @@ const PR = () => {
         <div className="purchase-requisition">
             <h2>การจัดทำใบขอซื้อ (Purchase Requisition - PR)</h2>
 
-            {/* Form Section */}
             <div className="row">
                 <div className="column">
                     <label htmlFor="idPR">ID-PR/NO:</label>
-                    <input
-                        type="text"
-                        id="idPR"
-                        value={formData.idPR}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="idPR" value={formData.idPR} onChange={handleInputChange} />
                 </div>
                 <div className="column">
                     <label htmlFor="datePR">วันที่:</label>
@@ -159,54 +167,29 @@ const PR = () => {
             <div className="row">
                 <div className="column">
                     <label htmlFor="employeeName">ชื่อพนักงาน:</label>
-                    <input
-                        type="text"
-                        id="employeeName"
-                        value={formData.employeeName}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="employeeName" value={formData.employeeName} readOnly />
                 </div>
                 <div className="column">
                     <label htmlFor="employeePosition">รหัสพนักงาน:</label>
-                    <input
-                        type="text"
-                        id="employeePosition"
-                        value={formData.employeePosition}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="employeePosition" value={formData.employeePosition} readOnly />
                 </div>
             </div>
 
             <div className="row">
                 <div className="column">
                     <label htmlFor="department">ตำแหน่งพนักงาน:</label>
-                    <input
-                        type="text"
-                        id="department"
-                        value={formData.department}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="department" value={formData.department} readOnly />
                 </div>
                 <div className="column">
                     <label htmlFor="section">แผนก:</label>
-                    <input
-                        type="text"
-                        id="section"
-                        value={formData.section}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="section" value={formData.section} readOnly />
                 </div>
             </div>
 
             <div className="row">
                 <div className="column">
                     <label htmlFor="detail">เรื่องรายละเอียด:</label>
-                    <input
-                        type="text"
-                        id="detail"
-                        value={formData.detail}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="detail" value={formData.detail} onChange={handleInputChange} />
                 </div>
             </div>
 
@@ -226,14 +209,20 @@ const PR = () => {
                 <tbody>
                     {rows.map((row, index) => (
                         <tr key={index}>
-                            <td>{row}</td>
+                            <td>{index + 1}</td>
                             <td>
-                                <input
-                                    type="text"
+                                <select
                                     name="item"
                                     value={formData.products[index]?.item || ''}
                                     onChange={(e) => handleProductChange(index, e)}
-                                />
+                                >
+                                    <option value="">เลือกสินค้า</option> {/* เพิ่ม option สำหรับกรณีที่ยังไม่ได้เลือก */}
+                                    {products.map((product, idx) => (
+                                        <option key={idx} value={product.name}>
+                                            {product.name} {/* แสดงชื่อสินค้าจากฐานข้อมูล */}
+                                        </option>
+                                    ))}
+                                </select>
                             </td>
                             <td>
                                 <input
@@ -248,7 +237,7 @@ const PR = () => {
                                     type="text"
                                     name="unit"
                                     value={formData.products[index]?.unit || ''}
-                                    onChange={(e) => handleProductChange(index, e)}
+                                    readOnly
                                 />
                             </td>
                             <td>
@@ -256,7 +245,7 @@ const PR = () => {
                                     type="number"
                                     name="unitPrice"
                                     value={formData.products[index]?.unitPrice || ''}
-                                    onChange={(e) => handleProductChange(index, e)}
+                                    readOnly
                                 />
                             </td>
                             <td>
@@ -268,6 +257,7 @@ const PR = () => {
                                 />
                             </td>
                             <td>
+                                {/* ปุ่มลบ */}
                                 <button onClick={() => deleteRow(index)}>ลบแถว</button>
                             </td>
                         </tr>
@@ -275,62 +265,43 @@ const PR = () => {
                 </tbody>
             </table>
 
-            {/* Add Row Button */}
             <button onClick={addRow} id="addRowBtn">เพิ่มแถว</button>
 
-            {/* หมายเหตุ input */}
             <div className="row">
                 <div className="column">
                     <label htmlFor="remark">หมายเหตุ:</label>
-                    <input
-                        type="text"
-                        id="remark"
-                        value={formData.remark}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="remark" value={formData.remark} onChange={handleInputChange} />
                 </div>
             </div>
 
-            {/* ผู้อนุมัติฝ่ายจัดซื้อ and others */}
             <div className="row">
                 <div className="column">
                     <label htmlFor="approver">ผู้อนุมัติฝ่ายจัดซื้อ:</label>
-                    <input
-                        type="text"
-                        id="approver"
-                        value={formData.approver}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="approver" value={formData.approver} onChange={handleInputChange} />
                 </div>
                 <div className="column">
                     <label htmlFor="staff">เจ้าหน้าที่ฝ่ายจัด:</label>
-                    <input
-                        type="text"
-                        id="staff"
-                        value={formData.staff}
-                        onChange={handleInputChange}
-                    />
+                    <input type="text" id="staff" value={formData.staff} onChange={handleInputChange} />
                 </div>
             </div>
 
             <div className="row">
                 <div className="column">
-                    <label htmlFor="date-approval">วันที่:</label>
-                    {renderDatePicker('date-approval', formData.dateApproval, (date) => setFormData({ ...formData, dateApproval: date }))}
+                    <label htmlFor="dateApproval">วันที่:</label>
+                    {renderDatePicker('dateApproval', formData.dateApproval, (date) => setFormData({ ...formData, dateApproval: date }))}
                 </div>
                 <div className="column">
-                    <label htmlFor="date-approval2">วันที่:</label>
-                    {renderDatePicker('date-approval2', formData.dateApproval2, (date) => setFormData({ ...formData, dateApproval2: date }))}
+                    <label htmlFor="dateApproval2">วันที่:</label>
+                    {renderDatePicker('dateApproval2', formData.dateApproval2, (date) => setFormData({ ...formData, dateApproval2: date }))}
                 </div>
             </div>
 
-            {/* Action Buttons (Save and Submit) */}
             <div className="actions">
                 <button onClick={handleSubmit}>ส่งคำขอ</button>
-                <button>บันทึก</button>
             </div>
         </div>
     );
 };
 
+// เพิ่มการ export default ที่นี่
 export default PR;

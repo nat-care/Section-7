@@ -27,17 +27,22 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        const role = data.role;
-        setToken(data.token);
+        const { token, role, fullname, department, position, id } = data;
+
+        setToken(token);
         setRole(role);
+
+        // เก็บใน localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", role);
+        localStorage.setItem("user", JSON.stringify(data)); // ✅ เพิ่มบรรทัดนี้
+        ;
         alert("Login successful!");
-  
+
         // Redirect according to role
         switch (role) {
           case "IT Administrator":

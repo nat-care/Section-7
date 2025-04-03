@@ -4,37 +4,64 @@
       "id": 1,
       "username": "admin",
       "password": "1234",
-      "role": "IT Administrator"
+      "role": "IT Administrator",
+      "fullname": "System Admin",
+      "department": "IT",
+      "position": "Administrator"
     },
     {
       "id": 2,
       "username": "john",
       "password": "password",
-      "role": "Procurement Officer"
+      "role": "Procurement Officer",
+      "fullname": "John Smith",
+      "department": "Procurement",
+      "position": "Officer"
     },
     {
       "id": 3,
       "username": "mary",
       "password": "marypass",
-      "role": "Finance & Accounting"
+      "role": "Finance & Accounting",
+      "fullname": "Mary Johnson",
+      "department": "Finance",
+      "position": "Accountant"
     },
     {
       "id": 4,
       "username": "boss",
       "password": "bosspass",
-      "role": "Management & Approvers"
+      "role": "Management & Approvers",
+      "fullname": "Boss CEO",
+      "department": "Executive",
+      "position": "Manager"
     },
     {
       "id": 5,
       "username": "jin",
       "password": "12345",
-      "role": "Procurement Officer"
+      "role": "Procurement Officer",
+      "fullname": "Jin Kim",
+      "department": "Procurement",
+      "position": "Officer"
     },
     {
       "id": 6,
       "username": "nori",
       "password": "12345",
-      "role": "Procurement Officer"
+      "role": "Procurement Officer",
+      "fullname": "Nori Tanaka",
+      "department": "Procurement",
+      "position": "Officer"
+    },
+    {
+      "id": 7,
+      "username": "test",
+      "password": "123456",
+      "role": "Finance & Accounting",
+      "fullname": "Test User",
+      "department": "Finance",
+      "position": "Accountant"
     }
   ],
   "purchase_requests": [
@@ -67,138 +94,6 @@
           "totalAmount": 10000
         }
       ]
-    },
-    {
-      "id": 1743495830046,
-      "idPR": "1",
-      "datePR": "2025-03-31T17:00:00.000Z",
-      "employeeName": "dd",
-      "employeePosition": "6",
-      "department": "Procurement Officer",
-      "section": "it",
-      "detail": "-",
-      "remark": "-",
-      "approver": "dd",
-      "staff": "acad",
-      "dateApproval": "2025-04-29T17:00:00.000Z",
-      "dateApproval2": "2025-04-29T17:00:00.000Z",
-      "products": [
-        {
-          "item": "เก้าอี้",
-          "quantity": "2",
-          "unit": "ตัว",
-          "unitPrice": "200",
-          "totalAmount": "400.00"
-        }
-      ],
-      "status": "Pending"
-    },
-    {
-      "id": 1743506799496,
-      "idPR": "1",
-      "datePR": "2025-03-31T17:00:00.000Z",
-      "employeeName": "dd",
-      "employeePosition": "6",
-      "department": "Procurement Officer",
-      "section": "it",
-      "detail": "จัดซื้อคอม",
-      "remark": "ไม่รู้",
-      "approver": "สมชาย",
-      "staff": "สมหญิง",
-      "dateApproval": "2025-04-02T17:00:00.000Z",
-      "dateApproval2": "2025-04-03T17:00:00.000Z",
-      "products": [
-        {
-          "item": "คอมพิวเตอร์",
-          "quantity": "10",
-          "unit": "ตัว",
-          "unitPrice": "1000",
-          "totalAmount": "10000.00"
-        }
-      ],
-      "status": "Pending"
-    },
-    {
-      "id": 1743507766771,
-      "idPR": "1",
-      "datePR": "2025-03-31T17:00:00.000Z",
-      "employeeName": "dd",
-      "employeePosition": "6",
-      "department": "Procurement Officer",
-      "section": "it",
-      "detail": "จัดซื้อคอม",
-      "remark": "ไม่รู้",
-      "approver": "สมชาย",
-      "staff": "สมหญิง",
-      "dateApproval": "2025-04-01T17:00:00.000Z",
-      "dateApproval2": "2025-04-02T17:00:00.000Z",
-      "products": [
-        {
-          "item": "คอมพิวเตอร์",
-          "quantity": "2",
-          "unit": "ตัว",
-          "unitPrice": "1000",
-          "totalAmount": "2000.00"
-        }
-      ],
-      "status": "Pending"
-    },
-    {
-      "id": 1743512518826,
-      "idPR": "1",
-      "datePR": "2025-03-31T17:00:00.000Z",
-      "employeeName": "sirintraaa",
-      "employeePosition": "12345",
-      "department": "Procurement Officer",
-      "section": "it",
-      "detail": "จัดซื้อคอม",
-      "remark": "หด",
-      "approver": "หด",
-      "staff": "หดห",
-      "dateApproval": "2025-04-22T17:00:00.000Z",
-      "dateApproval2": "2025-04-21T17:00:00.000Z",
-      "products": [
-        {
-          "item": "คอมพิวเตอร์",
-          "quantity": "2",
-          "unit": "เครื่อง",
-          "unitPrice": "100",
-          "totalAmount": "200.00"
-        }
-      ],
-      "status": "Pending"
-    },
-    {
-      "id": 1743513846562,
-      "idPR": "3",
-      "datePR": "2025-04-01T17:00:00.000Z",
-      "employeeName": "dd",
-      "employeePosition": "12345",
-      "department": "manager",
-      "section": "it",
-      "detail": "จัดซื้อคอม",
-      "remark": "ไม่รู้",
-      "approver": "สมชาย",
-      "staff": "สมหญิง",
-      "dateApproval": "2025-04-30T17:00:00.000Z",
-      "dateApproval2": "2025-04-30T17:00:00.000Z",
-      "products": [
-        {
-          "item": "",
-          "quantity": "2",
-          "unit": "",
-          "unitPrice": "200",
-          "totalAmount": "400.00"
-        },
-        {
-          "item": "",
-          "quantity": "3",
-          "unit": "",
-          "unitPrice": "300",
-          "totalAmount": "900.00"
-        }
-      ],
-      "status": "Pending"
     }
   ],
   "quotations": [],
@@ -209,257 +104,64 @@
       "description": "เครื่องพิมพ์ขาวดำ",
       "price": 5000,
       "stock_quantity": 100,
-      "remaining_stock": 100
+      "remaining_stock": 100,
+      "unit": "pcs"
     },
     {
-      "product_id": 1743256805093,
+      "product_id": 1743256805092,
       "name": "Paper",
-      "description": "Paper for printing",
-      "price": 200,
-      "stock_quantity": 500,
-      "remaining_stock": 500
-    },
-    {
-      "product_id": 1743256805094,
-      "name": "Laptop",
-      "description": "High-performance laptop",
-      "price": 15000,
-      "stock_quantity": 50,
-      "remaining_stock": 50
-    },
-    {
-      "product_id": 1743591193091,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
+      "description": "paper",
+      "price": 100,
       "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743596040478,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743596058426,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743596225132,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743596654871,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743596778154,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743668741564,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743668910990,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743669270974,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743669535983,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743669548278,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 100
-    },
-    {
-      "product_id": 1743669560057,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743669853670,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743669909237,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743670547635,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743670834063,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
-    },
-    {
-      "product_id": 1743676476818,
-      "name": "คอมพิวเตอร์",
-      "description": "3800RAM",
-      "price": 5000,
-      "stock_quantity": 100,
-      "remaining_stock": 80
+      "remaining_stock": 100,
+      "unit": "packs"
     }
   ],
+  
   "stock_locations": [
     {
       "stock_id": 1743668911076,
       "product_id": 1743668910990,
       "warehouse_id": 1,
       "quantity": 50
-    },
+    }
+  ],
+  "shipping_notes": [],
+  "requisitions": [],
+  "invoices": [],
+  "purchase_requisitions": [],
+  "purchase_orders": [
     {
-      "stock_id": 1743668911175,
-      "product_id": 1743668910990,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743669271079,
-      "product_id": 1743669270974,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743669271189,
-      "product_id": 1743669270974,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743669560230,
-      "product_id": 1743669560057,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743669560362,
-      "product_id": 1743669560057,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743669853780,
-      "product_id": 1743669853670,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743669853897,
-      "product_id": 1743669853670,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743669909364,
-      "product_id": 1743669909237,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743669909486,
-      "product_id": 1743669909237,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743670547750,
-      "product_id": 1743670547635,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743670547858,
-      "product_id": 1743670547635,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743670834191,
-      "product_id": 1743670834063,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743670834336,
-      "product_id": 1743670834063,
-      "warehouse_id": 2,
-      "quantity": 30
-    },
-    {
-      "stock_id": 1743676476826,
-      "product_id": 1743676476818,
-      "warehouse_id": 1,
-      "quantity": 50
-    },
-    {
-      "stock_id": 1743676476834,
-      "product_id": 1743676476818,
-      "warehouse_id": 2,
-      "quantity": 30
+      "id": 1743659034336,
+      "idPO": "10",
+      "datePO": "2025-04-10",
+      "employeeName": "สุจิต",
+      "employeePosition": "10",
+      "department": "manager",
+      "section": "it",
+      "detail": "จัดซื้อโต๊ะ",
+      "approver": "สมชาย",
+      "purchaser": "สมหญิง",
+      "auditor": "สมหมาย",
+      "dateApproval": "2025-04-15T17:00:00.000Z",
+      "dateApproval2": "2025-04-02T17:00:00.000Z",
+      "dateApproval3": "2025-04-02T17:00:00.000Z",
+      "products": [
+        {
+          "item": "คอมพิวเตอร์",
+          "quantity": 10,
+          "unit": "ตัว",
+          "unitPrice": 100,
+          "totalAmount": 1000
+        }
+      ],
+      "totalAmount": 1000,
+      "discount": 10,
+      "vat": 7,
+      "netAmount": 963,
+      "payment": "ชำระเงินหลังได้รับสินค้า",
+      "notes": "",
+      "status": "Pending"
     }
   ]
 }

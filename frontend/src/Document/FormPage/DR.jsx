@@ -45,25 +45,33 @@ const DR = () => {
       [id]: value,
     }));
   };
-
   const handleProductChange = (index, e) => {
     const { name, value } = e.target;
     const updatedProducts = [...formData.products];
     updatedProducts[index] = { ...updatedProducts[index], [name]: value };
 
-    // Calculate totalAmount if quantity or unitPrice changes
-    if (name === "quantity" || name === "unitPrice") {
-      const quantity = parseFloat(updatedProducts[index]?.quantity) || 0;
-      const unitPrice = parseFloat(updatedProducts[index]?.unitPrice) || 0;
-      updatedProducts[index].totalAmount = (quantity * unitPrice).toFixed(2);
+    // ค้นหาข้อมูลสินค้าจากฐานข้อมูล products ที่ดึงมา
+    const selectedProduct = products.find(p => p.name === updatedProducts[index].item);
+
+    if (selectedProduct) {
+      updatedProducts[index].unit = selectedProduct.unit || ''; // ตั้งค่าหน่วยนับจากข้อมูลสินค้า
+      updatedProducts[index].unitPrice = selectedProduct.price || ''; // ตั้งค่าราคาต่อหน่วยจากข้อมูลสินค้า
     }
 
-    setFormData((prevData) => ({
+    // คำนวณ totalAmount
+    if (updatedProducts[index].unitPrice && updatedProducts[index].quantity) {
+      updatedProducts[index].totalAmount = (
+        parseFloat(updatedProducts[index].unitPrice) * parseFloat(updatedProducts[index].quantity)
+      ).toFixed(2);
+    } else {
+      updatedProducts[index].totalAmount = '';
+    }
+
+    setFormData(prevData => ({
       ...prevData,
-      products: updatedProducts,
+      products: updatedProducts
     }));
   };
-
   const handleSubmit = () => {
     console.log(formData); // Log the form data for debugging
 
@@ -80,7 +88,7 @@ const DR = () => {
       alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
       return;
     }
-  
+
     fetch("http://localhost:3000/delivery-receipts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
