@@ -32,35 +32,9 @@
     },
     {
       "id": 6,
-      "username": "dd",
+      "username": "nori",
       "password": "12345",
       "role": "Procurement Officer"
-    }
-  ],
-  "purchase_orders": [
-    {
-      "idPO": "PO123",
-      "datePO": "2025-03-13",
-      "employeeName": "John Doe",
-      "employeePosition": "Procurement Officer",
-      "department": "IT",
-      "section": "Procurement",
-      "detail": "Request for printer purchase",
-      "products": [
-        {
-          "item": "Printer",
-          "quantity": 10,
-          "unit": "pcs",
-          "unitPrice": 5000,
-          "totalAmount": 50000
-        }
-      ],
-      "totalAmount": "50000",
-      "discount": "500",
-      "vat": "5000",
-      "netAmount": "55000",
-      "payment": "55000",
-      "notes": "Urgent Purchase"
     }
   ],
   "purchase_requests": [
@@ -227,6 +201,7 @@
       "status": "Pending"
     }
   ],
+  "quotations": [],
   "products": [
     {
       "product_id": 1743256805092,
@@ -299,343 +274,177 @@
       "price": 5000,
       "stock_quantity": 100,
       "remaining_stock": 100
+    },
+    {
+      "product_id": 1743668741564,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
+    },
+    {
+      "product_id": 1743668910990,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
+    },
+    {
+      "product_id": 1743669270974,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
+    },
+    {
+      "product_id": 1743669535983,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
+    },
+    {
+      "product_id": 1743669548278,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 100
+    },
+    {
+      "product_id": 1743669560057,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
+    },
+    {
+      "product_id": 1743669853670,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
+    },
+    {
+      "product_id": 1743669909237,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
+    },
+    {
+      "product_id": 1743670547635,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
+    },
+    {
+      "product_id": 1743670834063,
+      "name": "คอมพิวเตอร์",
+      "description": "3800RAM",
+      "price": 5000,
+      "stock_quantity": 100,
+      "remaining_stock": 80
     }
   ],
-  "invoices": [
+  "stock_locations": [
     {
-      "id": 1743489255902,
-      "idIV": " PR7889909",
-      "companyThatMustPay": "MIKA",
-      "detail": "-",
-      "products": [
-        {
-          "item": "รถแบคโฮ",
-          "quantity": "2",
-          "unit": "คัน",
-          "unitPrice": "1199997",
-          "totalAmount": 2399996
-        }
-      ],
-      "totalAmount": "1873996",
-      "discount": "-",
-      "vat": "167999",
-      "netAmount": "2567995",
-      "payment": "แบ่งชำระ",
-      "notes": "-",
-      "companyName": "UFO COMPANY",
-      "companyAddress": "BKK",
-      "companyAddress2": "BKK",
-      "taxID": "864729",
-      "email1": "ufo@gmail.com",
-      "email2": "mika@gmail.com",
-      "penalty": "-",
-      "approver": "Jane",
-      "staff": "John",
-      "dateApproval": "2025-04-25",
-      "dateApproval2": "2025-04-01",
-      "status": "Pending"
+      "stock_id": 1743668911076,
+      "product_id": 1743668910990,
+      "warehouse_id": 1,
+      "quantity": 50
     },
     {
-      "id": 1743493746716,
-      "idIV": " PR7889910",
-      "companyThatMustPay": "Mika",
-      "detail": "-",
-      "products": [
-        {
-          "item": "รถตัก",
-          "quantity": "2",
-          "unit": "คัน",
-          "unitPrice": "500000",
-          "totalAmount": 1000000
-        }
-      ],
-      "totalAmount": "749000",
-      "discount": "-",
-      "vat": "70000",
-      "netAmount": "1070000",
-      "payment": "แบ่งชำระ",
-      "notes": "-",
-      "companyName": "UFO COMPANY",
-      "companyAddress": "BKK",
-      "companyAddress2": "BKK",
-      "taxID": "864729",
-      "email1": "ufo@gmail.com",
-      "email2": "mika@gmail.com",
-      "penalty": "-",
-      "approver": "Jane",
-      "staff": "John",
-      "dateApproval": "2025-04-01",
-      "dateApproval2": "2025-04-01",
-      "status": "Pending"
+      "stock_id": 1743668911175,
+      "product_id": 1743668910990,
+      "warehouse_id": 2,
+      "quantity": 30
     },
     {
-      "id": 1743493746717,
-      "idIV": " PR7889911",
-      "companyThatMustPay": "Mika",
-      "detail": "-",
-      "products": [
-        {
-          "item": "รถตัก",
-          "quantity": "2",
-          "unit": "คัน",
-          "unitPrice": "500000",
-          "totalAmount": 1000000
-        }
-      ],
-      "totalAmount": "1000000",
-      "discount": "-",
-      "vat": "70000",
-      "netAmount": "1070000",
-      "payment": "แบ่งชำระ",
-      "notes": "-",
-      "companyName": "UFO COMPANY",
-      "companyAddress": "BKK",
-      "companyAddress2": "BKK",
-      "taxID": "864729",
-      "email1": "ufo@gmail.com",
-      "email2": "mika@gmail.com",
-      "penalty": "-",
-      "approver": "Jane",
-      "staff": "John",
-      "dateApproval": "2025-04-01",
-      "dateApproval2": "2025-04-01",
-      "status": "Pending"
+      "stock_id": 1743669271079,
+      "product_id": 1743669270974,
+      "warehouse_id": 1,
+      "quantity": 50
     },
     {
-      "id": 1743513305074,
-      "idIV": " PR7889912",
-      "companyThatMustPay": "MIKA",
-      "detail": "-",
-      "products": [
-        {
-          "item": "เครื่องปั่นไฟ",
-          "quantity": "10",
-          "unit": "เครื่อง",
-          "unitPrice": "8000",
-          "totalAmount": "80000.00"
-        }
-      ],
-      "totalAmount": "80000.00",
-      "discount": "0",
-      "vat": "5565.00",
-      "netAmount": "85065.00",
-      "payment": "แบ่งชำระ",
-      "notes": "-",
-      "companyName": "UFO COMPANY",
-      "companyAddress": "BKK",
-      "companyAddress2": "BKK",
-      "taxID": "864729",
-      "email1": "ufo@gmail.com",
-      "email2": "mika@gmail.com",
-      "penalty": "-",
-      "approver": "Jane",
-      "staff": "John",
-      "dateApproval": "2025-04-01",
-      "dateApproval2": "2025-04-01",
-      "status": "Pending"
+      "stock_id": 1743669271189,
+      "product_id": 1743669270974,
+      "warehouse_id": 2,
+      "quantity": 30
     },
     {
-      "id": 1743513489600,
-      "idIV": " PR7889913",
-      "companyThatMustPay": "MIKA",
-      "detail": "-",
-      "products": [
-        {
-          "item": "เครื่องสูบน้ำ",
-          "quantity": "20",
-          "unit": "เครื่อง",
-          "unitPrice": "50000",
-          "totalAmount": "1000000.00"
-        }
-      ],
-      "totalAmount": "1000000.00",
-      "discount": "5",
-      "vat": "69999.65",
-      "netAmount": "1069994.65",
-      "payment": "แบ่งชำระ",
-      "notes": "-",
-      "companyName": "UFO COMPANY",
-      "companyAddress": "BKK",
-      "companyAddress2": "BKK",
-      "taxID": "864729",
-      "email1": "ufo@gmail.com",
-      "email2": "mika@gmail.com",
-      "penalty": "-",
-      "approver": "Jane",
-      "staff": "John",
-      "dateApproval": "2025-04-01",
-      "dateApproval2": "2025-04-01",
-      "status": "Pending"
+      "stock_id": 1743669560230,
+      "product_id": 1743669560057,
+      "warehouse_id": 1,
+      "quantity": 50
+    },
+    {
+      "stock_id": 1743669560362,
+      "product_id": 1743669560057,
+      "warehouse_id": 2,
+      "quantity": 30
+    },
+    {
+      "stock_id": 1743669853780,
+      "product_id": 1743669853670,
+      "warehouse_id": 1,
+      "quantity": 50
+    },
+    {
+      "stock_id": 1743669853897,
+      "product_id": 1743669853670,
+      "warehouse_id": 2,
+      "quantity": 30
+    },
+    {
+      "stock_id": 1743669909364,
+      "product_id": 1743669909237,
+      "warehouse_id": 1,
+      "quantity": 50
+    },
+    {
+      "stock_id": 1743669909486,
+      "product_id": 1743669909237,
+      "warehouse_id": 2,
+      "quantity": 30
+    },
+    {
+      "stock_id": 1743670547750,
+      "product_id": 1743670547635,
+      "warehouse_id": 1,
+      "quantity": 50
+    },
+    {
+      "stock_id": 1743670547858,
+      "product_id": 1743670547635,
+      "warehouse_id": 2,
+      "quantity": 30
+    },
+    {
+      "stock_id": 1743670834191,
+      "product_id": 1743670834063,
+      "warehouse_id": 1,
+      "quantity": 50
+    },
+    {
+      "stock_id": 1743670834336,
+      "product_id": 1743670834063,
+      "warehouse_id": 2,
+      "quantity": 30
     }
   ],
-  "requisitions": [
-    {
-      "id": "RF123",
-      "date": "2025-03-13",
-      "employeeName": "John Doe",
-      "department": "IT",
-      "products": [
-        {
-          "item": "Printer",
-          "quantity": 2,
-          "unit": "pcs",
-          "unitPrice": 5000,
-          "totalAmount": 10000
-        }
-      ],
-      "totalAmount": "10000",
-      "status": "Approved",
-      "approver": "Jane Smith"
-    },
-    {
-      "id": 1743495193713,
-      "idRF": "1",
-      "dateRF": "0568-02-22",
-      "employeeName": "dd",
-      "employeeId": "6",
-      "senderName": "dd",
-      "detail": "-",
-      "products": [
-        {
-          "item": "โต๊ะ",
-          "quantity": "2",
-          "totalAmount": "400.00",
-          "unit": "ตัว",
-          "unitPrice": "200"
-        }
-      ],
-      "totalAmount": "",
-      "notes": "-",
-      "approver": "dd",
-      "approverStaff": "knkllk",
-      "inventoryStaff": "vdy",
-      "dateApproval": "2568-02-06",
-      "dateApproval2": "2568-02-22",
-      "dateApproval3": "2568-02-22",
-      "status": "Pending"
-    }
-  ],
-  "shipping_notes": [
-    {
-      "idShippingNote": "SN123",
-      "date": "2025-03-14",
-      "purchaseOrderId": "PO123",
-      "shippedBy": "Logistics Company",
-      "shipmentDate": "2025-03-14",
-      "deliveryDate": "2025-03-16",
-      "trackingNumber": "TRK123456"
-    },
-    {
-      "idShippingNote": "SN124",
-      "date": "2025-03-15",
-      "purchaseOrderId": "PO124",
-      "shippedBy": "Logistics Company",
-      "shipmentDate": "2025-03-15",
-      "deliveryDate": "2025-03-17",
-      "trackingNumber": "TRK123457"
-    }
-  ],
-  "delivery_receipts": [
-    {
-      "idDR": "12345",
-      "drNo": "DR001",
-      "dateDR": "2025-03-30",
-      "employeeName": "John Doe",
-      "employeePosition": "Manager",
-      "department": "Sales",
-      "section": "A",
-      "products": [
-        {
-          "item": "Product 1",
-          "quantity": 2,
-          "unit": "piece",
-          "unitPrice": 100
-        }
-      ],
-      "totalAmount": 200,
-      "discount": 10,
-      "vat": 15,
-      "netAmount": 205,
-      "payment": "Paid",
-      "notes": "Delivered on time",
-      "purchaseRecord": "PO001",
-      "receiveGoods": true,
-      "returnDamagedGoods": false,
-      "checkGoods": true,
-      "approver": "Jane Doe",
-      "approvalDate": "2025-03-28",
-      "approvalDate2": "2025-03-29",
-      "goodsDetails": "Goods are in good condition",
-      "dueDate": "2025-04-05",
-      "deliveryDate": "2025-03-30",
-      "checkGoodsDetail": "No issues",
-      "receiveGoodsDate": "2025-03-30",
-      "additionalDetails": "N/A",
-      "remarks": "Urgent delivery",
-      "senderName": "Alice",
-      "senderPosition": "Warehouse",
-      "receiverName": "Bob",
-      "receiverPosition": "Client"
-    },
-    {
-      "id": 1743438661953,
-      "idDR": "65465",
-      "drNo": "4646",
-      "dateDR": "2025-03-20",
-      "employeePosition": "6446",
-      "EmployeeID": "464",
-      "department": "46",
-      "products": [
-        {
-          "item": "464",
-          "quantity": "4646",
-          "totalAmount": "21585316.00",
-          "unit": "4646",
-          "unitPrice": "4646"
-        }
-      ],
-      "goodsDetails": "4646",
-      "dueDate": "2025-03-14",
-      "deliveryDate": "2025-03-12",
-      "checkGoodsDetail": "4646",
-      "receiveGoodsDate": "2025-03-29",
-      "additionalDetails": "4646",
-      "remarks": "4646",
-      "sender": "4646",
-      "receiver": "64646",
-      "approvalDate": "2025-03-27",
-      "approvalDate2": "2025-03-11",
-      "status": "Pending"
-    },
-    {
-      "id": 1743439069465,
-      "idDR": "65465",
-      "drNo": "4646",
-      "dateDR": "2025-03-20",
-      "employeePosition": "6446",
-      "EmployeeID": "464",
-      "department": "46",
-      "products": [
-        {
-          "item": "464",
-          "quantity": "4646",
-          "totalAmount": "21585316.00",
-          "unit": "4646",
-          "unitPrice": "4646"
-        }
-      ],
-      "goodsDetails": "4646",
-      "dueDate": "2025-03-14",
-      "deliveryDate": "2025-03-12",
-      "checkGoodsDetail": "4646",
-      "receiveGoodsDate": "2025-03-29",
-      "additionalDetails": "4646",
-      "remarks": "4646",
-      "sender": "4646",
-      "receiver": "64646",
-      "approvalDate": "2025-03-27",
-      "approvalDate2": "2025-03-11",
-      "status": "Pending"
-    }
-  ]
+  "purchase_requisitions": [],
+  "shipping_notes": [],
+  "requisitions": [],
+  "invoices": [],
+  "purchase_orders": []
 }

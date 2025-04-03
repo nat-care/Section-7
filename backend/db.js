@@ -5,8 +5,15 @@ const DB_FILE = './database.json';
 function loadDatabase() {
     if (fs.existsSync(DB_FILE)) {
         const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
-        console.log("โหลดฐานข้อมูล:", data);  // เพิ่ม log ที่นี่
-        return data;
+        console.log("โหลดฐานข้อมูล:", data);
+        // เพิ่ม fallback เผื่อ field ขาด
+        return {
+            users: data.users || [],
+            purchase_requests: data.purchase_requests || [],
+            quotations: data.quotations || [],
+            products: data.products || [],
+            stock_locations: data.stock_locations || []
+        };
     }
     console.log("ฐานข้อมูลใหม่ที่สร้างขึ้น");
     return { 

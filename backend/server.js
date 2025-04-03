@@ -12,24 +12,42 @@ app.use(cors());
 
 // โหลดฐานข้อมูล
 function loadDatabase() {
-  return fs.existsSync(DB_FILE)
-    ? JSON.parse(fs.readFileSync(DB_FILE, "utf-8"))
-    : {
-        users: [],
-        purchase_requests: [],
-        quotations: [],
-        products: [], //รายการสินค้า
-        stock_locations: [], //คลังสินค้า
-        purchase_requisitions: [], // Added
-        shipping_notes: [], // Added
-        requisitions: [], // Added
-        invoices: [], // Added
-        purchase_orders: [], // Added missing purchase_orders
-      };
+  if (!fs.existsSync(DB_FILE)) {
+    const initialDB = {
+      users: [],
+      purchase_requests: [],
+      quotations: [],
+      products: [],
+      stock_locations: [],
+      purchase_requisitions: [],
+      shipping_notes: [],
+      requisitions: [],
+      invoices: [],
+      purchase_orders: [],
+    };
+    saveDatabase(initialDB);
+    return initialDB;
+  }
+  const raw = fs.readFileSync(DB_FILE, "utf-8");
+  const db = JSON.parse(raw);
+// 🛡️ Ensure all expected properties exist
+if (!db.users) db.users = [];
+if (!db.purchase_requests) db.purchase_requests = [];
+if (!db.quotations) db.quotations = [];
+if (!db.products) db.products = [];
+if (!db.stock_locations) db.stock_locations = [];
+if (!db.purchase_requisitions) db.purchase_requisitions = [];
+if (!db.shipping_notes) db.shipping_notes = [];
+if (!db.requisitions) db.requisitions = [];
+if (!db.invoices) db.invoices = [];
+if (!db.purchase_orders) db.purchase_orders = [];
+
+return db;
 }
 
 // บันทึกฐานข้อมูล
 function saveDatabase(data) {
+  console.log("Saving DB...");
   fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
 
@@ -43,26 +61,61 @@ app.get("/users", (req, res) => {
 
 /* POST: เพิ่มผู้ใช้ใหม่ */
 app.post("/users", (req, res) => {
-  const { id, username, password, role } = req.body;
+  const { username, password, role } = req.body;
   console.log("Received Data:", req.body);
 
-  if (!id || !username || !password || !role) {
+  const db = loadDatabase(); // ✅ เพิ่มบรรทัดนี้
+
+  if (!username || !password || !role) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  // ตรวจสอบว่ามี username นี้อยู่แล้วหรือไม่
   if (db.users.some((user) => user.username === username)) {
     return res.status(400).json({ message: "Username already exists" });
   }
 
-  const lastUser =
-    db.users.length > 0 ? db.users[db.users.length - 1] : { id: 0 };
-  const newId = lastUser.id + 1; // เพิ่มค่า ID อัตโนมัติ
+  const lastUser = db.users.length > 0 ? db.users[db.users.length - 1] : { id: 0 };
+  const newId = lastUser.id + 1;
 
   const newUser = { id: newId, username, password, role };
   db.users.push(newUser);
   saveDatabase(db);
+
+  console.log("✅ New user created:", newUser);
   res.json(newUser);
+});
+
+/* DELETE: ลบผู้ใช้ตาม ID */
+app.delete("/users/:id", (req, res) => {
+  const db = loadDatabase();
+  const userId = parseInt(req.params.id);
+
+  const index = db.users.findIndex((user) => user.id === userId);
+  if (index === -1) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  const deletedUser = db.users.splice(index, 1)[0];
+  saveDatabase(db);
+
+  res.json({ message: "User deleted", deletedUser });
+});
+
+// PUT: อัปเดต role ของผู้ใช้ตาม ID
+app.put("/users/:id", (req, res) => {
+  const db = loadDatabase();
+  const userId = parseInt(req.params.id);
+  const { role } = req.body;
+
+  const userIndex = db.users.findIndex((user) => user.id === userId);
+  if (userIndex === -1) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  db.users[userIndex].role = role;
+  saveDatabase(db);
+
+  res.json({ message: "User role updated", user: db.users[userIndex] });
 });
 
 /* POST: Login ด้วย username + password */

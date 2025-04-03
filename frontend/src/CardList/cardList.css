@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-/* ให้ UI กว้างเต็มจอ */
+/* พื้นหลังและฟอนต์ */
 .card-list-container body {
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
@@ -22,6 +22,7 @@
 .card-list-container .container {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
 }
@@ -29,8 +30,7 @@
 /* กล่องเนื้อหากลางจอ */
 .card-list-container .content {
   width: 100%;
-  height: 100%;
-  width: 1200px;
+  max-width: 1200px;
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -49,7 +49,7 @@
 .card-list-container .user-list {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* ปรับระยะห่างระหว่างแต่ละรายการ */
+  gap: 15px;
 }
 
 /* User Card */
@@ -58,8 +58,9 @@
   align-items: center;
   justify-content: space-between;
   padding: 15px 10px;
-  border-bottom: 2px solid #333; /* เส้นแบ่งเข้มขึ้น */
-  margin-bottom: 10px; /* เพิ่มระยะเว้น */
+  border-bottom: 2px solid #333;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
 /* User Info */
@@ -68,40 +69,41 @@
   align-items: center;
 }
 
+/* ไอคอนผู้ใช้ */
 .card-list-container .user-icon {
   font-size: 24px;
   margin-right: 10px;
-  color: #007bff; /* สีไอคอน */
+  color: #007bff;
 }
 
-/* User Details */
+/* รายละเอียดผู้ใช้ */
 .card-list-container .user-details {
   display: flex;
   flex-direction: row;
-  gap: 15px; /* เพิ่มระยะห่างระหว่างชื่อและ ID */
+  gap: 15px;
   align-items: center;
 }
 
-/* User Name */
+/* ชื่อผู้ใช้ */
 .card-list-container .user-name {
   font-size: 20px;
   width: 600px;
-  padding: 5px 10px; /* เพิ่ม padding ให้ดูสวยขึ้น */
-  border-radius: 5px; /* ขอบมนเล็กน้อย */
-  text-align: left; /* ชิดซ้าย */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: left;
 }
 
-/* User ID */
+/* รหัสผู้ใช้ */
 .card-list-container .user-id {
   font-size: 20px;
   width: 200px;
   text-align: center;
   color: gray;
-  padding: 5px 10px; /* ให้มี padding เท่ากับชื่อ */
-  border-radius: 5px; /* ทำให้กล่องดูสวยขึ้น */
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
-/* Dropdown */
+/* Dropdown เลือก role */
 .card-list-container .dropdown {
   border: 2px solid #555;
   border-radius: 15px;
@@ -110,9 +112,60 @@
   cursor: pointer;
   width: 180px;
   text-align: center;
+  font-size: 14px;
 }
 
-/* Submit Button */
+/* ปุ่มลบผู้ใช้ */
+.card-list-container .delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.card-list-container .delete-btn:hover {
+  background-color: #d11a2a;
+}
+
+/* ฟอร์มเพิ่มผู้ใช้ใหม่ */
+.card-list-container .add-user-form {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card-list-container .add-user-form input,
+.card-list-container .add-user-form select {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 200px;
+}
+
+/* ปุ่มเพิ่มผู้ใช้ */
+.card-list-container .add-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card-list-container .add-btn:hover {
+  background-color: #218838;
+}
+
+/* ปุ่มยืนยัน */
 .card-list-container .submit-btn {
   margin-top: 20px;
   padding: 10px 20px;
@@ -126,4 +179,23 @@
 
 .card-list-container .submit-btn:hover {
   background-color: #0056b3;
+}
+
+/* Responsive (มือถือ) */
+@media screen and (max-width: 768px) {
+  .card-list-container .user-name,
+  .card-list-container .user-id {
+    width: auto;
+    font-size: 16px;
+  }
+
+  .card-list-container .user-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .card-list-container .add-user-form {
+    flex-direction: column;
+  }
 }
