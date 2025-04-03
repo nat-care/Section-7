@@ -63,12 +63,12 @@ app.get("/users", (req, res) => {
 
 /* POST: เพิ่มผู้ใช้ใหม่ */
 app.post("/users", (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password, fullname, department, position, role } = req.body; // ✅ เพิ่ม fullname, department, position
   console.log("Received Data:", req.body);
 
-  const db = loadDatabase(); // ✅ เพิ่มบรรทัดนี้
+  const db = loadDatabase(); // โหลด Database
 
-  if (!username || !password || !role) {
+  if (!username || !password || !fullname || !department || !position || !role) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -79,13 +79,24 @@ app.post("/users", (req, res) => {
   const lastUser = db.users.length > 0 ? db.users[db.users.length - 1] : { id: 0 };
   const newId = lastUser.id + 1;
 
-  const newUser = { id: newId, username, password, role };
+  // ✅ เพิ่มฟิลด์ให้ครบ
+  const newUser = { 
+    id: newId, 
+    username, 
+    password, 
+    fullname, // ✅ เพิ่ม
+    department, // ✅ เพิ่ม
+    position, // ✅ เพิ่ม
+    role 
+  };
+
   db.users.push(newUser);
-  saveDatabase(db);
+  saveDatabase(db); // ✅ บันทึกลงไฟล์
 
   console.log("✅ New user created:", newUser);
   res.json(newUser);
 });
+
 
 /* DELETE: ลบผู้ใช้ตาม ID */
 app.delete("/users/:id", (req, res) => {

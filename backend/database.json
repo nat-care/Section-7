@@ -112,6 +112,40 @@
           "unitPrice": 100,
           "totalAmount": "4500.00"
         }
+<<<<<<< HEAD
+=======
+      ]
+    },
+    {
+      "id": 1743693410150,
+      "idPR": "123456",
+      "datePR": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "สั่งซื้อเครื่องพิมพ์",
+      "remark": "",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": "10",
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": "50000.00"
+        },
+        {
+          "item": "Paper",
+          "quantity": "500",
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": "50000.00"
+        }
+>>>>>>> 0dddfb6a22e5215732ecf89024737fd414b69b62
       ],
       "status": "Pending"
     }
