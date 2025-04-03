@@ -11,8 +11,8 @@ const PR = () => {
     const [rows, setRows] = useState([1]);
     const [products, setProducts] = useState([]); // เพื่อเก็บข้อมูลสินค้า
     const [formData, setFormData] = useState({
-        idPR: '',
-        datePR: new Date(),
+        name: '',
+        date: new Date(),
         employeeName: '',
         employeePosition: '',
         department: '',
@@ -48,7 +48,7 @@ const PR = () => {
             const today = new Date().toISOString().split("T")[0]; // ใช้แค่วันที่
             setFormData(prev => ({
                 ...prev,
-                datePR: today, // ตั้งค่าวันที่เป็นวันที่ปัจจุบัน
+                date: today, // ตั้งค่าวันที่เป็นวันที่ปัจจุบัน
                 employeeName: user.fullname || user.username || '',
                 employeePosition: user.id?.toString() || '',
                 department: user.position || '',
@@ -141,7 +141,7 @@ const PR = () => {
 
     const renderDatePicker = (id, selectedDate, onChange) => (
         <DatePicker
-            selected={formData.datePR ? new Date(formData.datePR) : null}
+            selected={formData.date ? new Date(formData.date) : null}
             onChange={() => { }} // ไม่ให้เปลี่ยนแปลงได้
             dateFormat="yyyy-MM-dd"
             className="date-picker"
@@ -155,12 +155,12 @@ const PR = () => {
 
             <div className="row">
                 <div className="column">
-                    <label htmlFor="idPR">ID-PR/NO:</label>
-                    <input type="text" id="idPR" value={formData.idPR} onChange={handleInputChange} />
+                    <label htmlFor="idPR">ID</label>
+                    <input type="text" id="name" value={formData.name} onChange={handleInputChange} />
                 </div>
                 <div className="column">
-                    <label htmlFor="datePR">วันที่:</label>
-                    {renderDatePicker('datePR', formData.datePR, (date) => setFormData({ ...formData, datePR: date }))}
+                    <label htmlFor="date">วันที่:</label>
+                    {renderDatePicker('date', formData.date, (date) => setFormData({ ...formData, date: date }))}
                 </div>
             </div>
 

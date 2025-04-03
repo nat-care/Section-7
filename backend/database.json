@@ -11,8 +11,8 @@
     },
     {
       "id": 2,
-      "username": "john",
-      "password": "password",
+      "username": "1",
+      "password": "1",
       "role": "Procurement Officer",
       "fullname": "John Smith",
       "department": "Procurement",
@@ -66,34 +66,54 @@
   ],
   "purchase_requests": [
     {
-      "id": 1742299694676,
-      "datePR": "2025-03-30",
-      "employeeName": "John Doe",
-      "employeePosition": "Procurement Officer",
-      "department": "IT",
+      "id": 1743691763296,
+      "name": "66044013",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
       "section": "Procurement",
-      "detail": "Request for printer",
-      "remark": "Urgent request",
-      "approver": "Jane Smith",
-      "staff": "Jack Brown",
-      "dateApproval": "2025-03-31",
-      "dateApproval2": "2025-04-01",
+      "detail": "ทดลองส่ง by Nori3",
+      "remark": "",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
       "products": [
         {
-          "item": "Printer",
-          "quantity": 10,
-          "unit": "pcs",
-          "unitPrice": 5000,
-          "totalAmount": 50000
-        },
+          "item": "Paper",
+          "quantity": "2",
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": "200.00"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743695201987",
+      "name": "1",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "ทดลองส่ง by Nori 1",
+      "remark": "request 43016",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
         {
           "item": "Paper",
-          "quantity": 50,
+          "quantity": "45",
           "unit": "packs",
-          "unitPrice": 200,
-          "totalAmount": 10000
+          "unitPrice": 100,
+          "totalAmount": "4500.00"
         }
-      ]
+      ],
+      "status": "Pending"
     }
   ],
   "quotations": [],
@@ -117,7 +137,6 @@
       "unit": "packs"
     }
   ],
-  
   "stock_locations": [
     {
       "stock_id": 1743668911076,
@@ -131,35 +150,36 @@
   "invoices": [],
   "purchase_requisitions": [],
   "purchase_orders": [
+    {},
     {
-      "id": 1743659034336,
-      "idPO": "10",
-      "datePO": "2025-04-10",
-      "employeeName": "สุจิต",
-      "employeePosition": "10",
-      "department": "manager",
-      "section": "it",
-      "detail": "จัดซื้อโต๊ะ",
-      "approver": "สมชาย",
-      "purchaser": "สมหญิง",
-      "auditor": "สมหมาย",
-      "dateApproval": "2025-04-15T17:00:00.000Z",
-      "dateApproval2": "2025-04-02T17:00:00.000Z",
-      "dateApproval3": "2025-04-02T17:00:00.000Z",
+      "id": 1743698336958,
+      "name": "66044013",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "ทดลองส่ง by Nori3",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
       "products": [
         {
-          "item": "คอมพิวเตอร์",
-          "quantity": 10,
-          "unit": "ตัว",
+          "item": "Paper",
+          "quantity": 2,
+          "unit": "packs",
           "unitPrice": 100,
-          "totalAmount": 1000
+          "totalAmount": 200
         }
       ],
-      "totalAmount": 1000,
-      "discount": 10,
+      "totalAmount": 200,
+      "discount": 0,
       "vat": 7,
-      "netAmount": 963,
-      "payment": "ชำระเงินหลังได้รับสินค้า",
+      "netAmount": 214,
+      "payment": "ชำระเงินก่อนรับสินค้า",
       "notes": "",
       "status": "Pending"
     }

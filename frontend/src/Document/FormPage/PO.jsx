@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import DatePicker from "react-datepicker"; // เพิ่มการ import
-import "react-datepicker/dist/react-datepicker.css"; // เพิ่มการ import สไตล์
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // ไม่ต้องใช้ useParams
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./PO.css";
 
 const PO = () => {
   const navigate = useNavigate();
-  const [rows, setRows] = useState([1]); // เริ่มต้น 1 แถว
+  const [rows, setRows] = useState([1]);
+  const [products, setProducts] = useState([]);
+  const [poNames, setPoNames] = useState([]);
   const [formData, setFormData] = useState({
-    idPO: "",
-    datePO: "",
+    name: "",             // 🔁 ใช้แทน idPO
+    date: "",             // 🔁 ใช้แทน datePO
     employeeName: "",
     employeePosition: "",
     department: "",
@@ -29,8 +31,97 @@ const PO = () => {
     payment: "",
     notes: "",
   });
-  
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const today = new Date().toISOString().split("T")[0];
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        date: today,
+        employeeName: user.fullname || user.username,
+        employeePosition: user.id?.toString() || "",
+        department: user.position || "",
+        section: user.department || "",
+      }));
+    }
+  }, []);
+
+  // ดึงข้อมูลสินค้าจากฐานข้อมูล
+  useEffect(() => {
+    const fetchPoFromPR = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/purchase-requests");
+        const data = await res.json();
+        const names = data.map((pr) => pr.name); // ✅ ดึงรหัส PR มาใช้
+        setPoNames(names);
+      } catch (err) {
+        console.error("Error fetching PR list:", err);
+      }
+    };
+
+    fetchPoFromPR();
+  }, []);
+
+//เพิมรายการสินค้า
+  useEffect(() => {
+    if (!formData.name) return;
+  
+    const fetchPRDetail = async () => {
+      try {
+        const res = await fetch("http://localhost:3000/purchase-requests");
+        const data = await res.json();
+        const selectedPR = data.find((pr) => pr.name === formData.name);
+  
+        if (selectedPR) {
+          const { products, detail } = selectedPR;
+  
+          const updatedProducts = products.map((p) => ({
+            ...p,
+            quantity: Number(p.quantity),
+            unitPrice: Number(p.unitPrice),
+            totalAmount: Number(p.totalAmount),
+          }));
+  
+          const { newTotalAmount, newNetAmount } = calculateTotals(
+            updatedProducts,
+            formData.discount,
+            formData.vat
+          );
+  
+          setFormData((prev) => ({
+            ...prev,
+            detail: detail || prev.detail,
+            products: updatedProducts,
+            totalAmount: newTotalAmount,
+            netAmount: newNetAmount,
+          }));
+        }
+      } catch (error) {
+        console.error("Error loading PR detail:", error);
+      }
+    };
+  
+    fetchPRDetail();
+  }, [formData.name]);
+
+  // คำนวณยอดรวม, ภาษี, ส่วนลด
+  const calculateTotals = (updatedProducts, discount, vat) => {
+    const newTotalAmount = updatedProducts.reduce(
+      (sum, product) => sum + (product.totalAmount || 0),
+      0
+    );
+
+    const vatAmount = (newTotalAmount * (Number(vat) || 0)) / 100;
+    const totalWithVat = newTotalAmount + vatAmount;
+
+    const discountAmount = (totalWithVat * (Number(discount) || 0)) / 100;
+    const newNetAmount = totalWithVat - discountAmount;
+
+    return { newTotalAmount, newNetAmount };
+  };
+
+  // เพิ่มแถวสินค้า
   const addRow = () => {
     setRows([...rows, rows.length + 1]);
     setFormData((prevData) => ({
@@ -42,31 +133,44 @@ const PO = () => {
     }));
   };
 
-  const calculateTotals = (updatedProducts, discount, vat) => {
-    const newTotalAmount = updatedProducts.reduce(
-      (sum, product) => sum + (product.totalAmount || 0),
-      0
-    );
+  // คำนวณเมื่อมีการเปลี่ยนแปลงข้อมูล
+  const handleProductChange = (index, e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedProducts = [...prevData.products];
+      updatedProducts[index] = {
+        ...updatedProducts[index],
+        [name]: name === "quantity" || name === "unitPrice" ? Number(value) || 0 : value,
+      };
 
-    // คำนวณ VAT ก่อน
-    const vatAmount = (newTotalAmount * (Number(vat) || 0)) / 100;
-    const totalWithVat = newTotalAmount + vatAmount;
+      if (name === "quantity" || name === "unitPrice") {
+        updatedProducts[index].totalAmount =
+          (updatedProducts[index].quantity || 0) *
+          (updatedProducts[index].unitPrice || 0);
+      }
 
-    // คำนวณส่วนลดจากยอดรวมภาษี
-    const discountAmount = (totalWithVat * (Number(discount) || 0)) / 100;
+      const { newTotalAmount, newNetAmount } = calculateTotals(
+        updatedProducts,
+        prevData.discount,
+        prevData.vat
+      );
 
-    // คำนวณยอดสุทธิ
-    const newNetAmount = totalWithVat - discountAmount;
-
-    return { newTotalAmount, newNetAmount };
+      return {
+        ...prevData,
+        products: updatedProducts,
+        totalAmount: newTotalAmount,
+        netAmount: newNetAmount,
+      };
+    });
   };
 
+  // คำนวณเมื่อข้อมูลอื่นๆ เปลี่ยนแปลง
   const handleInputChange = (e) => {
     const { id, value, type } = e.target;
     setFormData((prevData) => {
       const updatedData = {
         ...prevData,
-        [id]: type === "number" ? Number(value) || 0 : value, // ถ้าเป็นตัวเลขแปลงเป็น Number ถ้าเป็น select ให้ใช้ value ตรงๆ
+        [id]: type === "number" ? Number(value) || 0 : value,
       };
 
       if (id === "discount" || id === "vat") {
@@ -83,65 +187,28 @@ const PO = () => {
     });
   };
 
-  const handleProductChange = (index, e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedProducts = [...prevData.products];
-    
-      updatedProducts[index] = {
-        ...updatedProducts[index],
-        [name]: name === "quantity" || name === "unitPrice" ? Number(value) || 0 : value,
-      };
-    
-      if (name === "quantity" || name === "unitPrice") {
-        updatedProducts[index].totalAmount =
-          (updatedProducts[index].quantity || 0) *
-          (updatedProducts[index].unitPrice || 0);
-      }
-    
-      const { newTotalAmount, newNetAmount } = calculateTotals(
-        updatedProducts,
-        prevData.discount,
-        prevData.vat
-      );
-    
-      return {
-        ...prevData,
-        products: updatedProducts,
-        totalAmount: newTotalAmount,
-        netAmount: newNetAmount,
-      };
-    });
-    
-  };
-  
+  // ส่งข้อมูลไปยัง backend
   const handleSubmit = () => {
-    // ตรวจสอบฟิลด์ที่ขาดหาย
     if (
-      !formData.idPO ||
-      !formData.datePO ||
+      !formData.name ||
+      !formData.date ||
       !formData.employeeName ||
       !formData.employeePosition ||
       !formData.department ||
       !formData.section ||
       !formData.detail ||
-      !formData.approver ||
-      !formData.purchaser ||
-      !formData.auditor ||
-      !formData.dateApproval ||
-      !formData.dateApproval2 ||
-      !formData.dateApproval3 ||
       !formData.products ||
       formData.products.some(
-        (product) => !product.item || !product.quantity || !product.unit || !product.unitPrice
+        (product) =>
+          !product.item || !product.quantity || !product.unit || !product.unitPrice
       )
     ) {
       alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
       return;
     }
-  
-    console.log("Form Data Before Submit:", formData); // เพิ่มการตรวจสอบข้อมูล
-  
+
+    console.log("Form Data Before Submit:", formData);
+
     fetch("http://localhost:3000/purchase-orders", {
       method: "POST",
       headers: {
@@ -154,7 +221,7 @@ const PO = () => {
         console.log("Form Data Submitted:", data);
         alert("ส่งคำขอเรียบร้อย!");
         navigate("/purchase-orders", {
-          state: { receiptData: data }, // ส่งข้อมูลไปยังหน้าใหม่
+          state: { receiptData: data },
         });
       })
       .catch((error) => {
@@ -162,41 +229,33 @@ const PO = () => {
         alert("เกิดข้อผิดพลาดในการส่งคำขอ");
       });
   };
-      const renderDatePicker = (id, selectedDate, onChange) => (
-    <DatePicker
-      id={id} // เพิ่ม id
-      selected={selectedDate ? new Date(selectedDate) : null}
-      onChange={onChange}
-      dateFormat="yyyy-MM-dd"
-      className="date-picker"
-    />
-  );
-  
 
   return (
     <div className="po-purchase-requisition">
       <h2>การจัดทำใบสั่งซื้อ (Purchase Order - PO)</h2>
-
       <div className="po-row">
         <div className="po-column">
-          <label htmlFor="idPO">ID-PO/NO:</label>
-          <input
-            type="text"
-            id="idPO"
-            value={formData.idPO}
-            onChange={handleInputChange}
-          />
+          <label htmlFor="name">รหัสใบสั่งซื้อ (PO):</label>
+          <select id="name" value={formData.name} onChange={handleInputChange}>
+            <option value="">-- เลือกรายการ PR เพื่อออก PO --</option>
+            {poNames.map((name, index) => (
+              <option key={index} value={name}>
+                {name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="po-column">
-          <label htmlFor="datePO">วันที่:</label>
+          <label htmlFor="date">วันที่:</label>
           <input
             type="date"
-            id="datePO"
-            value={formData.datePO}
+            id="date"
+            value={formData.date}
             onChange={handleInputChange}
           />
         </div>
       </div>
+
       <div className="po-row">
         <div className="po-column">
           <label htmlFor="employeeName">ชื่อพนักงาน:</label>
@@ -339,15 +398,7 @@ const PO = () => {
       </div>
 
       <div className="po-row">
-        <div className="po-column">
-          <label htmlFor="discount">ส่วนลด(%):</label>
-          <input
-            type="number"
-            id="discount"
-            value={formData.discount}
-            onChange={handleInputChange}
-          />
-        </div>
+
         <div className="po-column">
           <label htmlFor="netAmount">รวมเงินทั้งสุทธิ:</label>
           <input
@@ -409,27 +460,6 @@ const PO = () => {
           />
         </div>
       </div>
-
-      <div className="row">
-  <div className="column">
-    <label htmlFor="date-approval">วันที่อนุมัติ 1:</label>
-    {renderDatePicker("date-approval", formData.dateApproval, (date) =>
-      setFormData({ ...formData, dateApproval: date })
-    )}
-  </div>
-  <div className="column">
-    <label htmlFor="date-approval2">วันที่อนุมัติ 2:</label>
-    {renderDatePicker("date-approval2", formData.dateApproval2, (date) =>
-      setFormData({ ...formData, dateApproval2: date })
-    )}
-  </div>
-  <div className="column">
-    <label htmlFor="date-approval3">วันที่อนุมัติ 3:</label>
-    {renderDatePicker("date-approval3", formData.dateApproval3, (date) =>
-      setFormData({ ...formData, dateApproval3: date })
-    )}
-  </div>
-</div>
 
       <button type="button" id="submitRequestBtn" onClick={handleSubmit}>
         ส่งคำขอ

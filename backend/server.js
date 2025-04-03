@@ -157,8 +157,8 @@ app.get("/purchase-requests", (req, res) => {
 
 app.post("/purchase-requests", (req, res) => {
   const {
-    idPR,
-    datePR,
+    name, // 👈 รับจาก frontend แทน idPR เดิม
+    date,
     employeeName,
     employeePosition,
     department,
@@ -171,10 +171,12 @@ app.post("/purchase-requests", (req, res) => {
     dateApproval2,
     products,
   } = req.body;
+  
   console.log("Received Purchase Request:", req.body);
+  
   if (
-    !idPR ||
-    !datePR ||
+    !name ||
+    !date ||
     !employeeName ||
     !employeePosition ||
     !department ||
@@ -184,12 +186,13 @@ app.post("/purchase-requests", (req, res) => {
   ) {
     return res.status(400).json({ message: "ข้อมูลไม่ครบถ้วน" });
   }
-
+  
   const db = loadDatabase();
+  
   const newRequest = {
-    id: Date.now(),
-    idPR,
-    datePR,
+    id: Date.now().toString(), // generate ID ฝั่ง backend
+    name,                      // ใช้รหัส PR ที่กรอกจาก frontend
+    date,
     employeeName,
     employeePosition,
     department,
@@ -203,10 +206,14 @@ app.post("/purchase-requests", (req, res) => {
     products,
     status: "Pending",
   };
+  
   db.purchase_requests.push(newRequest);
   saveDatabase(db);
+  
   res.status(200).json(newRequest);
+  
 });
+
 // ** API สำหรับ Delivery Receipt (DR) **
 
 app.post("/delivery-receipts", (req, res) => {
@@ -548,8 +555,8 @@ app.get("/invoices/latest", (req, res) => {
 
 app.post("/purchase-orders", (req, res) => {
   const {
-    idPO,
-    datePO,
+    name,
+    date,
     employeeName,
     employeePosition,
     department,
@@ -570,38 +577,20 @@ app.post("/purchase-orders", (req, res) => {
     notes,
   } = req.body;
 
-  console.log("Received Purchase Order:", req.body);
+  // ✅ โหลด database ก่อนใช้งาน
+  const db = loadDatabase();
 
-  // เช็คว่ามีข้อมูลที่จำเป็นหรือไม่
   if (
-    !idPO ||
-    !datePO ||
-    !employeeName ||
-    !employeePosition ||
-    !department ||
-    !section ||
-    !detail ||
-    !approver ||
-    !purchaser ||
-    !auditor ||
-    !dateApproval ||
-    !dateApproval2 ||
-    !dateApproval3 ||
-    !products ||
-    !totalAmount ||
-    !discount ||
-    !vat ||
-    !netAmount ||
-    !payment
+    !name || !date || !employeeName || !employeePosition ||
+    !department || !section || !detail || !products
   ) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  const db = loadDatabase();
   const newPO = {
     id: Date.now(),
-    idPO,
-    datePO,
+    name,
+    date,
     employeeName,
     employeePosition,
     department,
@@ -623,10 +612,11 @@ app.post("/purchase-orders", (req, res) => {
     status: "Pending",
   };
 
-  db.purchase_orders.push(newPO);
+  db.purchase_orders.push(newPO); // ✅ ไม่ error เพราะโหลด db แล้ว
   saveDatabase(db);
   res.status(200).json(newPO);
 });
+
 
 // GET: Retrieve all Purchase Orders (PO)
 app.get("/purchase-orders", (req, res) => {
