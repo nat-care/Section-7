@@ -83,17 +83,25 @@ function addStockLocation(product_id, warehouse_id, quantity) {
 
 // อัปเดตคงเหลือสินค้า
 function updateRemainingStock(db, product_id) {
-    let remaining = 0;
-    db.stock_locations.forEach(stock => {
-        if (stock.product_id === product_id) {
-            remaining += stock.quantity;
-        }
-    });
+    const remaining = db.stock_locations
+        .filter(stock => stock.product_id === product_id)
+        .reduce((sum, stock) => sum + stock.quantity, 0);
+
     const product = db.products.find(p => p.product_id === product_id);
     if (product) {
-        product.remaining_stock = remaining;
+        product.remaining_stock = remaining; // ถ้าไม่มีสต็อกเลย จะได้ค่า 0
     }
 }
+
+const updateStockAfterPurchase = (product_id, quantityPurchased) => {
+    const db = loadDatabase();
+    const product = db.products.find(p => p.product_id === product_id);
+    
+    if (product) {
+        product.remaining_stock -= quantityPurchased; // ลดจำนวนคงเหลือจากการสั่งซื้อ
+        saveDatabase(db);
+    }
+};
 
 // ส่งออกให้ใช้งานภายนอก
 module.exports = {

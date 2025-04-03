@@ -115,9 +115,17 @@
       "stock_quantity": 100,
       "remaining_stock": 100,
       "unit": "packs"
+    },
+    {
+      "product_id": 1743256805094,
+      "name": "คีย์บอร์ด",
+      "description": "คีย์บอร์ดสำหรับคอมพิวเตอร์",
+      "price": 800,
+      "stock_quantity": 50,
+      "remaining_stock": 5,
+      "unit": "pcs"
     }
   ],
-  
   "stock_locations": [
     {
       "stock_id": 1743668911076,

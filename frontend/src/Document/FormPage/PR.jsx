@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { checkAndCreatePR, canCreatePO } from './stockUtils';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './PR.css';
@@ -114,6 +113,30 @@ const PR = () => {
     };
 
     const handleSubmit = async () => {
+        for (let i = 0; i < formData.products.length; i++) {
+            const productName = formData.products[i].item;
+            const quantityRequested = parseInt(formData.products[i].quantity);
+    
+            // ค้นหาข้อมูลสินค้าที่ถูกเลือกจากฐานข้อมูล
+            const selectedProduct = products.find(p => p.name === productName);
+            
+            if (selectedProduct) {
+                const remainingStock = selectedProduct.remaining_stock;
+    
+                // ตรวจสอบจำนวนคงเหลือสินค้า
+                if (remainingStock < 10) {
+                    alert(`ไม่สามารถสั่งซื้อ ${productName} ได้ เนื่องจากสต็อกคงเหลือต่ำกว่าเกณฑ์ที่กำหนด`);
+                    return;
+                }
+    
+                // ตรวจสอบการสั่งซื้อเกินเกณฑ์
+                if (quantityRequested > 100) {
+                    const excessQuantity = quantityRequested - 100;
+                    alert(`ไม่สามารถสั่งซื้อ ${productName} ได้ เนื่องจากจำนวนสินค้ามากเกินไป ${excessQuantity} ชิ้น`);
+                    return;
+                }
+            }
+        }
         // ส่งข้อมูลไปยัง API
         const requestData = { ...formData };
         console.log('Sending data:', requestData);
