@@ -1,10 +1,12 @@
-const fs = require("fs");
-const DB_FILE = "./database.json";
+const fs = require('fs');
+const DB_FILE = './database.json';
 
 // อ่านข้อมูลจากไฟล์ JSON
 function loadDatabase() {
     if (fs.existsSync(DB_FILE)) {
-        const data = JSON.parse(fs.readFileSync(DB_FILE, "utf-8"));
+        const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+        // console.log("โหลดฐานข้อมูล:", data);
+        // เพิ่ม fallback เผื่อ field ขาด
         return {
             users: data.users || [],
             purchase_requests: data.purchase_requests || [],
@@ -13,52 +15,65 @@ function loadDatabase() {
             stock_locations: data.stock_locations || []
         };
     }
-    // ถ้ายังไม่มีไฟล์
-    return {
-        users: [],
-        purchase_requests: [],
-        quotations: [],
-        products: [],
-        stock_locations: []
+    console.log("ฐานข้อมูลใหม่ที่สร้างขึ้น");
+    return { 
+        users: [], 
+        purchase_requests: [], 
+        quotations: [], 
+        products: [], 
+        stock_locations: [] 
     };
 }
 
-// เขียนข้อมูลกลับลงไฟล์ JSON
+// เขียนข้อมูลลงไฟล์ JSON
 function saveDatabase(data) {
+    // console.log("บันทึกข้อมูล:", data);
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
 
-// เพิ่มผู้ใช้ใหม่
-function addUser(username, password, fullname, department, position, role) {
+// **ฟังก์ชันเพิ่มข้อมูลแต่ละประเภท**
+// users
+function addUser(name, role) { 
     const db = loadDatabase();
-    const newUser = {
-        id: Date.now(),
-        username,
-        password,   // เพิ่มรหัสผ่าน
-        fullname,   // เพิ่มชื่อเต็ม
-        department, // เพิ่มแผนก
-        position,   // เพิ่มตำแหน่ง
-        role
-    };
+    const newUser = { id: Date.now(), name, role };
     db.users.push(newUser);
     saveDatabase(db);
     return newUser;
 }
 
+// purchase_requests ใบขอซื้อ
+function addPurchaseRequest(
+    user_id,
+    dept, 
+    position, 
+    subject,  
+    list, 
+    quantity, 
+    counting_unit, 
+    unit_price,
+    total_amount) {
 
-// เพิ่มใบขอซื้อ (PR) แบบมี products array
-function addPurchaseRequest(prData) {
     const db = loadDatabase();
     const newRequest = {
         id: Date.now(),
-        ...prData
+        user_id,
+        dept,                   // แผนก
+        position,               // ตำแหน่ง
+        subject,                // หัวข้อ,เรื่อง
+        list,                   // รายการ
+        quantity,               // จำนวน
+        counting_unit,          // หน่วยนับ
+        unit_price,             // ราคาต่อหน่วย
+        total_amount,           // จำนวนเงินรวม
+        status: "Pending"       // สถานะเริ่มต้น
     };
     db.purchase_requests.push(newRequest);
     saveDatabase(db);
     return newRequest;
 }
 
-// เพิ่มสินค้าใหม่
+// **ฟังก์ชันเพิ่มสินค้า (addProduct)**
+// ฟังก์ชันสำหรับเพิ่มสินค้าใหม่
 function addProduct(name, description, price, stock_quantity) {
     const db = loadDatabase();
     const newProduct = {
@@ -67,57 +82,61 @@ function addProduct(name, description, price, stock_quantity) {
         description,
         price,
         stock_quantity,
-        remaining_stock: stock_quantity
+        remaining_stock: stock_quantity // สินค้าคงเหลือเริ่มต้นเท่ากับ stock_quantity
     };
+    console.log("เพิ่มสินค้า:", newProduct);
     db.products.push(newProduct);
     saveDatabase(db);
     return newProduct;
 }
 
-// เพิ่มตำแหน่งเก็บสินค้า (stock location)
+// **ฟังก์ชันเพิ่มตำแหน่งสินค้าในคลัง (addStockLocation)**
+// ฟังก์ชันสำหรับเพิ่มข้อมูลตำแหน่งคลังสินค้า
 function addStockLocation(product_id, warehouse_id, quantity) {
     const db = loadDatabase();
-    const newStock = {
+    const newStockLocation = {
         stock_id: Date.now(),
         product_id,
         warehouse_id,
         quantity
     };
-    db.stock_locations.push(newStock);
+    // console.log("เพิ่มตำแหน่งสินค้าในคลัง:", newStockLocation);
+    db.stock_locations.push(newStockLocation);
 
-    updateRemainingStock(db, product_id); // อัปเดตคงเหลือ
-    saveDatabase(db);
-    return newStock;
+    // อัปเดตสินค้าคงเหลือ โดยส่ง db เข้าไป
+    updateRemainingStock(db, product_id);
+
+    saveDatabase(db); // บันทึกข้อมูลหลังจากอัปเดต remaining_stock แล้ว
+    return newStockLocation;
 }
 
-// อัปเดตคงเหลือสินค้า
+// **ฟังก์ชันคำนวณสินค้าคงเหลือ (updateRemainingStock)**
+// ฟังก์ชันคำนวณสินค้าคงเหลือของสินค้า
 function updateRemainingStock(db, product_id) {
-    const remaining = db.stock_locations
-        .filter(stock => stock.product_id === product_id)
-        .reduce((sum, stock) => sum + stock.quantity, 0);
+    let remainingStock = 0;
 
+    // คำนวณสินค้าคงเหลือจาก stock_locations
+    db.stock_locations.forEach(stock => {
+        if (stock.product_id === product_id) {
+            remainingStock += stock.quantity;
+        }
+    });
+
+    // อัปเดต remaining_stock ใน products
     const product = db.products.find(p => p.product_id === product_id);
     if (product) {
-        product.remaining_stock = remaining; // ถ้าไม่มีสต็อกเลย จะได้ค่า 0
+        product.remaining_stock = remainingStock;
     }
 }
 
-const updateStockAfterPurchase = (product_id, quantityPurchased) => {
-    const db = loadDatabase();
-    const product = db.products.find(p => p.product_id === product_id);
-    
-    if (product) {
-        product.remaining_stock -= quantityPurchased; // ลดจำนวนคงเหลือจากการสั่งซื้อ
-        saveDatabase(db);
-    }
-};
+// **ทดสอบการใช้งาน**
+// เพิ่มสินค้า
+const newProduct = addProduct("คอมพิวเตอร์", "3800RAM", 5000, 100);
+// console.log("เพิ่มสินค้าใหม่:", newProduct);
 
-// ส่งออกให้ใช้งานภายนอก
-module.exports = {
-    loadDatabase,
-    saveDatabase,
-    addUser,
-    addPurchaseRequest,
-    addProduct,
-    addStockLocation
-};
+const newStockLocation1 = addStockLocation(newProduct.product_id, 1, 50);
+// console.log("เพิ่มสินค้าที่คลัง 1:", newStockLocation1);
+const newStockLocation2 = addStockLocation(newProduct.product_id, 2, 30);
+console.log("เพิ่มสินค้าที่คลัง 2:", newStockLocation2);
+console.log("ฐานข้อมูลที่อัปเดต:", loadDatabase());
+

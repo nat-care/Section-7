@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import NavbarWK from "../../../NavbarWoker/navbarWorker";
+import './DAHistory.css';
 
 const DocumentApprovalHistory = () => {
   const [approvals, setApprovals] = useState([]);
@@ -7,7 +8,7 @@ const DocumentApprovalHistory = () => {
   // ดึงข้อมูลจาก API หรือฐานข้อมูล
   useEffect(() => {
     // รดึงข้อมูลจาก API
-    fetch('http://localhost:3000//documents/approve') 
+    fetch('http://localhost:3000/documents/approve') 
       .then(response => response.json())
       .then(data => setApprovals(data))
       .catch(error => console.error('Error fetching approval data:', error));

@@ -1,31 +1,61 @@
+/* จัดให้อยู่ตรงกลางและมี padding */
 .approval-history {
-    margin: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-  }
-  
-  .approved {
-    color: green;
-  }
-  
-  .rejected {
-    color: red;
-  }
-  
-  .pending {
-    color: orange;
-  }
-  
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  text-align: center;
+  background-color: #f9fbff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* หัวข้อ */
+.approval-history h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* ตาราง */
+.approval-history table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+.approval-history th,
+.approval-history td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.approval-history th {
+  background-color: #e8f0fe;
+  font-weight: bold;
+}
+
+/* สถานะต่าง ๆ */
+.approved {
+  color: green;
+  font-weight: bold;
+}
+
+.rejected {
+  color: red;
+  font-weight: bold;
+}
+
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+/* ข้อความ "ไม่พบข้อมูล" */
+.approval-history td[colspan="3"] {
+  color: #666;
+  font-style: italic;
+  padding: 1.5
+}

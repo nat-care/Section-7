@@ -747,11 +747,32 @@ app.put("/purchase-orders/:id", (req, res) => {
     return res.status(404).json({ message: "Purchase Order not found" });
   }
 
+  const oldStatus = db.purchase_orders[index].status;
   const updatedPO = { ...db.purchase_orders[index], ...req.body };
   db.purchase_orders[index] = updatedPO;
+
+  // ✅ ถ้าเปลี่ยนเป็น Approved → ลด stock
+  if (req.body.status === "Approved" && oldStatus !== "Approved") {
+    updateStockAfterPurchase(updatedPO.products);
+  }
+
   saveDatabase(db);
   res.json(updatedPO);
 });
+
+// GET: รายการ Purchase Order ตาม ID
+app.get("/purchase-orders/:id", (req, res) => {
+  const db = loadDatabase();
+  const id = parseInt(req.params.id);
+  const order = db.purchase_orders.find(po => po.id === id);
+
+  if (!order) {
+    return res.status(404).json({ message: "Purchase Order not found" });
+  }
+
+  res.json(order);
+});
+
 
 // ✅ PUT: อัปเดตสถานะของ Purchase Request
 app.put("/purchase-requests/:id", (req, res) => {
@@ -769,13 +790,38 @@ app.put("/purchase-requests/:id", (req, res) => {
   res.json(updatedPR);
 });
 
-// ใน backend API (Node.js example)
-app.post("/documents/approve", (req, res) => {
-  const { documentId, status } = req.body;
-  // ค้นหาเอกสารในฐานข้อมูลแล้วอัปเดตสถานะ
-  // ส่งคำตอบกลับเมื่ออัปเดตสำเร็จ
-});
 
+function updateStockAfterPurchase(products) {
+  const db = loadDatabase();
+  for (const poProduct of products) {
+    const product = db.products.find((p) => p.name === poProduct.item);
+    if (product) {
+      product.remaining_stock = Math.max(
+        0,
+        product.remaining_stock - Number(poProduct.quantity)
+      );
+    }
+  }
+  saveDatabase(db);
+}
+
+app.get("/documents/approve", (req, res) => {
+  const db = loadDatabase();
+
+  const approvals = [
+    ...db.purchase_requests,
+    ...db.purchase_orders
+  ]
+    .filter(doc => doc.status === "Approved" || doc.status === "Rejected")
+    .map(doc => ({
+      id: doc.id,
+      documentId: doc.name,
+      approvalDate: doc.dateApproval || doc.date || new Date().toISOString(),
+      status: doc.status.toLowerCase()
+    }));
+
+  res.json(approvals);
+});
 
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {
