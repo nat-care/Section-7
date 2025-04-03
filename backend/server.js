@@ -63,12 +63,12 @@ app.get("/users", (req, res) => {
 
 /* POST: เพิ่มผู้ใช้ใหม่ */
 app.post("/users", (req, res) => {
-  const { username, password, role } = req.body;
+  const { username, password, fullname, department, position, role } = req.body; // ✅ เพิ่ม fullname, department, position
   console.log("Received Data:", req.body);
 
-  const db = loadDatabase(); // ✅ เพิ่มบรรทัดนี้
+  const db = loadDatabase(); // โหลด Database
 
-  if (!username || !password || !role) {
+  if (!username || !password || !fullname || !department || !position || !role) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
@@ -79,13 +79,24 @@ app.post("/users", (req, res) => {
   const lastUser = db.users.length > 0 ? db.users[db.users.length - 1] : { id: 0 };
   const newId = lastUser.id + 1;
 
-  const newUser = { id: newId, username, password, role };
+  // ✅ เพิ่มฟิลด์ให้ครบ
+  const newUser = { 
+    id: newId, 
+    username, 
+    password, 
+    fullname, // ✅ เพิ่ม
+    department, // ✅ เพิ่ม
+    position, // ✅ เพิ่ม
+    role 
+  };
+
   db.users.push(newUser);
-  saveDatabase(db);
+  saveDatabase(db); // ✅ บันทึกลงไฟล์
 
   console.log("✅ New user created:", newUser);
   res.json(newUser);
 });
+
 
 /* DELETE: ลบผู้ใช้ตาม ID */
 app.delete("/users/:id", (req, res) => {
@@ -157,8 +168,8 @@ app.get("/purchase-requests", (req, res) => {
 
 app.post("/purchase-requests", (req, res) => {
   const {
-    idPR,
-    datePR,
+    name, // 👈 รับจาก frontend แทน idPR เดิม
+    date,
     employeeName,
     employeePosition,
     department,
@@ -171,10 +182,12 @@ app.post("/purchase-requests", (req, res) => {
     dateApproval2,
     products,
   } = req.body;
+  
   console.log("Received Purchase Request:", req.body);
+  
   if (
-    !idPR ||
-    !datePR ||
+    !name ||
+    !date ||
     !employeeName ||
     !employeePosition ||
     !department ||
@@ -184,12 +197,13 @@ app.post("/purchase-requests", (req, res) => {
   ) {
     return res.status(400).json({ message: "ข้อมูลไม่ครบถ้วน" });
   }
-
+  
   const db = loadDatabase();
+  
   const newRequest = {
-    id: Date.now(),
-    idPR,
-    datePR,
+    id: Date.now().toString(), // generate ID ฝั่ง backend
+    name,                      // ใช้รหัส PR ที่กรอกจาก frontend
+    date,
     employeeName,
     employeePosition,
     department,
@@ -203,10 +217,14 @@ app.post("/purchase-requests", (req, res) => {
     products,
     status: "Pending",
   };
+  
   db.purchase_requests.push(newRequest);
   saveDatabase(db);
+  
   res.status(200).json(newRequest);
+  
 });
+
 // ** API สำหรับ Delivery Receipt (DR) **
 
 app.post("/delivery-receipts", (req, res) => {
@@ -548,8 +566,8 @@ app.get("/invoices/latest", (req, res) => {
 
 app.post("/purchase-orders", (req, res) => {
   const {
-    idPO,
-    datePO,
+    name,
+    date,
     employeeName,
     employeePosition,
     department,
@@ -570,38 +588,20 @@ app.post("/purchase-orders", (req, res) => {
     notes,
   } = req.body;
 
-  console.log("Received Purchase Order:", req.body);
+  // ✅ โหลด database ก่อนใช้งาน
+  const db = loadDatabase();
 
-  // เช็คว่ามีข้อมูลที่จำเป็นหรือไม่
   if (
-    !idPO ||
-    !datePO ||
-    !employeeName ||
-    !employeePosition ||
-    !department ||
-    !section ||
-    !detail ||
-    !approver ||
-    !purchaser ||
-    !auditor ||
-    !dateApproval ||
-    !dateApproval2 ||
-    !dateApproval3 ||
-    !products ||
-    !totalAmount ||
-    !discount ||
-    !vat ||
-    !netAmount ||
-    !payment
+    !name || !date || !employeeName || !employeePosition ||
+    !department || !section || !detail || !products
   ) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  const db = loadDatabase();
   const newPO = {
     id: Date.now(),
-    idPO,
-    datePO,
+    name,
+    date,
     employeeName,
     employeePosition,
     department,
@@ -623,10 +623,11 @@ app.post("/purchase-orders", (req, res) => {
     status: "Pending",
   };
 
-  db.purchase_orders.push(newPO);
+  db.purchase_orders.push(newPO); // ✅ ไม่ error เพราะโหลด db แล้ว
   saveDatabase(db);
   res.status(200).json(newPO);
 });
+
 
 // GET: Retrieve all Purchase Orders (PO)
 app.get("/purchase-orders", (req, res) => {

@@ -29,13 +29,22 @@ function saveDatabase(data) {
 }
 
 // เพิ่มผู้ใช้ใหม่
-function addUser(name, role) {
+function addUser(username, password, fullname, department, position, role) {
     const db = loadDatabase();
-    const newUser = { id: Date.now(), name, role };
+    const newUser = {
+        id: Date.now(),
+        username,
+        password,   // เพิ่มรหัสผ่าน
+        fullname,   // เพิ่มชื่อเต็ม
+        department, // เพิ่มแผนก
+        position,   // เพิ่มตำแหน่ง
+        role
+    };
     db.users.push(newUser);
     saveDatabase(db);
     return newUser;
 }
+
 
 // เพิ่มใบขอซื้อ (PR) แบบมี products array
 function addPurchaseRequest(prData) {
