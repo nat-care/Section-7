@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DA.css'; // สไตล์สำหรับหน้า DA
 import NavbarWK from "../../../NavbarWoker/navbarWorker";
+import { checkAndCreatePurchaseRequests } from '../FormPage/PRauto'; 
 
 const DA = () => {
     const navigate = useNavigate();
@@ -22,13 +23,13 @@ const DA = () => {
                         .filter((order) => order.name)
                         .map((order) => ({
                             id: order.id,
-                            name: "ใบสั่งซื้อ - " + order.name,
+                            name:  order.name,
                             status: order.status,
                             type: "Purchase Order",
                         })),
                     ...purchaseRequests.map((request) => ({
                         id: request.id,
-                        name: "ใบขอซื้อ - " + request.name,
+                        name: request.name,
                         status: request.status || "Pending",
                         type: "Purchase Request",
                     })),
@@ -77,11 +78,51 @@ const DA = () => {
         }
     };
 
-    const handleApprove = (doc) => {
-        if (window.confirm(`คุณแน่ใจหรือไม่ที่จะอนุมัติ ${doc.name}?`)) {
-            updateStatus(doc, "Approved");
+    const updateStockAfterPurchase = async (products) => {
+        try {
+            for (const item of products) {
+                const response = await fetch(`http://localhost:3000/products`);
+                const allProducts = await response.json();
+    
+                const targetProduct = allProducts.find(p => p.name === item.item);
+    
+                if (targetProduct) {
+                    const updatedStock = targetProduct.remaining_stock - Number(item.quantity);
+    
+                    await fetch(`http://localhost:3000/products/${targetProduct.product_id}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            ...targetProduct,
+                            remaining_stock: updatedStock
+                        }),
+                    });
+    
+                    console.log(`📦 อัปเดต stock สำหรับ ${item.item} เหลือ ${updatedStock}`);
+                }
+            }
+        } catch (error) {
+            console.error("❌ ไม่สามารถอัปเดต stock ได้:", error);
         }
     };
+
+    const handleApprove = async (doc) => {
+        if (window.confirm(`คุณแน่ใจหรือไม่ที่จะอนุมัติ ${doc.name}?`)) {
+            await updateStatus(doc, "Approved");
+    
+            // ถ้าเป็นใบสั่งซื้อ ให้ดึงรายการ products และอัปเดต stock
+            if (doc.type === "Purchase Order") {
+                try {
+                    const res = await fetch(`http://localhost:3000/purchase-orders/${doc.id}`);
+                    const poData = await res.json();
+                    await updateStockAfterPurchase(poData.products);
+                } catch (err) {
+                    console.error("❌ ดึงข้อมูล PO ไม่สำเร็จ:", err);
+                }
+            }
+        }
+    };
+
 
     const handleReject = (doc) => {
         if (window.confirm(`คุณแน่ใจหรือไม่ที่จะปฏิเสธ ${doc.name}?`)) {

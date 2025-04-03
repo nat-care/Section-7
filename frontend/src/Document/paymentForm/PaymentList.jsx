@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
-
 import "./PaymentList.css";
 
 function PaymentList() {
-    const navigate = useNavigate(); 
+  const navigate = useNavigate(); 
 
   const [invoices, setInvoices] = useState([]);
   const [showAll, setShowAll] = useState(false);
@@ -32,12 +31,11 @@ function PaymentList() {
     setSelectedInvoice(invoice);
   };
 
-  // ถ้ามี selectedInvoice -> แสดงหน้าแสดงรายละเอียด
+  // ถ้ามี selectedInvoice -> แสดงหน้าแสดงรายละเอียด (PMIVDetail)
   if (selectedInvoice) {
     return (
       <PMIVDetail
         invoice={selectedInvoice}
-        onBack={() => setSelectedInvoice(null)}
       />
     );
   }
@@ -82,7 +80,12 @@ function PaymentList() {
           แสดงทั้งหมด
         </button>
       )}
-      <button className="pm-sl-button" onClick={() => navigate("/selectPages")}>หน้าแรก</button>
+      <button
+        className="pm-sl-button"
+        onClick={() => navigate("/selectPages")}
+      >
+        หน้าแรก
+      </button>
     </div>
   );
 }
@@ -91,24 +94,11 @@ function PaymentList() {
  * คอมโพเนนต์แสดงรายละเอียดใบแจ้งชำระเงิน
  * รับ props:
  *   - invoice: object ของใบแจ้งชำระเงิน
- *   - onBack: ฟังก์ชันให้กดปุ่มย้อนกลับ
  */
-function PMIVDetail({ invoice, onBack }) {
+function PMIVDetail({ invoice }) {
+  const navigate = useNavigate();
   // สร้าง state สำหรับ "ชำระบางส่วน (แบ่งชำระ)"
   const [partialPayment, setPartialPayment] = useState("");
-  // สร้าง state สำหรับสลับไปหน้าพิมพ์
-  const [showPrintView, setShowPrintView] = useState(false);
-
-  // ถ้า showPrintView เป็น true -> แสดงหน้า PMIVPrint
-  if (showPrintView) {
-    return (
-      <PMIVPrint
-        invoice={invoice}
-        partialPayment={partialPayment}
-        onClose={() => setShowPrintView(false)}
-      />
-    );
-  }
 
   // ดึงข้อมูลที่ต้องการจาก invoice
   const {
@@ -131,7 +121,6 @@ function PMIVDetail({ invoice, onBack }) {
     return num;
   };
 
-  // แปลงเป็นตัวเลข โดยส่วนลดและ vat หากไม่ใช่ตัวเลขให้เป็น 0
   const discountNumber = parseOrZero(discount);
   const vatNumber = parseOrZero(vat);
   const totalNumber = parseOrZero(totalAmount);
@@ -147,6 +136,11 @@ function PMIVDetail({ invoice, onBack }) {
 
   // คำนวณ "คงเหลือ"
   const remainder = netNumber - partialNumber;
+
+  // ฟังก์ชันสำหรับการพิมพ์ใบเสร็จ
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <div className="pmiv-detail-container">
@@ -230,142 +224,14 @@ function PMIVDetail({ invoice, onBack }) {
         </p>
       </div>
 
+      {/* ปุ่มสำหรับพิมพ์ใบเสร็จและกลับไปหน้าแรก */}
       <div className="pmiv-button-group">
-        <button onClick={onBack}>ย้อนกลับ</button>
-        <button onClick={() => setShowPrintView(true)}>พิมพ์ใบเสร็จ</button>
+        <button onClick={handlePrint}>พิมพ์ใบเสร็จ</button>
+        <button onClick={() => navigate("/selectPages")}>หน้าแรก</button>
       </div>
     </div>
   );
 }
 
-/**
- * หน้าสำหรับ "พิมพ์ใบเสร็จ" (PMIVPrint)
- * รับ props:
- *   - invoice: object ของใบแจ้งชำระเงิน
- *   - partialPayment: จำนวนเงินที่ชำระบางส่วน (ถ้ามี)
- *   - onClose: ฟังก์ชันปิดหน้าพิมพ์ (กลับไป PMIVDetail)
- */
-function PMIVPrint({ invoice, partialPayment, onClose }) {
-    const navigate = useNavigate();
-    
-  const {
-    idIV,
-    companyThatMustPay,
-    products,
-    totalAmount,
-    discount,
-    vat,
-    netAmount,
-    notes,
-    companyName,
-    companyAddress,
-    companyAddress2,
-    taxID,
-  } = invoice;
-
-  // parse หรือกำหนด default 0
-  const parseOrZero = (value) => {
-    let num = parseFloat(value);
-    if (isNaN(num) || num < 0) {
-      num = 0;
-    }
-    return num;
-  };
-
-  const discountNumber = parseOrZero(discount);
-  const vatNumber = parseOrZero(vat);
-  const totalNumber = parseOrZero(totalAmount);
-
-  let netNumber = parseFloat(netAmount);
-  if (isNaN(netNumber)) {
-    netNumber = totalNumber + vatNumber - discountNumber;
-  }
-
-  const partialNumber = parseOrZero(partialPayment);
-  const remainder = netNumber - partialNumber;
-
-  // ฟังก์ชันพิมพ์
-  const handlePrint = () => {
-    window.print();
-  };
-
-  return (
-    <div className="pmiv-print-container">
-      <div className="pmiv-print-header">
-        <h1>ใบเสร็จรับเงิน</h1>
-        {/* ตัวอย่างข้อมูลบริษัท */}
-        <div>
-          <p>{companyName || "UFO COMPANY"}</p>
-          <p>ที่อยู่: {companyAddress || "BKK"}</p>
-          <p>เลขประจำตัวผู้เสียภาษี: {taxID || "-"}</p>
-        </div>
-      </div>
-
-      <div className="pmiv-print-body">
-        <p>
-          <strong>เลขที่เอกสาร:</strong> {idIV}
-        </p>
-        <p>
-          <strong>ชื่อลูกค้า:</strong> {companyThatMustPay}
-        </p>
-        <p>
-          <strong>หมายเหตุ:</strong> {notes || "-"}
-        </p>
-        <hr />
-        {/* ตารางสินค้า */}
-        <table className="pmiv-print-table">
-          <thead>
-            <tr>
-              <th>รายการ</th>
-              <th>จำนวน</th>
-              <th>หน่วย</th>
-              <th>ราคาต่อหน่วย</th>
-              <th>รวม</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products &&
-              products.map((prod, idx) => (
-                <tr key={idx}>
-                  <td>{prod.item}</td>
-                  <td>{prod.quantity}</td>
-                  <td>{prod.unit}</td>
-                  <td>{prod.unitPrice}</td>
-                  <td>{prod.totalAmount}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-        <hr />
-        {/* สรุปยอด */}
-        <div className="pmiv-f">
-        <p>
-          <strong>ยอดรวม:</strong> {totalNumber} บาท
-        </p>
-        <p>
-          <strong>ส่วนลด:</strong> {discountNumber} บาท
-        </p>
-        <p>
-          <strong>ภาษีมูลค่าเพิ่ม:</strong> {vatNumber} บาท
-        </p>
-        <p>
-          <strong>ยอดสุทธิ:</strong> {netNumber} บาท
-        </p>
-        <p>
-          <strong>ชำระบางส่วน:</strong> {partialNumber} บาท
-        </p>
-        <p>
-          <strong>คงเหลือ:</strong> {remainder < 0 ? 0 : remainder} บาท
-        </p>
-        </div>
-      </div>
-
-      <div className="pmiv-print-footer">
-        <button className ="pm-sll-button" onClick={handlePrint}>Print</button>
-        <button className="pm-slll-button" type="button" onClick={() => navigate("/selectPages")}>หน้าแรก</button>
-      </div>
-    </div>
-  );
-}
 
 export default PaymentList;
