@@ -4,10 +4,17 @@ import "./cardList.css";
 const CardList = () => {
   const [users, setUsers] = useState([]);
   const [newUsername, setNewUsername] = useState("");
-  const [newPassword, setNewPassword] = useState(""); // ← เพิ่มตรงนี้
+  const [newPassword, setNewPassword] = useState("");
+  const [newFullname, setNewFullname] = useState("");
+  const [newDepartment, setNewDepartment] = useState("");
+  const [newPosition, setNewPosition] = useState(""); // ← เพิ่มตรงนี้
   const [newRole, setNewRole] = useState("Procurement Officer");
 
   useEffect(() => {
+    fetchUsers(); // ดึงข้อมูลเมื่อโหลดหน้า
+  }, []);
+
+  const fetchUsers = () => {
     fetch("http://localhost:3000/users")
       .then((response) => {
         if (!response.ok) throw new Error("Network response was not ok");
@@ -18,17 +25,20 @@ const CardList = () => {
         setUsers(data);
       })
       .catch((error) => console.error("Error fetching users:", error));
-  }, []);
+  };
 
   const handleAddUser = () => {
-    if (!newUsername.trim() || !newPassword.trim()) {
-      alert("กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
+    if (!newUsername.trim() || !newPassword.trim() || !newFullname.trim() || !newDepartment.trim() || !newPosition.trim()) {
+      alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
       return;
     }
 
     const newUser = {
       username: newUsername,
-      password: newPassword, // ← ส่ง password ไปด้วย
+      password: newPassword,
+      fullname: newFullname,
+      department: newDepartment,
+      position: newPosition, 
       role: newRole,
     };
 
@@ -44,11 +54,42 @@ const CardList = () => {
       .then((addedUser) => {
         console.log("Added user from server:", addedUser);
         setUsers((prev) => [...prev, addedUser]);
+        fetchUsers();
         setNewUsername("");
-        setNewPassword(""); // ← เคลียร์ช่อง password
+        setNewPassword("");
+        setNewFullname("");
+        setNewDepartment("");
+        setNewPosition(""); 
         setNewRole("Procurement Officer");
       })
       .catch((error) => console.error("Error adding user:", error));
+  };
+  const handleRoleChange = (id, newRole) => {
+    // อัปเดตใน state ก่อน
+    const updatedUsers = users.map(user => 
+      user.id === id ? { ...user, role: newRole } : user
+    );
+    setUsers(updatedUsers);  // อัปเดต state ของผู้ใช้
+  
+    // อัปเดตในฐานข้อมูล
+    fetch(`http://localhost:3000/users/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: newRole })
+    })
+      .then(res => res.json())
+      .then(updatedUser => console.log('Updated user role:', updatedUser))
+      .catch(error => console.error('Error updating user role:', error));
+  };  
+
+  const handleDeleteUser = (id) => {
+    fetch(`http://localhost:3000/users/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        console.log(`Deleted user with ID ${id}`);
+      })
+      .catch((error) => console.error("Error deleting user:", error));
   };
 
   return (
@@ -102,6 +143,24 @@ const CardList = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
+                       <input
+              type="text"
+              placeholder="ชื่อเต็ม"
+              value={newFullname}
+              onChange={(e) => setNewFullname(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="แผนก"
+              value={newDepartment}
+              onChange={(e) => setNewDepartment(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="ตำแหน่ง"
+              value={newPosition}
+              onChange={(e) => setNewPosition(e.target.value)}
+            />
             <select value={newRole} onChange={(e) => setNewRole(e.target.value)}>
               <option value="IT Administrator">IT Administrator</option>
               <option value="Procurement Officer">Procurement Officer</option>
@@ -112,8 +171,6 @@ const CardList = () => {
               เพิ่มผู้ใช้
             </button>
           </div>
-
-          <button className="submit-btn">ยืนยัน</button>
         </div>
       </div>
     </div>
