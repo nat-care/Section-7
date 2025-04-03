@@ -91,14 +91,14 @@
       "status": "Pending"
     },
     {
-      "id": "1743695201987",
+      "id": "1743699138565",
       "name": "1",
       "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
       "department": "Officer",
       "section": "Procurement",
-      "detail": "ทดลองส่ง by Nori 1",
+      "detail": "ทดลองส่ง by Nori",
       "remark": "request 43016",
       "approver": "",
       "staff": "",
@@ -107,25 +107,31 @@
       "products": [
         {
           "item": "Paper",
-          "quantity": "45",
+          "quantity": "70",
           "unit": "packs",
           "unitPrice": 100,
-          "totalAmount": "4500.00"
+          "totalAmount": "7000.00"
+        },
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": "60",
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": "300000.00"
         }
-<<<<<<< HEAD
-=======
-      ]
+      ],
+      "status": "Pending"
     },
     {
-      "id": 1743693410150,
-      "idPR": "123456",
-      "datePR": "2025-04-03",
+      "id": "1743699966449",
+      "name": "3",
+      "date": "2025-04-03",
       "employeeName": "John Smith",
       "employeePosition": "2",
       "department": "Officer",
       "section": "Procurement",
-      "detail": "สั่งซื้อเครื่องพิมพ์",
-      "remark": "",
+      "detail": "ทดลองส่ง by Nori5",
+      "remark": "request 1111",
       "approver": "",
       "staff": "",
       "dateApproval": "",
@@ -133,19 +139,86 @@
       "products": [
         {
           "item": "เครื่องพิมพ์",
-          "quantity": "10",
+          "quantity": "5",
           "unit": "pcs",
           "unitPrice": 5000,
-          "totalAmount": "50000.00"
-        },
+          "totalAmount": "25000.00"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743700200010",
+      "name": "5",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "ทดลองส่ง by Nori 5",
+      "remark": "request 23",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": "1",
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": "5000.00"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743700832045",
+      "name": "7",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "7777",
+      "remark": "777",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
         {
           "item": "Paper",
-          "quantity": "500",
+          "quantity": "7",
           "unit": "packs",
           "unitPrice": 100,
-          "totalAmount": "50000.00"
+          "totalAmount": "700.00"
         }
->>>>>>> 0dddfb6a22e5215732ecf89024737fd414b69b62
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "1743701059870",
+      "name": "11",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "123412354",
+      "remark": "12312",
+      "approver": "",
+      "staff": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "products": [
+        {
+          "item": "Paper",
+          "quantity": "11",
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": "1100.00"
+        }
       ],
       "status": "Pending"
     }
@@ -184,7 +257,6 @@
   "invoices": [],
   "purchase_requisitions": [],
   "purchase_orders": [
-    {},
     {
       "id": 1743698336958,
       "name": "66044013",
@@ -214,6 +286,45 @@
       "vat": 7,
       "netAmount": 214,
       "payment": "ชำระเงินก่อนรับสินค้า",
+      "notes": "",
+      "status": "Pending"
+    },
+    {
+      "id": 1743699273189,
+      "name": "1",
+      "date": "2025-04-03",
+      "employeeName": "John Smith",
+      "employeePosition": "2",
+      "department": "Officer",
+      "section": "Procurement",
+      "detail": "ทดลองส่ง by Nori",
+      "approver": "",
+      "purchaser": "",
+      "auditor": "",
+      "dateApproval": "",
+      "dateApproval2": "",
+      "dateApproval3": "",
+      "products": [
+        {
+          "item": "Paper",
+          "quantity": 70,
+          "unit": "packs",
+          "unitPrice": 100,
+          "totalAmount": 7000
+        },
+        {
+          "item": "เครื่องพิมพ์",
+          "quantity": 60,
+          "unit": "pcs",
+          "unitPrice": 5000,
+          "totalAmount": 300000
+        }
+      ],
+      "totalAmount": 307000,
+      "discount": 0,
+      "vat": 7,
+      "netAmount": 328490,
+      "payment": "",
       "notes": "",
       "status": "Pending"
     }
