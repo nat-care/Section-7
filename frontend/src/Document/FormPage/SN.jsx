@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SN.css"; 
 
 const SN = () => {
   const [rows, setRows] = useState([1]); // Initial row
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     idSN: "",
     dateSN: "",
@@ -69,6 +71,7 @@ const SN = () => {
       .then((data) => {
         console.log("Form Data Submitted:", data);
         alert("ส่งคำขอเรียบร้อย!");
+        navigate("/shipping-notes", { state: { noteData: formData } });
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -1,25 +1,30 @@
-import React, { useState, useRef } from 'react';
+import { useRef } from 'react';
+import { useLocation } from "react-router-dom";
 import './ShippingNote.css';
 import html2pdf from 'html2pdf.js';
 
 const ShippingNote = () => {
   const noteRef = useRef();
+  const location = useLocation();
 
-  const [noteData, setNoteData] = useState({
-    rpNo: '_________',
-    date: '_________',
-    recipientName: '_________',
-    employeeCode: '_________',
-    details: '_________',
-    items: [{ id: 1, description: '', quantity: '', unit: '', unitPrice: '', total: '' }],
-    companyName: '_________',
-    transportNumber: '_________',
-    remarks: '_________',
-    senderSignature: '_________',
-    senderDate: '_________',
-    recipientSignature: '_________',
-    recipientDate: '_________',
-  });
+  const noteData = location.state?.noteData || {
+    idSN: "",
+    dateSN: "",
+    employeeName: "",
+    employeePosition: "",
+    senderName: "",
+    detail: "",
+    products: [],
+    totalAmount: "",
+    notes: "",
+    sender: "",
+    reciver: "",
+    dateApproval: "",
+    dateApproval2: "",
+    parcelNumber: "",
+    comments: "",
+    transportCompany: "",
+  };
 
   const generatePDF = () => {
     const element = noteRef.current;
@@ -35,24 +40,24 @@ const ShippingNote = () => {
         <div className="shipping-note-info">
           <div className="shipping-note-row">
             <span className="shipping-note-label">RP.NO:</span>
-            <span className="shipping-note-value">{noteData.rpNo}</span>
+            <span className="shipping-note-value">{noteData.idSN}</span>
           </div>
           <div className="shipping-note-row">
             <span className="shipping-note-label">วันที่:</span>
-            <span className="shipping-note-value">{noteData.date}</span>
+            <span className="shipping-note-value">{noteData.dateSN}</span>
           </div>
 
           <div className="shipping-note-row">
             <span className="shipping-note-label">ชื่อผู้รับ:</span>
-            <span className="shipping-note-value">{noteData.recipientName}</span>
+            <span className="shipping-note-value">{noteData.employeeName}</span>
           </div>
           <div className="shipping-note-row">
             <span className="shipping-note-label">รหัสพนักงาน:</span>
-            <span className="shipping-note-value">{noteData.employeeCode}</span>
+            <span className="shipping-note-value">{noteData.employeePosition}</span>
           </div>
           <div className="shipping-note-row">
             <span className="shipping-note-label">รายละเอียด:</span>
-            <span className="shipping-note-value">{noteData.details}</span>
+            <span className="shipping-note-value">{noteData.detail}</span>
           </div>
         </div>
 
@@ -69,14 +74,14 @@ const ShippingNote = () => {
             </tr>
           </thead>
           <tbody>
-            {noteData.items.map((item, index) => (
+            {noteData.products.map((item, index) => (
               <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>{item.description}</td>
+                <td>{item.item}</td>
                 <td>{item.quantity}</td>
                 <td>{item.unit}</td>
                 <td>{item.unitPrice}</td>
-                <td>{item.total}</td>
+                <td>{item.totalAmount}</td>
               </tr>
             ))}
           </tbody>
@@ -85,32 +90,32 @@ const ShippingNote = () => {
         <div className="shipping-note-info">
           <div className="shipping-note-row">
             <span className="shipping-note-label">ชื่อบริษัท:</span>
-            <span className="shipping-note-value">{noteData.companyName}</span>
+            <span className="shipping-note-value">{noteData.transportCompany}</span>
           </div>
           <div className="shipping-note-row">
             <span className="shipping-note-label">หมายเลขขนส่ง:</span>
-            <span className="shipping-note-value">{noteData.transportNumber}</span>
+            <span className="shipping-note-value">{noteData.parcelNumber}</span>
           </div>
           <div className="shipping-note-row">
             <span className="shipping-note-label">หมายเหตุ:</span>
-            <span className="shipping-note-value">{noteData.remarks}</span>
+            <span className="shipping-note-value">{noteData.comments}</span>
           </div>
         </div>
 
         <div className="shipping-note-signatures">
           <div className="shipping-note-signature">
             <span className="shipping-note-label">ลงชื่อผู้ส่งพัสดุ</span>
-            <span className="shipping-note-value">______________________</span>
+            <span className="shipping-note-value">{noteData.senderName}</span>
             <br />
             <span className="shipping-note-label">วันที่</span>
-            <span className="shipping-note-value">______________________</span>
+            <span className="shipping-note-value">{noteData.dateSN}</span>
           </div>
           <div className="shipping-note-signature">
             <span className="shipping-note-label">ลงชื่อผู้รับพัสดุ</span>
-            <span className="shipping-note-value">______________________</span>
+            <span className="shipping-note-value">{noteData.reciverName}</span>
             <br />
             <span className="shipping-note-label">วันที่ </span>
-            <span className="shipping-note-value">______________________</span>
+            <span className="shipping-note-value">{noteData.dateSN}</span>
           </div>
         </div>
       </div>
@@ -123,3 +128,4 @@ const ShippingNote = () => {
 };
 
 export default ShippingNote;
+
