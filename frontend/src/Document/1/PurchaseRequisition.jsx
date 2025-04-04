@@ -27,24 +27,17 @@ const PurchaseRequisition = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await fetch("http://localhost:3000/purchase-requests");
-        const data = await res.json();
-        const found = data.find((doc) => String(doc.id) === id);
-        if (found) {
-          setFormData({
-            ...found,
-            id: found.id,
-            name: found.name,
-            date: found.date,
-            products: Array.isArray(found.products) ? found.products : [],
-          });
-        }
-      } catch (err) {
-        console.error("โหลดข้อมูลล้มเหลว:", err);
+      const res = await fetch("http://localhost:3000/purchase-requests");
+      const data = await res.json();
+      const found = data.find((doc) => String(doc.id) === id);
+      if (found) {
+        setFormData({
+          ...found,
+          products: Array.isArray(found.products) ? found.products : [],
+        });
       }
     };
-
+  
     fetchData();
   }, [id]);
 

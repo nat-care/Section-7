@@ -153,7 +153,7 @@ const PR = () => {
                 const result = await response.json();
                 console.log('Purchase Request Submitted:', result);
                 alert('ส่งคำขอเรียบร้อย!');
-                navigate("/purchase", { state: { receiptData: formData } });
+                navigate(`/receipt/pr/${result.id}`);
             } else {
                 alert('Error submitting request');
             }
