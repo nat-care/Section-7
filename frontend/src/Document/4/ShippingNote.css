@@ -92,7 +92,7 @@
 .shipping-note-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #0056b3;
+  background-color: #000000;
   color: white;
   border: none;
   cursor: pointer;
@@ -100,5 +100,5 @@
 }
 
 .shipping-note-button:hover {
-  background-color: #45a049;
+  background-color: #2f2f2f;
 }

@@ -83,7 +83,7 @@
 .print-button {
   padding: 8px 16px; /* ลด padding */
   font-size: 14px; /* ลดขนาดตัวอักษร */
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -91,7 +91,7 @@
 }
 
 .print-button:hover {
-  background-color: #0056b3;
+  background-color: #3b3b3b;
 }
 
 /* Styles สำหรับการพิมพ์ */

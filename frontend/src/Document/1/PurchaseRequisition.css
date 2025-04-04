@@ -106,7 +106,7 @@
 .purchase-requisition-pdf-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #3033dd; /* สีเขียว */
+  background-color: #000000; /* สีเขียว */
   color: white;
   border: none;
   border-radius: 5px;
@@ -114,5 +114,5 @@
 }
 
 .purchase-requisition-pdf-button:hover {
-  background-color: #45a049;
+  background-color: #3e3e3e;
 }

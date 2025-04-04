@@ -82,7 +82,7 @@
 .requisition-pdf-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #0056b3;
+  background-color: #000000;
   color: white;
   border: none;
   cursor: pointer;
@@ -90,5 +90,5 @@
 }
 
 .requisition-pdf-button:hover {
-  background-color: #004c99;
+  background-color: #2f2f2f;
 }
